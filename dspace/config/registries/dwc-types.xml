@@ -1,0 +1,131 @@
+<?xml version="1.0"?>
+
+<!-- TAMU Customization - Darwin Core metadata registry -->
+<!--
+  - dwc-types.xml
+  -
+  -->
+<dspace-dc-types>
+
+  <dspace-header>
+    <title>OAKTrust Darwin Core Metadata Registry</title>
+    <contributor.author>$Author$</contributor.author>
+    <contributor.editor>$Author$</contributor.editor>
+    <date.created>$Date$</date.created>
+    <description>$Log$</description>
+    <description.version>$Revision$</description.version>
+  </dspace-header>
+
+  <dc-schema>
+    <name>dwc</name>
+    <!-- NOTE: link to metadata schema no longer resolving -->
+    <namespace>http://rs.tdwg.org/dwc/terms/</namespace>
+  </dc-schema>
+
+  <dc-type>
+    <schema>dwc</schema>
+    <element>basisOfRecord</element>
+    <!-- unqualified -->
+    <scope_note>Darwin Core Type Vocabulary to describe the type represented by the record: Occurrence; Event; Location; Taxon; PreservedSpecimen; FossilSpecimen; LivingSpecimen; HumanObservation; MachineObservation; NomenclaturalChecklist. [http://darwincore.googlecode.com/svn/trunk/terms/index.htm#basisOfRecord]</scope_note>
+  </dc-type>
+
+  <dc-type>
+    <schema>dwc</schema>
+    <element>catalogNumber</element>
+    <!-- unqualified -->
+    <scope_note>An identifier (preferably unique) for the record within the data set or collection. [http://darwincore.googlecode.com/svn/trunk/terms/index.htm#catalogNumber]</scope_note>
+  </dc-type>
+
+  <dc-type>
+    <schema>dwc</schema>
+    <element>collectionCode</element>
+    <!-- unqualified -->
+    <scope_note>The name, acronym, coden, or initialism identifying the collection or data set from which the record was derived. [http://rs.tdwg.org/dwc/terms/collectionCode]</scope_note>
+  </dc-type>
+
+  <dc-type>
+    <schema>dwc</schema>
+    <element>collectionID</element>
+    <!-- unqualified -->
+    <scope_note>An identifier for the collection or dataset from which the record was derived. For physical specimens, the recommended best practice is to use the identifier in a collections registry such as the Biodiversity Collections Index (http://www.biodiversitycollectionsindex.org/). [http://darwincore.googlecode.com/svn/trunk/terms/index.htm#collectionID]</scope_note>
+  </dc-type>
+
+  <dc-type>
+    <schema>dwc</schema>
+    <element>dataGeneralizations</element>
+    <!-- unqualified -->
+    <scope_note>Actions taken to make the shared data less specific or complete than in its original form. Suggests that alternative data of higher quality may be available on request. [http://rs.tdwg.org/dwc/terms/dataGeneralizations]</scope_note>
+  </dc-type>
+
+  <dc-type>
+    <schema>dwc</schema>
+    <element>family</element>
+    <!-- unqualified -->
+    <scope_note>The full scientific name of the family in which the taxon is classified. [http://rs.tdwg.org/dwc/terms/family]</scope_note>
+  </dc-type>
+
+  <dc-type>
+    <schema>dwc</schema>
+    <element>genus</element>
+    <!-- unqualified -->
+    <scope_note>The full scientific name of the genus in which the taxon is classified. [https://dwc.tdwg.org/list/#dwc_genus]</scope_note>
+  </dc-type>
+
+  <dc-type>
+    <schema>dwc</schema>
+    <element>institutionCode</element>
+    <!-- unqualified -->
+    <scope_note>The name (or acronym) in use by the institution having custody of the object(s) or information referred to in the record. (Example: “TCWC”) [http://rs.tdwg.org/dwc/terms/institutionCode]</scope_note>
+  </dc-type>
+
+  <dc-type>
+    <schema>dwc</schema>
+    <element>institutionID</element>
+    <!-- unqualified -->
+    <scope_note>An identifier for the institution having custody of the object(s) or information referred to in the record. [http://rs.tdwg.org/dwc/terms/institutionID]</scope_note>
+  </dc-type>
+
+  <dc-type>
+    <schema>dwc</schema>
+    <element>language</element>
+    <!-- unqualified -->
+    <scope_note></scope_note>
+  </dc-type>
+
+  <dc-type>
+    <schema>dwc</schema>
+    <element>recordedBy</element>
+    <!-- unqualified -->
+    <scope_note>A list (concatenated and separated) of names of people, groups, or organizations responsible for recording the original Occurrence. The primary collector or observer, especially one who applies a personal identifier (recordNumber), should be listed first. [http://rs.tdwg.org/dwc/terms/recordedBy]</scope_note>
+  </dc-type>
+
+  <dc-type>
+    <schema>dwc</schema>
+    <element>samplingProtocol</element>
+    <!-- unqualified -->
+    <scope_note>The name of, reference to, or description of the method or protocol used during an Event. [http://rs.tdwg.org/dwc/terms/samplingProtocol]</scope_note>
+  </dc-type>
+
+  <dc-type>
+    <schema>dwc</schema>
+    <element>scientificName</element>
+    <!-- unqualified -->
+    <scope_note>The full scientific name, with authorship and date information if known. When forming part of an Identification, this should be the name in lowest level taxonomic rank that can be determined. This term should not contain identification qualifications, which should instead be supplied in the IdentificationQualifier term. [http://rs.tdwg.org/dwc/terms/scientificName]</scope_note>
+  </dc-type>
+
+  <dc-type>
+    <schema>dwc</schema>
+    <element>scientificNameID</element>
+    <!-- unqualified -->
+    <scope_note>An identifier for the nomenclatural (not taxonomic) details of a scientific name. [http://rs.tdwg.org/dwc/terms/scientificNameID]</scope_note>
+  </dc-type>
+
+  <dc-type>
+    <schema>dwc</schema>
+    <element>vernacularName</element>
+    <!-- unqualified -->
+    <scope_note>A common or vernacular name. [https://dwc.tdwg.org/list/#dwc_vernacularName]</scope_note>
+  </dc-type>
+
+</dspace-dc-types>
+<!-- End TAMU Customization - Darwin Core metadata registry -->
