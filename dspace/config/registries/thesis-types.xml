@@ -1,0 +1,68 @@
+<?xml version="1.0"?>
+
+<!-- TAMU Customization - thesis metadata registry -->
+<!--
+  - thesis-types.xml
+  -
+  -->
+<dspace-dc-types>
+
+  <dspace-header>
+    <title>OAKTrust Thesis Metadata Registry</title>
+    <contributor.author>$Author$</contributor.author>
+    <contributor.editor>$Author$</contributor.editor>
+    <date.created>$Date$</date.created>
+    <description>$Log$</description>
+    <description.version>$Revision$</description.version>
+  </dspace-header>
+
+  <dc-schema>
+    <name>thesis</name>
+    <!-- NOTE: link to metadata schema no longer resolving -->
+    <namespace>http://digital.library.tamu.edu/schemas/thesis/</namespace>
+  </dc-schema>
+
+  <dc-type>
+    <schema>thesis</schema>
+    <element>degree</element>
+    <qualifier>department</qualifier>
+    <scope_note></scope_note>
+  </dc-type>
+
+  <dc-type>
+    <schema>thesis</schema>
+    <element>degree</element>
+    <qualifier>discipline</qualifier>
+    <scope_note>Area of study of the intellectual content of the document. Usually, this will be the name of a program or department.</scope_note>
+  </dc-type>
+
+  <dc-type>
+    <schema>thesis</schema>
+    <element>degree</element>
+    <qualifier>grantor</qualifier>
+    <scope_note>Institution granting the degree associated with the work. Like other names and institutions, this field should be entered in free text form as it appears on the title page or equivalent, with a link to an authority record if available.</scope_note>
+  </dc-type>
+
+  <dc-type>
+    <schema>thesis</schema>
+    <element>degree</element>
+    <qualifier>level</qualifier>
+    <scope_note>Level of education associated with the document. Examples: bachelor's, master's, doctoral, post-doctoral, other.</scope_note>
+  </dc-type>
+
+  <dc-type>
+    <schema>thesis</schema>
+    <element>degree</element>
+    <qualifier>name</qualifier>
+    <scope_note>Name of the degree associated with the work as it appears within the work. (example: Masters in Operations Research)</scope_note>
+  </dc-type>
+
+  <dc-type>
+    <schema>thesis</schema>
+    <element>sequence</element>
+    <!-- unqualified -->
+    <scope_note>Use to sequence files to force display in a specific order, such as pages in a book or a time-sequenced images.</scope_note>
+  </dc-type>
+
+</dspace-dc-types>
+<!-- End TAMU Customization - thesis metadata registry -->
