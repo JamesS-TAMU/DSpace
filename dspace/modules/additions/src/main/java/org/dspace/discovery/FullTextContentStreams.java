@@ -110,7 +110,8 @@ public class FullTextContentStreams extends ContentStreamBase {
                                     + fulltextBitstream.getSequenceID() + " "
                                     + fulltextBitstream.getName());
                         } else {
-                            log.error("Found a NULL bitstream when processing full-text files: item handle:" + sourceInfo);
+                            log.error("Found a NULL bitstream when processing full-text files: item handle:"
+                                      + sourceInfo);
                         }
                     } else {
                         log.debug("Bitstream was restricted: "
