@@ -54,37 +54,24 @@ public class FullTextContentStreams extends ContentStreamBase {
     //TAMU Customization - We need a BundleService to check for bitstream restrictions before indexing them
     protected final BundleService bundleService = ContentServiceFactory.getInstance().getBundleService();
 
-    public FullTextContentStreams(Context context, Item parentItem) {
+    public FullTextContentStreams(Context context, Item parentItem) throws SQLException {
         this.context = context;
-        try {
-            init(parentItem);
-        } catch (Exception e) {
-            e.printStackTrace(); 
-        }
+        init(parentItem);
     }
 
-    protected void init(Item parentItem) {
+    protected void init(Item parentItem) throws SQLException {
         fullTextStreams = new ArrayList<>();
 
         if (parentItem != null) {
-            
-            try {
-                sourceInfo = parentItem.getHandle();
+            sourceInfo = parentItem.getHandle();
 
-                //extracted full text is always extracted as plain text
-                contentType = "text/plain";
+            //extracted full text is always extracted as plain text
+            contentType = "text/plain";
 
-                buildFullTextList(parentItem);
-            } catch (Exception e) {
-                // TODO: handle exception
-            }
+            buildFullTextList(parentItem);
         }
     }
 
-    /**
-     * @param parentItem
-     * @throws SQLException
-     */
     private void buildFullTextList(Item parentItem) throws SQLException {
         // now get full text of any bitstreams in the TEXT bundle
         // trundle through the bundles
@@ -92,17 +79,20 @@ public class FullTextContentStreams extends ContentStreamBase {
 
         for (Bundle myBundle : emptyIfNull(myBundles)) {
             if (StringUtils.equals(FULLTEXT_BUNDLE, myBundle.getName())) {
-                // getting text out of the bitstreams
+                // a-ha! grab the text out of the bitstreams
                 List<Bitstream> bitstreams = myBundle.getBitstreams();
-                log.debug("Processing full-text bitstreams. Item handle: " + sourceInfo);
 
-                // TAMU Customization - Get bundle policies
+                // TAMU Customization - Only index text bitstreams that are not restricted
                 List<ResourcePolicy> bundlePolicies = bundleService.getBitstreamPolicies(context, myBundle);
+                boolean isIndexable = false;
+
+                log.debug("Processing full-text bitstreams. Item handle: " + sourceInfo);
 
                 for (Bitstream fulltextBitstream : emptyIfNull(bitstreams)) {
                     // TAMU Customization - Only index text bitstreams that are not restricted
-                    boolean isIndexable = false;
-                    for (ResourcePolicy rp : bundlePolicies) {
+                    isIndexable = false;
+
+                    for (ResourcePolicy rp:bundlePolicies) {
                         if (rp.getdSpaceObject().getID() == fulltextBitstream.getID()) {
                             if (rp.getGroup().getName().equalsIgnoreCase("anonymous")) {
                                 isIndexable = true;
@@ -110,7 +100,7 @@ public class FullTextContentStreams extends ContentStreamBase {
                             break;
                         }
                     }
-
+                    // TAMU Customization - Only index text bitstreams that are not restricted
                     if (isIndexable) {
                         fullTextStreams.add(new FullTextBitstream(sourceInfo, fulltextBitstream));
 
@@ -264,4 +254,3 @@ public class FullTextContentStreams extends ContentStreamBase {
     }
 
 }
-
