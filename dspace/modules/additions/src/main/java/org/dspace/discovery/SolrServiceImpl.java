@@ -52,6 +52,8 @@ import org.apache.solr.common.params.SpellingParams;
 import org.apache.solr.common.util.NamedList;
 import org.dspace.authorize.ResourcePolicy;
 import org.dspace.authorize.factory.AuthorizeServiceFactory;
+import org.dspace.content.Bitstream;
+import org.dspace.content.Bundle;
 import org.dspace.content.Collection;
 import org.dspace.content.Community;
 import org.dspace.content.DSpaceObject;
@@ -77,6 +79,7 @@ import org.dspace.eperson.factory.EPersonServiceFactory;
 import org.dspace.eperson.service.GroupService;
 import org.dspace.services.ConfigurationService;
 import org.dspace.services.factory.DSpaceServicesFactory;
+import org.eclipse.jetty.deploy.ConfigurationManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -161,6 +164,104 @@ public class SolrServiceImpl implements SearchService, IndexingService {
             }
         } catch (IOException | SQLException | SolrServerException | SearchServiceException e) {
             log.error(e.getMessage(), e);
+        }
+    }
+
+    /**
+     * @param context DSpace context
+     * @param myitem the item for which our locations are to be retrieved
+     * @return a list containing the identifiers of the communities and collections
+     * @throws SQLException sql exception
+     */
+    protected List<String> getItemLocations(Context context, Item myitem)
+            throws SQLException {
+        List<String> locations = new Vector<String>();
+
+        // build list of community ids
+        List<Community> communities = itemService.getCommunities(context, myitem);
+
+        // build list of collection ids
+        List<Collection> collections = myitem.getCollections();
+
+        // now put those into strings
+        int i = 0;
+
+        for (i = 0; i < communities.size(); i++)
+        {
+            locations.add("m" + communities.get(i).getID());
+        }
+
+        for (i = 0; i < collections.size(); i++)
+        {
+            locations.add("l" + collections.get(i).getID());
+        }
+
+        return locations;
+    }
+
+    /**
+     * TAMU Customization - to the image URL provided to the Solr documents
+    */
+    private void addCommunityCollectionItem(Context context,Item item) throws IOException, SolrServerException {
+        // get the location string (for searching by collection & community)
+        List<String> locations = getItemLocations(context, item);
+
+        //TAMU Customization - Write friendly community/collection names to index
+        if (!locations.isEmpty()) {
+            for (String location : locations) {
+                String field = location.startsWith("m") ? "location.comm":"location.coll";
+                String dsoName = locationToName(context,field,location.substring(1));
+                log.debug("Adding location name: "+field+".name_stored with value: "+dsoName);
+                doc.addField(field+".name_stored", dsoName);
+            }
+        }
+
+        //TAMU Customization - Write bitstream URLs to index
+        List<String> bitstreamLocations = new ArrayList<>();
+        String dspaceUrl = ConfigurationManager.getProperty("dspace.url");
+        for (Bundle bundle : item.getBundles()) {
+            String bitstreamUrlTemplate = "%s/bitstream/handle/%s/%s?sequence=%d";
+            String primaryInternalId = null;
+            switch(bundle.getName()) {
+                case "ORIGINAL":
+                    if (bundle.getPrimaryBitstream() != null) {
+                        Bitstream primaryBitstream = bundle.getPrimaryBitstream();
+                        primaryInternalId = primaryBitstream.getInternalId();
+                        String primaryName = primaryBitstream.getName();
+                        int primarySequence = primaryBitstream.getSequenceID();
+                        String primaryUrl = String.format(bitstreamUrlTemplate, dspaceUrl, handle, primaryName, primarySequence);
+                        doc.addField("primaryBitstream_stored", primaryUrl);
+                    }
+                    for (Bitstream bitstream : bundle.getBitstreams()) {
+                        if (bitstream.getInternalId() != null && !bitstream.getInternalId().equals(primaryInternalId)) {
+                            String name = bitstream.getName();
+                            int sequence = bitstream.getSequenceID();
+                            String url = String.format(bitstreamUrlTemplate, dspaceUrl, handle, name, sequence);
+                            bitstreamLocations.add(url);
+                        }
+                    }
+                    break;
+                case "THUMBNAIL":
+                    Bitstream thumbnailBitstream = bundle.getBitstreams().get(0);
+                    if (thumbnailBitstream != null) {
+                        String thumbnailName = thumbnailBitstream.getName();
+                        int thumbnailSequence = thumbnailBitstream.getSequenceID();
+                        String thumbnailUrl = String.format(bitstreamUrlTemplate, dspaceUrl, handle, thumbnailName, thumbnailSequence);
+                        doc.addField("thumbnailBitstream_stored", thumbnailUrl);
+                    }
+                    break;
+                case "LICENSE":
+                    Bitstream licenseBitstream = bundle.getBitstreams().get(0);
+                    if (licenseBitstream != null) {
+                        String licenseName = licenseBitstream.getName();
+                        int licenseSequence = licenseBitstream.getSequenceID();
+                        String licenseUrl = String.format(bitstreamUrlTemplate, dspaceUrl, handle, licenseName, licenseSequence);
+                        doc.addField("licenseBitstream_stored", licenseUrl);
+                    }
+                    break;
+                default:
+                    break;
+            }
         }
     }
 
