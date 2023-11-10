@@ -210,10 +210,13 @@ public class SolrServiceImpl implements SearchService, IndexingService {
     private void addCommunityCollectionItem(Context context,IndexableObject indexableObject, SolrInputDocument doc) throws IOException, SolrServerException, SQLException {
 
         // IndexableObject.getType();
-        if(!(indexableObject instanceof Item)){
+        if(!(indexableObject instanceof IndexableItem)){
             return;
         };
-        Item item = (Item)indexableObject;
+
+        IndexableItem indexableItem = (IndexableItem)indexableObject;
+
+        Item item = (Item)indexableItem.getIndexedObject();
 
 
         // get the location string (for searching by collection & community)
