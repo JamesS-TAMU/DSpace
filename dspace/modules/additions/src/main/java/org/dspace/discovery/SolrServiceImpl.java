@@ -30,6 +30,8 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.TimeZone;
 import java.util.UUID;
+import java.util.Vector;
+
 import javax.mail.MessagingException;
 
 import org.apache.commons.collections4.CollectionUtils;
@@ -59,6 +61,7 @@ import org.dspace.content.Community;
 import org.dspace.content.DSpaceObject;
 import org.dspace.content.Item;
 import org.dspace.content.factory.ContentServiceFactory;
+import org.dspace.content.service.ItemService;
 import org.dspace.core.Constants;
 import org.dspace.core.Context;
 import org.dspace.core.Email;
@@ -77,6 +80,7 @@ import org.dspace.discovery.indexobject.factory.IndexObjectFactoryFactory;
 import org.dspace.eperson.Group;
 import org.dspace.eperson.factory.EPersonServiceFactory;
 import org.dspace.eperson.service.GroupService;
+import org.dspace.handle.service.HandleService;
 import org.dspace.services.ConfigurationService;
 import org.dspace.services.factory.DSpaceServicesFactory;
 import org.eclipse.jetty.deploy.ConfigurationManager;
@@ -122,6 +126,11 @@ public class SolrServiceImpl implements SearchService, IndexingService {
     protected SolrSearchCore solrSearchCore;
     @Autowired
     protected ConfigurationService configurationService;
+    // TAMU Customizations
+    @Autowired(required = true)
+    protected ItemService itemService;
+    @Autowired(required = true)
+    protected HandleService handleService;
 
     protected SolrServiceImpl() {
 
@@ -167,44 +176,45 @@ public class SolrServiceImpl implements SearchService, IndexingService {
         }
     }
 
+    protected void update(Context context, IndexFactory indexableObjectService,
+                          IndexableObject indexableObject) throws IOException, SQLException, SolrServerException {
+        final SolrInputDocument solrInputDocument = indexableObjectService.buildDocument(context, indexableObject);
+        addCommunityCollectionItem(context, indexableObjectService, solrInputDocument);
+        indexableObjectService.writeDocument(context, indexableObject, solrInputDocument);
+    }
+
     /**
-     * @param context DSpace context
-     * @param myitem the item for which our locations are to be retrieved
-     * @return a list containing the identifiers of the communities and collections
-     * @throws SQLException sql exception
+     * Update the given indexable object using a given service
+     * @param context                   The DSpace Context
+     * @param indexableObjectService    The service to index the object with
+     * @param indexableObject           The object to index
+     * @param preDB                     Add a "preDB" status to the document
      */
-    protected List<String> getItemLocations(Context context, Item myitem)
-            throws SQLException {
-        List<String> locations = new Vector<String>();
-
-        // build list of community ids
-        List<Community> communities = itemService.getCommunities(context, myitem);
-
-        // build list of collection ids
-        List<Collection> collections = myitem.getCollections();
-
-        // now put those into strings
-        int i = 0;
-
-        for (i = 0; i < communities.size(); i++)
-        {
-            locations.add("m" + communities.get(i).getID());
+    protected void update(Context context, IndexFactory indexableObjectService, IndexableObject indexableObject,
+                          boolean preDB) throws IOException, SQLException, SolrServerException {
+        if (preDB) {
+            final SolrInputDocument solrInputDocument =
+                    indexableObjectService.buildNewDocument(context, indexableObject);
+            addCommunityCollectionItem(context, indexableObjectService, solrInputDocument);
+            indexableObjectService.writeDocument(context, indexableObject, solrInputDocument);
+        } else {
+            update(context, indexableObjectService, indexableObject);
         }
-
-        for (i = 0; i < collections.size(); i++)
-        {
-            locations.add("l" + collections.get(i).getID());
-        }
-
-        return locations;
     }
 
     /**
      * TAMU Customization - to the image URL provided to the Solr documents
     */
-    private void addCommunityCollectionItem(Context context,Item item) throws IOException, SolrServerException {
+    private void addCommunityCollectionItem(Context context,Item item, SolrInputDocument doc) throws IOException, SolrServerException {
         // get the location string (for searching by collection & community)
         List<String> locations = getItemLocations(context, item);
+
+        String handle = item.getHandle();
+
+        if (handle == null)
+        {
+            handle = handleService.findHandle(context, item);
+        }
 
         //TAMU Customization - Write friendly community/collection names to index
         if (!locations.isEmpty()) {
@@ -265,28 +275,36 @@ public class SolrServiceImpl implements SearchService, IndexingService {
         }
     }
 
-    protected void update(Context context, IndexFactory indexableObjectService,
-                          IndexableObject indexableObject) throws IOException, SQLException, SolrServerException {
-        final SolrInputDocument solrInputDocument = indexableObjectService.buildDocument(context, indexableObject);
-        indexableObjectService.writeDocument(context, indexableObject, solrInputDocument);
-    }
-
     /**
-     * Update the given indexable object using a given service
-     * @param context                   The DSpace Context
-     * @param indexableObjectService    The service to index the object with
-     * @param indexableObject           The object to index
-     * @param preDB                     Add a "preDB" status to the document
+     * @param context DSpace context
+     * @param myitem the item for which our locations are to be retrieved
+     * @return a list containing the identifiers of the communities and collections
+     * @throws SQLException sql exception
      */
-    protected void update(Context context, IndexFactory indexableObjectService, IndexableObject indexableObject,
-                          boolean preDB) throws IOException, SQLException, SolrServerException {
-        if (preDB) {
-            final SolrInputDocument solrInputDocument =
-                    indexableObjectService.buildNewDocument(context, indexableObject);
-            indexableObjectService.writeDocument(context, indexableObject, solrInputDocument);
-        } else {
-            update(context, indexableObjectService, indexableObject);
+    protected List<String> getItemLocations(Context context, Item myitem)
+            throws SQLException {
+        List<String> locations = new Vector<String>();
+
+        // build list of community ids
+        List<Community> communities = itemService.getCommunities(context, myitem);
+
+        // build list of collection ids
+        List<Collection> collections = myitem.getCollections();
+
+        // now put those into strings
+        int i = 0;
+
+        for (i = 0; i < communities.size(); i++)
+        {
+            locations.add("m" + communities.get(i).getID());
         }
+
+        for (i = 0; i < collections.size(); i++)
+        {
+            locations.add("l" + collections.get(i).getID());
+        }
+
+        return locations;
     }
 
     /**
