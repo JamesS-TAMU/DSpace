@@ -83,7 +83,6 @@ import org.dspace.eperson.service.GroupService;
 import org.dspace.handle.service.HandleService;
 import org.dspace.services.ConfigurationService;
 import org.dspace.services.factory.DSpaceServicesFactory;
-import org.eclipse.jetty.deploy.PropertiesConfigurationManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -229,7 +228,7 @@ public class SolrServiceImpl implements SearchService, IndexingService {
             handle = handleService.findHandle(context, item);
         }
 
-        //TAMU Customization - Write friendly community/collection names to index
+        //TAMU Customization - Write friendly community/collection names to index 
         if (!locations.isEmpty()) {
             for (String location : locations) {
                 String field = location.startsWith("m") ? "location.comm":"location.coll";
