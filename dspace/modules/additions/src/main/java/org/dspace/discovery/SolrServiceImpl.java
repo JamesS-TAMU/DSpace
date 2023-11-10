@@ -83,7 +83,7 @@ import org.dspace.eperson.service.GroupService;
 import org.dspace.handle.service.HandleService;
 import org.dspace.services.ConfigurationService;
 import org.dspace.services.factory.DSpaceServicesFactory;
-import org.eclipse.jetty.deploy.ConfigurationManager;
+import org.eclipse.jetty.deploy.PropertiesConfigurationManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -131,6 +131,7 @@ public class SolrServiceImpl implements SearchService, IndexingService {
     protected ItemService itemService;
     @Autowired(required = true)
     protected HandleService handleService;
+    
 
     protected SolrServiceImpl() {
 
@@ -179,7 +180,7 @@ public class SolrServiceImpl implements SearchService, IndexingService {
     protected void update(Context context, IndexFactory indexableObjectService,
                           IndexableObject indexableObject) throws IOException, SQLException, SolrServerException {
         final SolrInputDocument solrInputDocument = indexableObjectService.buildDocument(context, indexableObject);
-        addCommunityCollectionItem(context, indexableObjectService, solrInputDocument);
+        addCommunityCollectionItem(context, indexableObject, solrInputDocument);
         indexableObjectService.writeDocument(context, indexableObject, solrInputDocument);
     }
 
@@ -195,7 +196,7 @@ public class SolrServiceImpl implements SearchService, IndexingService {
         if (preDB) {
             final SolrInputDocument solrInputDocument =
                     indexableObjectService.buildNewDocument(context, indexableObject);
-            addCommunityCollectionItem(context, indexableObjectService, solrInputDocument);
+            addCommunityCollectionItem(context, indexableObject, solrInputDocument);
             indexableObjectService.writeDocument(context, indexableObject, solrInputDocument);
         } else {
             update(context, indexableObjectService, indexableObject);
@@ -204,8 +205,17 @@ public class SolrServiceImpl implements SearchService, IndexingService {
 
     /**
      * TAMU Customization - to the image URL provided to the Solr documents
+     * @throws SQLException
     */
-    private void addCommunityCollectionItem(Context context,Item item, SolrInputDocument doc) throws IOException, SolrServerException {
+    private void addCommunityCollectionItem(Context context,IndexableObject indexableObject, SolrInputDocument doc) throws IOException, SolrServerException, SQLException {
+
+        // IndexableObject.getType();
+        if(!(indexableObject instanceof Item)){
+            return;
+        };
+        Item item = (Item)indexableObject;
+
+
         // get the location string (for searching by collection & community)
         List<String> locations = getItemLocations(context, item);
 
@@ -228,7 +238,7 @@ public class SolrServiceImpl implements SearchService, IndexingService {
 
         //TAMU Customization - Write bitstream URLs to index
         List<String> bitstreamLocations = new ArrayList<>();
-        String dspaceUrl = ConfigurationManager.getProperty("dspace.url");
+        String dspaceUrl = configurationService.getProperty("dspace.url");
         for (Bundle bundle : item.getBundles()) {
             String bitstreamUrlTemplate = "%s/bitstream/handle/%s/%s?sequence=%d";
             String primaryInternalId = null;
