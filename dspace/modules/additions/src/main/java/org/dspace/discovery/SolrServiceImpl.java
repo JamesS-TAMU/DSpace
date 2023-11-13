@@ -178,6 +178,7 @@ public class SolrServiceImpl implements SearchService, IndexingService {
     protected void update(Context context, IndexFactory indexableObjectService,
                           IndexableObject indexableObject) throws IOException, SQLException, SolrServerException {
         final SolrInputDocument solrInputDocument = indexableObjectService.buildDocument(context, indexableObject);
+        // TAMU Customization
         addCommunityCollectionItem(context, indexableObject, solrInputDocument);
         indexableObjectService.writeDocument(context, indexableObject, solrInputDocument);
     }
@@ -194,6 +195,7 @@ public class SolrServiceImpl implements SearchService, IndexingService {
         if (preDB) {
             final SolrInputDocument solrInputDocument =
                     indexableObjectService.buildNewDocument(context, indexableObject);
+            // TAMU Customization
             addCommunityCollectionItem(context, indexableObject, solrInputDocument);
             indexableObjectService.writeDocument(context, indexableObject, solrInputDocument);
         } else {
