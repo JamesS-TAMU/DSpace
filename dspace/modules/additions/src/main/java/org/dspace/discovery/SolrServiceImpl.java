@@ -31,7 +31,6 @@ import java.util.Optional;
 import java.util.TimeZone;
 import java.util.UUID;
 import java.util.Vector;
-
 import javax.mail.MessagingException;
 
 import org.apache.commons.collections4.CollectionUtils;
@@ -209,10 +208,10 @@ public class SolrServiceImpl implements SearchService, IndexingService {
     */
     private void addCommunityCollectionItem(
         Context context,IndexableObject indexableObject, SolrInputDocument doc
-        ) throws IOException, SolrServerException, SQLException {
+    ) throws IOException, SolrServerException, SQLException {
 
         // IndexableObject.getType();
-        if(!(indexableObject instanceof IndexableItem)) {
+        if (!(indexableObject instanceof IndexableItem)) {
             return;
         }
 
@@ -272,7 +271,12 @@ public class SolrServiceImpl implements SearchService, IndexingService {
                         String thumbnailName = thumbnailBitstream.getName();
                         int thumbnailSequence = thumbnailBitstream.getSequenceID();
                         String thumbnailUrl = String.format(
-                                              bitstreamUrlTemplate, dspaceUrl, handle, thumbnailName, thumbnailSequence);
+                                              bitstreamUrlTemplate,
+                                              dspaceUrl,
+                                              handle,
+                                              thumbnailName,
+                                              thumbnailSequence
+                                            );
                         doc.addField("thumbnailBitstream_stored", thumbnailUrl);
                     }
                     break;
