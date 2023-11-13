@@ -130,7 +130,6 @@ public class SolrServiceImpl implements SearchService, IndexingService {
     protected ItemService itemService;
     @Autowired(required = true)
     protected HandleService handleService;
-    
 
     protected SolrServiceImpl() {
 
@@ -206,12 +205,14 @@ public class SolrServiceImpl implements SearchService, IndexingService {
      * TAMU Customization - to the image URL provided to the Solr documents
      * @throws SQLException
     */
-    private void addCommunityCollectionItem(Context context,IndexableObject indexableObject, SolrInputDocument doc) throws IOException, SolrServerException, SQLException {
+    private void addCommunityCollectionItem(
+        Context context,IndexableObject indexableObject, SolrInputDocument doc
+        ) throws IOException, SolrServerException, SQLException {
 
         // IndexableObject.getType();
-        if(!(indexableObject instanceof IndexableItem)){
+        if(!(indexableObject instanceof IndexableItem)) {
             return;
-        };
+        }
 
         IndexableItem indexableItem = (IndexableItem)indexableObject;
 
@@ -223,35 +224,35 @@ public class SolrServiceImpl implements SearchService, IndexingService {
 
         String handle = item.getHandle();
 
-        if (handle == null)
-        {
+        if (handle == null) {
             handle = handleService.findHandle(context, item);
         }
 
-        //TAMU Customization - Write friendly community/collection names to index 
-        if (!locations.isEmpty()) {
+        // TAMU Customization - Write friendly community/collection names to index
+        if ( !locations.isEmpty() ) {
             for (String location : locations) {
-                String field = location.startsWith("m") ? "location.comm":"location.coll";
+                String field = location.startsWith("m") ? " location.comm " : " location.coll ";
                 String dsoName = locationToName(context,field,location.substring(1));
-                log.debug("Adding location name: "+field+".name_stored with value: "+dsoName);
-                doc.addField(field+".name_stored", dsoName);
+                log.debug("Adding location name:" + field + ".name_stored with value:" + dsoName);
+                doc.addField(field + ".name_stored", dsoName );
             }
         }
 
-        //TAMU Customization - Write bitstream URLs to index
+        // TAMU Customization - Write bitstream URLs to index
         List<String> bitstreamLocations = new ArrayList<>();
         String dspaceUrl = configurationService.getProperty("dspace.url");
         for (Bundle bundle : item.getBundles()) {
             String bitstreamUrlTemplate = "%s/bitstream/handle/%s/%s?sequence=%d";
             String primaryInternalId = null;
-            switch(bundle.getName()) {
+            switch (bundle.getName()) {
                 case "ORIGINAL":
                     if (bundle.getPrimaryBitstream() != null) {
                         Bitstream primaryBitstream = bundle.getPrimaryBitstream();
                         primaryInternalId = primaryBitstream.getInternalId();
                         String primaryName = primaryBitstream.getName();
                         int primarySequence = primaryBitstream.getSequenceID();
-                        String primaryUrl = String.format(bitstreamUrlTemplate, dspaceUrl, handle, primaryName, primarySequence);
+                        String primaryUrl = String.format(
+                                            bitstreamUrlTemplate, dspaceUrl, handle, primaryName, primarySequence);
                         doc.addField("primaryBitstream_stored", primaryUrl);
                     }
                     for (Bitstream bitstream : bundle.getBitstreams()) {
@@ -268,7 +269,8 @@ public class SolrServiceImpl implements SearchService, IndexingService {
                     if (thumbnailBitstream != null) {
                         String thumbnailName = thumbnailBitstream.getName();
                         int thumbnailSequence = thumbnailBitstream.getSequenceID();
-                        String thumbnailUrl = String.format(bitstreamUrlTemplate, dspaceUrl, handle, thumbnailName, thumbnailSequence);
+                        String thumbnailUrl = String.format(
+                                              bitstreamUrlTemplate, dspaceUrl, handle, thumbnailName, thumbnailSequence);
                         doc.addField("thumbnailBitstream_stored", thumbnailUrl);
                     }
                     break;
@@ -277,7 +279,8 @@ public class SolrServiceImpl implements SearchService, IndexingService {
                     if (licenseBitstream != null) {
                         String licenseName = licenseBitstream.getName();
                         int licenseSequence = licenseBitstream.getSequenceID();
-                        String licenseUrl = String.format(bitstreamUrlTemplate, dspaceUrl, handle, licenseName, licenseSequence);
+                        String licenseUrl = String.format(
+                                            bitstreamUrlTemplate, dspaceUrl, handle, licenseName, licenseSequence);
                         doc.addField("licenseBitstream_stored", licenseUrl);
                     }
                     break;
@@ -306,13 +309,11 @@ public class SolrServiceImpl implements SearchService, IndexingService {
         // now put those into strings
         int i = 0;
 
-        for (i = 0; i < communities.size(); i++)
-        {
+        for (i = 0; i < communities.size(); i++) {
             locations.add("m" + communities.get(i).getID());
         }
 
-        for (i = 0; i < collections.size(); i++)
-        {
+        for (i = 0; i < collections.size(); i++) {
             locations.add("l" + collections.get(i).getID());
         }
 
