@@ -1406,7 +1406,7 @@ public class SolrServiceImpl implements SearchService, IndexingService {
             filterQuery.append(":");
             if ("equals".equals(operator) || "notequals".equals(operator)) {
                 // TAMU Customization - calling the modified regex expression
-                if ( isMatch(value) ) {
+                if ( isNotRangeQuery(value) ) {
                     value = ClientUtils.escapeQueryChars(value);
                     filterQuery.append(value);
                 } else {
@@ -1419,7 +1419,7 @@ public class SolrServiceImpl implements SearchService, IndexingService {
                 }
             } else {
                 // TAMU Customization - calling the modified regex expression
-                if ( isMatch(value) ) {
+                if ( isNotRangeQuery(value) ) {
                     value = ClientUtils.escapeQueryChars(value);
                     filterQuery.append("\"").append(value).append("\"");
                 } else {
@@ -1435,9 +1435,9 @@ public class SolrServiceImpl implements SearchService, IndexingService {
     }
 
     /**
-     * TAMU Customization - modified the regex expression
+     * TAMU Customization - checking the conditions
      */
-    private boolean isMatch(String value) {
+    private boolean isNotRangeQuery(String value) {
         return (!(value.startsWith("[") || value.contains("TO") || value.endsWith("]")));
     }
 
