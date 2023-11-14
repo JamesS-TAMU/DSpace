@@ -1405,8 +1405,8 @@ public class SolrServiceImpl implements SearchService, IndexingService {
 
             filterQuery.append(":");
             if ("equals".equals(operator) || "notequals".equals(operator)) {
-                //DO NOT ESCAPE RANGE QUERIES !
-                if (!value.matches("\\[.*TO.*\\]")) {
+                // TAMU customization - modified the expression (DO NOT ESCAPE RANGE QUERIES !)
+                if (!(value.startsWith("[") || value.contains("TO") || value.endsWith("]"))) {
                     value = ClientUtils.escapeQueryChars(value);
                     filterQuery.append(value);
                 } else {
@@ -1418,8 +1418,8 @@ public class SolrServiceImpl implements SearchService, IndexingService {
                     filterQuery.append(value);
                 }
             } else {
-                //DO NOT ESCAPE RANGE QUERIES !
-                if (!value.matches("\\[.*TO.*\\]")) {
+                // TAMU customization - modified the expression (DO NOT ESCAPE RANGE QUERIES !)
+                if (!(value.startsWith("[") || value.contains("TO") || value.endsWith("]"))) {
                     value = ClientUtils.escapeQueryChars(value);
                     filterQuery.append("\"").append(value).append("\"");
                 } else {
