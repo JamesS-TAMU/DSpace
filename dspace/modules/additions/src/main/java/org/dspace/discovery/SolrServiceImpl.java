@@ -1373,6 +1373,7 @@ public class SolrServiceImpl implements SearchService, IndexingService {
             return new ArrayList<>(0);
         }
     }
+
     @Override
     public DiscoverFilterQuery toFilterQuery(Context context, String field, String operator, String value,
         DiscoveryConfiguration config)
@@ -1402,11 +1403,10 @@ public class SolrServiceImpl implements SearchService, IndexingService {
             }
 
 
-
             filterQuery.append(":");
             if ("equals".equals(operator) || "notequals".equals(operator)) {
-                // TAMU customization - modified the expression (DO NOT ESCAPE RANGE QUERIES !)
-                if (!(value.startsWith("[") || value.contains("TO") || value.endsWith("]"))) {
+                // TAMU Customization - calling the modified regex expression
+                if ( isMatch(value) ) {
                     value = ClientUtils.escapeQueryChars(value);
                     filterQuery.append(value);
                 } else {
@@ -1418,8 +1418,8 @@ public class SolrServiceImpl implements SearchService, IndexingService {
                     filterQuery.append(value);
                 }
             } else {
-                // TAMU customization - modified the expression (DO NOT ESCAPE RANGE QUERIES !)
-                if (!(value.startsWith("[") || value.contains("TO") || value.endsWith("]"))) {
+                // TAMU Customization - calling the modified regex expression
+                if ( isMatch(value) ) {
                     value = ClientUtils.escapeQueryChars(value);
                     filterQuery.append("\"").append(value).append("\"");
                 } else {
@@ -1432,6 +1432,13 @@ public class SolrServiceImpl implements SearchService, IndexingService {
 
         result.setFilterQuery(filterQuery.toString());
         return result;
+    }
+
+    /**
+     * TAMU Customization - modified the regex expression
+     */
+    private boolean isMatch(String value) {
+        return (!(value.startsWith("[") || value.contains("TO") || value.endsWith("]")));
     }
 
     @Override
