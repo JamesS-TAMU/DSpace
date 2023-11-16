@@ -80,11 +80,23 @@
           <namespace>http://dublincore.org/documents/dcmi-terms/</namespace>
   </dc-schema>
 
+  <!-- TAMU Customization - dc.audience -->
+  <dc-type>
+    <schema>dc</schema>
+    <element>audience</element>
+    <!-- unqualified -->
+    <scope_note>The target audience for which the material is intended.</scope_note>
+  </dc-type>
+  <!-- End TAMU Customization - dc.audience -->
+
   <dc-type>
 	<schema>dc</schema>
     <element>contributor</element>
     <!-- unqualified -->
-    <scope_note>A person, organization, or service responsible for the content of the resource.  Catch-all for unspecified contributors.</scope_note>
+    <!-- TAMU Customization - dc.contributor scope_note -->
+    <!-- <scope_note>A person, organization, or service responsible for the content of the resource.  Catch-all for unspecified contributors.</scope_note> -->
+    <scope_note>A person or group that contributed to the work. Qualified fields are recommended.</scope_note>
+    <!-- End TAMU Customization - dc.contributor scope_note -->
   </dc-type>
 
   <dc-type>
@@ -94,61 +106,166 @@
     <scope_note>Use primarily for thesis advisor.</scope_note>
   </dc-type>
 
+  <!-- TAMU Customization - dc.contributor.assignee -->
+  <dc-type>
+    <schema>dc</schema>
+    <element>contributor</element>
+    <qualifier>assignee</qualifier>
+    <scope_note>For Patents</scope_note>
+  </dc-type>
+  <!-- End TAMU Customization - dc.contributor.assignee -->
+
   <!-- Used by system: do not remove -->
   <dc-type>
 	<schema>dc</schema>
     <element>contributor</element>
     <qualifier>author</qualifier>
-    <scope_note></scope_note>
+    <!-- TAMU Customization - dc.contributor.author scope_note -->
+    <!-- <scope_note></scope_note> -->
+    <scope_note>Deprecated, do not use. Use dc.creator for author information.</scope_note>
+    <!-- End TAMU Customization - dc.contributor.author scope_note -->
   </dc-type>
+
+  <!-- TAMU Customization - dc.contributor.committeechair -->
+  <dc-type>
+    <schema>dc</schema>
+    <element>contributor</element>
+    <qualifier>committeechair</qualifier>
+    <scope_note>Used primarily for thesis committee chair or co-chair.</scope_note>
+  </dc-type>
+  <!-- TAMU Customization - dc.contributor.committeechair -->
+
+  <!-- TAMU Customization - dc.contributor.committeeMember -->
+  <dc-type>
+    <schema>dc</schema>
+    <element>contributor</element>
+    <qualifier>committeeMember</qualifier>
+    <scope_note>Used for thesis committee member.</scope_note>
+  </dc-type>
+  <!-- TAMU Customization - dc.contributor.committeeMember -->
 
   <dc-type>
 	<schema>dc</schema>
     <element>contributor</element>
     <qualifier>editor</qualifier>
-    <scope_note></scope_note>
+    <!-- TAMU Customization - dc.contributor.editor scope_note -->
+    <!-- <scope_note></scope_note> -->
+    <scope_note>A person or group who prepared the work for publication.</scope_note>
+    <!-- End TAMU Customization - dc.contributor.editor scope_note -->
   </dc-type>
 
   <dc-type>
 	<schema>dc</schema>
     <element>contributor</element>
     <qualifier>illustrator</qualifier>
-    <scope_note></scope_note>
+    <!-- TAMU Customization - dc.contributor.illustrator scope_note -->
+    <!-- <scope_note></scope_note> -->
+    <scope_note>A person or group responsible for illustrations contained in an item. If the primary item is an illustration, use dc.creator.</scope_note>
+    <!-- End TAMU Customization - dc.contributor.illustrator scope_note -->
   </dc-type>
 
   <dc-type>
 	<schema>dc</schema>
     <element>contributor</element>
     <qualifier>other</qualifier>
+    <!-- TAMU Customization - dc.contributor.other scope_note -->
+    <!-- <scope_note></scope_note> -->
+    <scope_note>A person or group that contributed to the work, whose role is not defined by another field.</scope_note>
+    <!-- End TAMU Customization - dc.contributor.other scope_note -->
+  </dc-type>
+
+  <!-- TAMU Customization - dc.contributor.photographer -->
+  <dc-type>
+    <schema>dc</schema>
+    <element>contributor</element>
+    <qualifier>photographer</qualifier>
+    <scope_note>A person or group responsible for photography contained in an item. If the primary item is a photograph, use dc.creator.</scope_note>
+  </dc-type>
+  <!-- TAMU Customization - dc.contributor.photographer -->
+
+  <!-- TAMU Customization - dc.contributor.sponsor -->
+  <dc-type>
+    <schema>dc</schema>
+    <element>contributor</element>
+    <qualifier>sponsor</qualifier>
+    <scope_note>A person or group that funds or sponsors the development of the work.</scope_note>
+  </dc-type>
+  <!-- TAMU Customization - dc.contributor.sponsor -->
+
+  <!-- TAMU Customization - dc.contributor.studioadvisor -->
+  <dc-type>
+    <schema>dc</schema>
+    <element>contributor</element>
+    <qualifier>studioadvisor</qualifier>
     <scope_note></scope_note>
   </dc-type>
+  <!-- TAMU Customization - dc.contributor.studioadvisor -->
+
+  <!-- TAMU Customization - dc.coverage.box -->
+  <dc-type>
+    <schema>dc</schema>
+    <element>coverage</element>
+    <qualifier>box</qualifier>
+    <scope_note>Identifies the extent of a geographic area.</scope_note>
+  </dc-type>
+  <!-- TAMU Customization - dc.coverage.box -->
+
+  <!-- TAMU Customization - dc.coverage.point -->
+  <dc-type>
+    <schema>dc</schema>
+    <element>coverage</element>
+    <qualifier>point</qualifier>
+    <scope_note>Identifies a geographic point by latitude and longitude.</scope_note>
+  </dc-type>
+  <!-- TAMU Customization - dc.coverage.point -->
 
   <dc-type>
 	<schema>dc</schema>
     <element>coverage</element>
     <qualifier>spatial</qualifier>
-    <scope_note>Spatial characteristics of content.</scope_note>
+    <!-- TAMU Customization - dc.coverage.spatial scope_note -->
+    <!-- <scope_note>Spatial characteristics of content.</scope_note> -->
+    <scope_note>Identifies a location associated with an item.</scope_note>
+    <!-- End TAMU Customization - dc.coverage.spatial scope_note -->
   </dc-type>
 
   <dc-type>
 	<schema>dc</schema>
     <element>coverage</element>
     <qualifier>temporal</qualifier>
-    <scope_note>Temporal characteristics of content.</scope_note>
+    <!-- TAMU Customization - dc.coverage.temporal scope_note -->
+    <!-- <scope_note>Temporal characteristics of content.</scope_note> -->
+    <scope_note>Identifies a time period associated with an item.</scope_note>
+    <!-- End TAMU Customization - dc.coverage.temporal scope_note -->
   </dc-type>
+
+  <!-- TAMU Customization - dc.coverage.tgn -->
+  <dc-type>
+    <schema>dc</schema>
+    <element>coverage</element>
+    <qualifier>tgn</qualifier>
+    <scope_note>Getty Thesaurus of Geographic Names (http://www.getty.edu/research/conducting_research/vocabularies/tgn/)</scope_note>
+  </dc-type>
+  <!-- TAMU Customization - dc.coverage.tgn -->
 
   <dc-type>
 	<schema>dc</schema>
     <element>creator</element>
     <!-- unqualified -->
-    <scope_note>Do not use; only for harvested metadata.</scope_note>
+    <!-- TAMU Customization - dc.creator scope_note -->
+    <!-- <scope_note>Do not use; only for harvested metadata.</scope_note> -->
+    <scope_note>A person, organization, or service primarily responsible for the intellectual content of the item.</scope_note>
+    <!-- End TAMU Customization - dc.creator scope_note -->
   </dc-type>
 
   <dc-type>
 	<schema>dc</schema>
     <element>date</element>
     <!-- unqualified -->
-    <scope_note>Use qualified form if possible.</scope_note>
+    <!-- TAMU Customization - dc.date scope_note -->
+    <!-- <scope_note>Use qualified form if possible.</scope_note> -->
+    <scope_note>A date associated with an event in the life-cycle of an item. Qualified fields are recommended.</scope_note>
+    <!-- End TAMU Customization - dc.date scope_note -->
   </dc-type>
 
   <!-- Used by system: do not remove -->
@@ -156,7 +273,10 @@
 	<schema>dc</schema>
     <element>date</element>
     <qualifier>accessioned</qualifier>
-    <scope_note>Date DSpace takes possession of item.</scope_note>
+    <!-- TAMU Customization - dc.date.accessioned scope_note -->
+    <!-- <scope_note>Date DSpace takes possession of item.</scope_note> -->
+    <scope_note>Date the item was submitted to the repository.</scope_note>
+    <!-- End TAMU Customization - dc.date.accessioned scope_note -->
   </dc-type>
 
   <!-- Used by system: do not remove -->
@@ -178,31 +298,70 @@
 	<schema>dc</schema>
     <element>date</element>
     <qualifier>created</qualifier>
-    <scope_note>Date of creation or manufacture of intellectual content if different from date.issued.</scope_note>
+    <!-- TAMU Customization - dc.date.created scope_note -->
+    <!-- <scope_note>Date of creation or manufacture of intellectual content if different from date.issued.</scope_note> -->
+    <scope_note>Date of creation or manufacture of intellectual content if different from date.issued. Used for graduation date for theses/dissertations.</scope_note>
+    <!-- End TAMU Customization - dc.date.created scope_note -->
   </dc-type>
+
+  <!-- TAMU Customization - dc.date.filed -->
+  <dc-type>
+    <schema>dc</schema>
+    <element>date</element>
+    <qualifier>filed</qualifier>
+    <scope_note>Date when application for patent was filed</scope_note>
+  </dc-type>
+  <!-- End TAMU Customization - dc.date.filed -->
 
   <!-- Used by system: do not remove -->
   <dc-type>
 	<schema>dc</schema>
     <element>date</element>
     <qualifier>issued</qualifier>
-    <scope_note>Date of publication or distribution.</scope_note>
+    <!-- TAMU Customization - dc.date.issued scope_note -->
+    <!-- <scope_note>Date of publication or distribution.</scope_note> -->
+    <scope_note>Date of original publication, presentation, or distribution.</scope_note>
+    <!-- End TAMU Customization - dc.date.issued scope_note -->
   </dc-type>
 
   <dc-type>
 	<schema>dc</schema>
     <element>date</element>
     <qualifier>submitted</qualifier>
-    <scope_note>Recommend for theses/dissertations.</scope_note>
+    <!-- TAMU Customization - dc.date.submitted scope_note -->
+    <!-- <scope_note>Recommend for theses/dissertations.</scope_note> -->
+    <scope_note>Deprecated, do not use. Use dc.date.accessioned for submission date.</scope_note>
+    <!-- End TAMU Customization - dc.date.submitted scope_note -->
   </dc-type>
+
+  <!-- TAMU Customization - dc.date.updated -->
+  <dc-type>
+    <schema>dc</schema>
+    <element>date</element>
+    <qualifier>updated</qualifier>
+    <scope_note>The last time the item was updated via the SWORD interface</scope_note>
+  </dc-type>
+  <!-- End TAMU Customization - dc.date.updated -->
+
+  <!-- TAMU Customization - dc.date.verified -->
+  <dc-type>
+    <schema>dc</schema>
+    <element>date</element>
+    <qualifier>verified</qualifier>
+    <scope_note></scope_note>
+  </dc-type>
+  <!-- End TAMU Customization - dc.date.verified -->
 
   <dc-type>
 	<schema>dc</schema>
     <element>identifier</element>
     <!-- unqualified -->
-    <scope_note>Catch-all for unambiguous identifiers not defined by
+    <!-- TAMU Customization - dc.identifier scope_note -->
+    <!-- <scope_note>Catch-all for unambiguous identifiers not defined by
     qualified form; use identifier.other for a known identifier common
-    to a local collection instead of unqualified form.</scope_note>
+    to a local collection instead of unqualified form.</scope_note> -->
+    <scope_note>A standard number or code that identified an item. Qualified fields are recommended.</scope_note>
+    <!-- End TAMU Customization - dc.identifier scope_note -->
   </dc-type>
 
   <!-- Used by system: do not remove -->
@@ -210,8 +369,11 @@
 	<schema>dc</schema>
     <element>identifier</element>
     <qualifier>citation</qualifier>
-    <scope_note>Human-readable, standard bibliographic citation 
-    of non-DSpace format of this item</scope_note>
+    <!-- TAMU Customization - dc.identifier.citation scope_note -->
+    <!-- <scope_note>Human-readable, standard bibliographic citation 
+    of non-DSpace format of this item</scope_note> -->
+    <scope_note>A standard number or code that identified an item. Qualified fields are recommended.</scope_note>
+    <!-- End TAMU Customization - dc.identifier.citation scope_note -->
   </dc-type>
 
   <!-- Used by system: do not remove -->
@@ -219,7 +381,10 @@
 	<schema>dc</schema>
     <element>identifier</element>
     <qualifier>govdoc</qualifier>
-    <scope_note>A government document number</scope_note>
+    <!-- TAMU Customization - dc.identifier.govdoc scope_note -->
+    <!-- <scope_note>A government document number</scope_note> -->
+    <scope_note>Government Printing Office-supplied numeric identifier.</scope_note>
+    <!-- End TAMU Customization - dc.identifier.govdoc scope_note -->
   </dc-type>
 
   <!-- Used by system: do not remove -->
@@ -253,6 +418,15 @@
     <scope_note>International Standard Music Number</scope_note>
   </dc-type>
 
+  <!-- TAMU Customization - dc.identifier.oclc -->
+  <dc-type>
+    <schema>dc</schema>
+    <element>identifier</element>
+    <qualifier>oclc</qualifier>
+    <scope_note></scope_note>
+  </dc-type>
+  <!-- End TAMU Customization - dc.identifier.oclc -->
+
   <!-- Used by system: do not remove -->
   <dc-type>
 	<schema>dc</schema>
@@ -260,7 +434,16 @@
     <qualifier>other</qualifier>
     <scope_note>A known identifier type common to a local collection.</scope_note>
   </dc-type>
-  
+
+  <!-- TAMU Customization - dc.identifier.patentapplicationnumber -->
+  <dc-type>
+    <schema>dc</schema>
+    <element>identifier</element>
+    <qualifier>patentapplicationnumber</qualifier>
+    <scope_note>For Patents</scope_note>
+  </dc-type>
+  <!-- End TAMU Customization - dc.identifier.patentapplicationnumber -->
+
   <dc-type>
     <schema>dc</schema>
     <element>identifier</element>
@@ -274,6 +457,15 @@
     <scope_note>The scopus identifier</scope_note>
   </dc-type>
 
+  <!-- TAMU Customization - dc.identifier.slug -->
+  <dc-type>
+    <schema>dc</schema>
+    <element>identifier</element>
+    <qualifier>slug</qualifier>
+    <scope_note>a uri supplied via the sword slug header, as a suggested uri for the item</scope_note>
+  </dc-type>
+  <!-- End TAMU Customization - dc.identifier.slug -->
+
   <!-- Used by system: do not remove -->
   <dc-type>
 	<schema>dc</schema>
@@ -282,12 +474,33 @@
     <scope_note>Uniform Resource Identifier</scope_note>
   </dc-type>
 
+  <!-- TAMU Customization - dc.identifier.url -->
+  <dc-type>
+    <schema>dc</schema>
+    <element>identifier</element>
+    <qualifier>url</qualifier>
+    <scope_note>External URL relevant to the item.</scope_note>
+  </dc-type>
+  <!-- End TAMU Customization - dc.identifier.url -->
+
+  <!-- TAMU Customization - dc.identifier.urn -->
+  <dc-type>
+    <schema>dc</schema>
+    <element>identifier</element>
+    <qualifier>urn</qualifier>
+    <scope_note></scope_note>
+  </dc-type>
+  <!-- End TAMU Customization - dc.identifier.urn -->
+
   <!-- Used by system: do not remove -->
   <dc-type>
 	<schema>dc</schema>
     <element>description</element>
     <!-- unqualified -->
-    <scope_note>Catch-all for any description not defined by qualifiers.</scope_note>
+    <!-- TAMU Customization - dc.description scope_note -->
+    <!-- <scope_note>Catch-all for any description not defined by qualifiers.</scope_note> -->
+    <scope_note>Descriptive information not defined in other fields.</scope_note>
+    <!-- End TAMU Customization - dc.description scope_note -->
   </dc-type>
 
   <!-- Used by system: do not remove -->
@@ -295,15 +508,30 @@
 	<schema>dc</schema>
     <element>description</element>
     <qualifier>abstract</qualifier>
-    <scope_note>Abstract or summary.</scope_note>
+    <!-- TAMU Customization - dc.description.abstract scope_note -->
+    <!-- <scope_note>Abstract or summary.</scope_note> -->
+    <scope_note>Abstract or summary of the item.</scope_note>
+    <!-- End TAMU Customization - dc.description.abstract scope_note -->
   </dc-type>
+
+  <!-- TAMU Customization - dc.description.country -->
+  <dc-type>
+    <schema>dc</schema>
+    <element>description</element>
+    <qualifier>country</qualifier>
+    <scope_note></scope_note>
+  </dc-type>
+  <!-- End TAMU Customization - dc.description.country -->
 
   <!-- Used by system: do not remove -->
   <dc-type>
 	<schema>dc</schema>
     <element>description</element>
     <qualifier>provenance</qualifier>
-    <scope_note>The history of custody of the item since its creation, including any changes successive custodians made to it.</scope_note>
+    <!-- TAMU Customization - dc.description.provenance scope_note -->
+    <!-- <scope_note>The history of custody of the item since its creation, including any changes successive custodians made to it.</scope_note> -->
+    <scope_note>Records an administrative event in the lifecycle of the item in the repository. Automatically generated by DSpace.</scope_note>
+    <!-- End TAMU Customization - dc.description.provenance scope_note -->
   </dc-type>
 
   <!-- Used by system: do not remove -->
@@ -311,22 +539,31 @@
 	<schema>dc</schema>
     <element>description</element>
     <qualifier>sponsorship</qualifier>
-    <scope_note>Information about sponsoring agencies, individuals, or
-    contractual arrangements for the item.</scope_note>
+    <!-- TAMU Customization - dc.description.sponsorship scope_note -->
+    <!-- <scope_note>Information about sponsoring agencies, individuals, or
+    contractual arrangements for the item.</scope_note> -->
+    <scope_note>Details about the terms of sponsorship or funding of the item.</scope_note>
+    <!-- End TAMU Customization - dc.description.sponsorship scope_note -->
   </dc-type>
 
   <dc-type>
 	<schema>dc</schema>
     <element>description</element>
     <qualifier>statementofresponsibility</qualifier>
-    <scope_note>To preserve statement of responsibility from MARC records.</scope_note>
+    <!-- TAMU Customization - dc.description.statementofresponsibility scope_note -->
+    <!-- <scope_note>To preserve statement of responsibility from MARC records.</scope_note> -->
+    <scope_note>Statement of responsibility for the item. (MARC 245/$c, etc.)</scope_note>
+    <!-- End TAMU Customization - dc.description.statementofresponsibility scope_note -->
   </dc-type>
 
   <dc-type>
 	<schema>dc</schema>
     <element>description</element>
     <qualifier>tableofcontents</qualifier>
-    <scope_note>A table of contents for a given item.</scope_note>
+    <!-- TAMU Customization - dc.description.tableofcontents scope_note -->
+    <!-- <scope_note>A table of contents for a given item.</scope_note> -->
+    <scope_note>A table of contents for an item.</scope_note>
+    <!-- End TAMU Customization - dc.description.tableofcontents scope_note -->
   </dc-type>
 
   <dc-type>
@@ -337,27 +574,54 @@
     this item.</scope_note>
   </dc-type>
 
+  <!-- TAMU Customization - dc.description.version -->
+  <dc-type>
+    <schema>dc</schema>
+    <element>description</element>
+    <qualifier>version</qualifier>
+    <scope_note>The Peer Reviewed status of an item</scope_note>
+  </dc-type>
+  <!-- End TAMU Customization - dc.description.version -->
+
   <!-- Used by system: do not remove -->
   <dc-type>
 	<schema>dc</schema>
     <element>format</element>
     <!-- unqualified -->
-    <scope_note>Catch-all for any format information not defined by qualifiers.</scope_note>
+    <!-- TAMU Customization - dc.format scope_note -->
+    <!-- <scope_note>Catch-all for any format information not defined by qualifiers.</scope_note> -->
+    <scope_note>Information regarding the format of a file contained in the item. Qualified fields are recommended.</scope_note>
+    <!-- End TAMU Customization - dc.format scope_note -->
   </dc-type>
+
+  <!-- TAMU Customization - dc.format.digitalOrigin -->
+  <dc-type>
+    <schema>dc</schema>
+    <element>format</element>
+    <qualifier>digitalOrigin</qualifier>
+    <scope_note>Origin of the digital item. Use "born digital" or "reformatted digital".</scope_note>
+  </dc-type>
+  <!-- End TAMU Customization - dc.format.digitalOrigin -->
 
   <!-- Used by system: do not remove -->
   <dc-type>
 	<schema>dc</schema>
     <element>format</element>
     <qualifier>extent</qualifier>
-    <scope_note>Size or duration.</scope_note>
+    <!-- TAMU Customization - dc.format.extent scope_note -->
+    <!-- <scope_note>Size or duration.</scope_note> -->
+    <scope_note>Size or duration of a file associated with an item. Automatically generated by DSpace.</scope_note>
+    <!-- End TAMU Customization - dc.format.extent scope_note -->
   </dc-type>
 
   <dc-type>
 	<schema>dc</schema>
     <element>format</element>
     <qualifier>medium</qualifier>
-    <scope_note>Physical medium.</scope_note>
+    <!-- TAMU Customization - dc.format.medium scope_note -->
+    <!-- <scope_note>Physical medium.</scope_note> -->
+    <scope_note>Medium of the files associated with an item. Will always be "Electronic".</scope_note>
+    <!-- End TAMU Customization - dc.format.medium scope_note -->
   </dc-type>
 
   <!-- Used by system: do not remove -->
@@ -365,7 +629,10 @@
 	<schema>dc</schema>
     <element>format</element>
     <qualifier>mimetype</qualifier>
-    <scope_note>Registered MIME type identifiers.</scope_note>
+    <!-- TAMU Customization - dc.format.mimetype scope_note -->
+    <!-- <scope_note>Registered MIME type identifiers.</scope_note> -->
+    <scope_note>MIME type associated with a file contained in the item.</scope_note>
+    <!-- End TAMU Customization - dc.format.mimetype scope_note -->
   </dc-type>
 
   <dc-type>
@@ -384,13 +651,34 @@
     <scope_note>Current ISO standard for language of intellectual content, including country codes (e.g. "en_US").</scope_note>
   </dc-type>
 
+  <!-- TAMU Customization - dc.language.rfc3066 -->
+  <dc-type>
+    <schema>dc</schema>
+    <element>language</element>
+    <qualifier>rfc3066</qualifier>
+    <scope_note>the rfc3066 form of the language for the item</scope_note>
+  </dc-type>
+  <!-- End TAMU Customization - dc.language.rfc3066 -->
+
   <!-- Used by system: do not remove -->
   <dc-type>
 	<schema>dc</schema>
     <element>publisher</element>
     <!-- unqualified -->
-    <scope_note>Entity responsible for publication, distribution, or imprint.</scope_note>
+    <!-- TAMU Customization - dc.publisher scope_note -->
+    <!-- <scope_note>Entity responsible for publication, distribution, or imprint.</scope_note> -->
+    <scope_note>Entity responsible for publication, distribution, or imprint; or publisher of the previously issued instance of the work.</scope_note>
+    <!-- End TAMU Customization - dc.publisher scope_note -->
   </dc-type>
+
+  <!-- TAMU Customization - dc.publisher.digital -->
+  <dc-type>
+    <schema>dc</schema>
+    <element>publisher</element>
+    <qualifier>digital</qualifier>
+    <scope_note>Use "Texas A&amp;M University. Libraries" per Metadata Guidelines</scope_note>
+  </dc-type>
+  <!-- End TAMU Customization - dc.publisher.digital -->
 
   <dc-type>
 	<schema>dc</schema>
@@ -418,7 +706,10 @@
 	<schema>dc</schema>
     <element>relation</element>
     <qualifier>ispartofseries</qualifier>
-    <scope_note>Series name and number within that series, if available.</scope_note>
+    <!-- TAMU Customization - dc.relation.ispartofseries scope_note -->
+    <!-- <scope_note>Series name and number within that series, if available.</scope_note> -->
+    <scope_note>Series name and number for the item.</scope_note>
+    <!-- End TAMU Customization - dc.relation.ispartofseries scope_note -->
   </dc-type>
 
   <dc-type>
@@ -434,6 +725,15 @@
     <qualifier>isversionof</qualifier>
     <scope_note>References earlier version.</scope_note>
   </dc-type>
+
+  <!-- TAMU Customization - dc.relation.references -->
+  <dc-type>
+    <schema>dc</schema>
+    <element>relation</element>
+    <qualifier>references</qualifier>
+    <scope_note>Generic reference to an item.</scope_note>
+  </dc-type>
+  <!-- End TAMU Customization - dc.relation.references -->
 
   <dc-type>
 	<schema>dc</schema>
@@ -492,6 +792,33 @@
     <scope_note>Terms governing use and reproduction.</scope_note>
   </dc-type>
 
+  <!-- TAMU Customization - dc.rights.holder -->
+  <dc-type>
+    <schema>dc</schema>
+    <element>rights</element>
+    <qualifier>holder</qualifier>
+    <scope_note></scope_note>
+  </dc-type>
+  <!-- End TAMU Customization - dc.rights.holder -->
+
+  <!-- TAMU Customization - dc.rights.license -->
+  <dc-type>
+    <schema>dc</schema>
+    <element>rights</element>
+    <qualifier>license</qualifier>
+    <scope_note></scope_note>
+  </dc-type>
+  <!-- End TAMU Customization - dc.rights.license -->
+
+  <!-- TAMU Customization - dc.rights.requestable -->
+  <dc-type>
+    <schema>dc</schema>
+    <element>rights</element>
+    <qualifier>requestable</qualifier>
+    <scope_note></scope_note>
+  </dc-type>
+  <!-- End TAMU Customization - dc.rights.requestable -->
+
   <dc-type>
 	<schema>dc</schema>
     <element>rights</element>
@@ -518,8 +845,20 @@
 	<schema>dc</schema>
     <element>subject</element>
     <!-- unqualified -->
-    <scope_note>Uncontrolled index term.</scope_note>
+    <!-- TAMU Customization - dc.subject scope_note -->
+    <!-- <scope_note>Uncontrolled index term.</scope_note> -->
+    <scope_note>A keyword or phrase that describes the content of the item.</scope_note>
+    <!-- End TAMU Customization - dc.subject scope_note -->
   </dc-type>
+
+  <!-- TAMU Customization - dc.subject.aat -->
+  <dc-type>
+    <schema>dc</schema>
+    <element>subject</element>
+    <qualifier>aat</qualifier>
+    <scope_note>Getty Art &amp; Architecture Thesaurus (AAT)</scope_note>
+  </dc-type>
+  <!-- End TAMU Customization - dc.subject.aat -->
 
   <dc-type>
 	<schema>dc</schema>
@@ -529,12 +868,39 @@
     global classification systems will receive specific qualifier</scope_note>
   </dc-type>
 
+  <!-- TAMU Customization - dc.subject.cpcother -->
+  <dc-type>
+    <schema>dc</schema>
+    <element>subject</element>
+    <qualifier>cpcother</qualifier>
+    <scope_note></scope_note>
+  </dc-type>
+  <!-- End TAMU Customization - dc.subject.cpcother -->
+
+  <!-- TAMU Customization - dc.subject.cpcprimary -->
+  <dc-type>
+    <schema>dc</schema>
+    <element>subject</element>
+    <qualifier>cpcprimary</qualifier>
+    <scope_note>Cooperative Patent Classification code. Used for Patents granted after January 1, 2013</scope_note>
+  </dc-type>
+  <!-- End TAMU Customization - dc.subject.cpcprimary -->
+
   <dc-type>
 	<schema>dc</schema>
     <element>subject</element>
     <qualifier>ddc</qualifier>
     <scope_note>Dewey Decimal Classification Number</scope_note>
   </dc-type>
+
+  <!-- TAMU Customization - dc.subject.fast -->
+  <dc-type>
+    <schema>dc</schema>
+    <element>subject</element>
+    <qualifier>fast</qualifier>
+    <scope_note>FAST subject headings</scope_note>
+  </dc-type>
+  <!-- End TAMU Customization - dc.subject.fast -->
 
   <dc-type>
 	<schema>dc</schema>
@@ -554,8 +920,20 @@
 	<schema>dc</schema>
     <element>subject</element>
     <qualifier>mesh</qualifier>
-    <scope_note>MEdical Subject Headings</scope_note>
+    <!-- TAMU Customization - dc.subject.mesh scope_note -->
+    <!-- <scope_note>MEdical Subject Headings</scope_note> -->
+    <scope_note>Medical Subject Headings</scope_note>
+    <!-- End TAMU Customization - dc.subject.mesh scope_note -->
   </dc-type>
+
+  <!-- TAMU Customization - dc.subject.nalt -->
+  <dc-type>
+    <schema>dc</schema>
+    <element>subject</element>
+    <qualifier>nalt</qualifier>
+    <scope_note>Terms from the NAL Agricultural Thesaurus (NALT).</scope_note>
+  </dc-type>
+  <!-- End TAMU Customization - dc.subject.nalt -->
 
   <dc-type>
 	<schema>dc</schema>
@@ -564,12 +942,60 @@
     <scope_note>Local controlled vocabulary; global vocabularies will receive specific qualifier.</scope_note>
   </dc-type>
 
+  <!-- TAMU Customization - dc.subject.tgm -->
+  <dc-type>
+    <schema>dc</schema>
+    <element>subject</element>
+    <qualifier>tgm</qualifier>
+    <scope_note>Library of Congress thesaurus for graphic materials http://www.loc.gov/rr/print/tgm1/</scope_note>
+  </dc-type>
+  <!-- End TAMU Customization - dc.subject.tgm -->
+
+  <!-- TAMU Customization - dc.subject.tgn -->
+  <dc-type>
+    <schema>dc</schema>
+    <element>subject</element>
+    <qualifier>tgn</qualifier>
+    <scope_note>Getty Thesaurus of Geographic Names (http://www.getty.edu/research/conducting_research/vocabularies/tgn/)</scope_note>
+  </dc-type>
+  <!-- End TAMU Customization - dc.subject.tgn -->
+
+  <!-- TAMU Customization - dc.subject.udc -->
+  <dc-type>
+    <schema>dc</schema>
+    <element>subject</element>
+    <qualifier>udc</qualifier>
+    <scope_note></scope_note>
+  </dc-type>
+  <!-- End TAMU Customization - dc.subject.udc -->
+
+  <!-- TAMU Customization - dc.subject.uspcother -->
+  <dc-type>
+    <schema>dc</schema>
+    <element>subject</element>
+    <qualifier>uspcother</qualifier>
+    <scope_note>United States Patent office supplemental classification number</scope_note>
+  </dc-type>
+  <!-- End TAMU Customization - dc.subject.uspcother -->
+
+  <!-- TAMU Customization - dc.subject.uspcprimary -->
+  <dc-type>
+    <schema>dc</schema>
+    <element>subject</element>
+    <qualifier>uspcprimary</qualifier>
+    <scope_note>United States Patent office primary classification number</scope_note>
+  </dc-type>
+  <!-- End TAMU Customization - dc.subject.uspcprimary -->
+
   <!-- Used by system: do not remove -->
   <dc-type>
 	<schema>dc</schema>
     <element>title</element>
     <!-- unqualified -->
-    <scope_note>Title statement/title proper.</scope_note>
+    <!-- TAMU Customization - dc.title scope_note -->
+    <!-- <scope_note>Title statement/title proper.</scope_note> -->
+    <scope_note>Main title for the item.</scope_note>
+    <!-- End TAMU Customization - dc.title scope_note -->
   </dc-type>
 
   <!-- Used by system: do not remove -->
@@ -577,17 +1003,50 @@
 	<schema>dc</schema>
     <element>title</element>
     <qualifier>alternative</qualifier>
-    <scope_note>Varying (or substitute) form of title proper appearing in item,
-    e.g. abbreviation or translation</scope_note>
+    <!-- TAMU Customization - dc.title.alternative scope_note -->
+    <!-- <scope_note>Varying (or substitute) form of title proper appearing in item,
+    e.g. abbreviation or translation</scope_note> -->
+    <scope_note>Alternative title for the item, such as a translated or abbreviated form of the title.</scope_note>
+    <!-- End TAMU Customization - dc.title.alternative scope_note -->
   </dc-type>
+
+  <!-- TAMU Customization - dc.title.caption -->
+  <dc-type>
+    <schema>dc</schema>
+    <element>title</element>
+    <qualifier>caption</qualifier>
+    <scope_note>Label or phrase which denotes the item and which is typically displayed on or near the item. Serves in place of a formal title if none is provided. Primarily used for photographs and other images.</scope_note>
+  </dc-type>
+  <!-- End TAMU Customization - dc.title.caption -->
 
   <!-- Used by system: do not remove -->
   <dc-type>
 	<schema>dc</schema>
     <element>type</element>
     <!-- unqualified -->
-    <scope_note>Nature or genre of content.</scope_note>
+    <!-- TAMU Customization - dc.type scope_note -->
+    <!-- <scope_note>Nature or genre of content.</scope_note> -->
+    <scope_note>Nature, genre, or form of content.</scope_note>
+    <!-- End TAMU Customization - dc.type scope_note -->
   </dc-type>
+
+  <!-- TAMU Customization - dc.type.genre -->
+  <dc-type>
+    <schema>dc</schema>
+    <element>type</element>
+    <qualifier>genre</qualifier>
+    <scope_note>Description of a particular style, form, or content. Use terms from MARC Value List for Genre Terms (http://www.loc.gov/marc/sourcecode/genre/genrelist.html)</scope_note>
+  </dc-type>
+  <!-- End TAMU Customization - dc.type.genre -->
+
+  <!-- TAMU Customization - dc.type.material -->
+  <dc-type>
+    <schema>dc</schema>
+    <element>type</element>
+    <qualifier>material</qualifier>
+    <scope_note>Characteristic and general type of content of the resource. Use DCMI Type vocabulary (Collection, Dataset, Event, Image, InteractiveResource, MovingImage, PhysicalObject, Service, Software, Sound, StillImage, or Text).</scope_note>
+  </dc-type>
+  <!-- End TAMU Customization - dc.type.material -->
 
 
     <dc-type>

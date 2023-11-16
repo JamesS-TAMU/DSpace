@@ -32,4 +32,78 @@
   </dc-type>
 -->
 
+  <!-- TAMU Customization - local types -->
+
+  <dc-type>
+    <schema>local</schema>
+    <element>brtc</element>
+    <qualifier>recordType</qualifier>
+    <scope_note></scope_note>
+  </dc-type>
+
+  <dc-type>
+    <schema>local</schema>
+    <element>country</element>
+    <!-- unqualified -->
+    <scope_note></scope_note>
+  </dc-type>
+
+  <dc-type>
+    <schema>local</schema>
+    <element>department</element>
+    <!-- unqualified -->
+    <scope_note>Department name for browse index/faculty publications.</scope_note>
+  </dc-type>
+
+  <dc-type>
+    <schema>local</schema>
+    <element>details</element>
+    <!-- unqualified -->
+    <scope_note></scope_note>
+  </dc-type>
+
+  <dc-type>
+    <schema>local</schema>
+    <element>embargo</element>
+    <qualifier>lift</qualifier>
+    <scope_note></scope_note>
+  </dc-type>
+
+  <dc-type>
+    <schema>local</schema>
+    <element>embargo</element>
+    <qualifier>terms</qualifier>
+    <scope_note></scope_note>
+  </dc-type>
+
+  <dc-type>
+    <schema>local</schema>
+    <element>etdauthor</element>
+    <qualifier>orcid</qualifier>
+    <scope_note>http://orcid.org/</scope_note>
+  </dc-type>
+
+  <dc-type>
+    <schema>local</schema>
+    <element>genre</element>
+    <qualifier>fanzine</qualifier>
+    <scope_note>Locally-developed thesaurus of genre terms related to fanzines.</scope_note>
+  </dc-type>
+
+  <dc-type>
+    <schema>local</schema>
+    <element>sequence</element>
+    <!-- unqualified -->
+    <scope_note></scope_note>
+  </dc-type>
+
+  <dc-type>
+    <schema>local</schema>
+    <element>thumbnail</element>
+    <!-- unqualified -->
+    <scope_note>Primary thumbnail for items with multiple image bitstreams</scope_note>
+  </dc-type>
+
+  <!-- End TAMU Customization - local types -->
+
 </dspace-dc-types>
