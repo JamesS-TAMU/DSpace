@@ -165,16 +165,24 @@ public class HttpHeadersInitializer {
 
         httpHeaders.put(HttpHeaders.ACCESS_CONTROL_EXPOSE_HEADERS,
                         Collections.singletonList(HttpHeaders.ACCEPT_RANGES));
-        httpHeaders.put(CONTENT_DISPOSITION, Collections.singletonList(String.format(CONTENT_DISPOSITION_FORMAT,
-                                                                                     disposition,
-                                                                                     encodeText(fileName))));
+        // TAMU Customization - without knowing details only add Content-Disposition header if disposition defined
+        // httpHeaders.put(CONTENT_DISPOSITION, Collections.singletonList(String.format(CONTENT_DISPOSITION_FORMAT,
+        //                                                                              disposition,
+        //                                                                              encodeText(fileName))));
+        if (!isNullOrEmpty(disposition)) {
+            httpHeaders.put(CONTENT_DISPOSITION, Collections.singletonList(String.format(CONTENT_DISPOSITION_FORMAT,
+                                                                                         disposition,
+                                                                                         encodeText(fileName))));
+        }
+
         log.debug("Content-Disposition : {}", disposition);
 
         // Content phase
-        if (METHOD_HEAD.equals(request.getMethod())) {
-            log.debug("HEAD request - skipping content");
-            return null;
-        }
+        // TAMU Customization - return headers regardless of request verb
+        // if (METHOD_HEAD.equals(request.getMethod())) {
+        //     log.debug("HEAD request - skipping content");
+        //     return null;
+        // }
 
         return httpHeaders;
 

@@ -167,6 +167,13 @@ public class BitstreamRestController {
             //Send the data
             if (httpHeadersInitializer.isValid()) {
                 HttpHeaders httpHeaders = httpHeadersInitializer.initialiseHeaders();
+
+                // TAMU Customization - only return headers for HEAD request
+                if ("HEAD".equals(request.getMethod())) {
+                    log.debug("HEAD request - no response body");
+                    return ResponseEntity.ok().headers(httpHeaders).build();
+                }
+
                 return ResponseEntity.ok().headers(httpHeaders).body(bitstreamResource);
             }
 
