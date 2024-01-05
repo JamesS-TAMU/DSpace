@@ -266,28 +266,32 @@ public class SolrServiceImpl implements SearchService, IndexingService {
                     }
                     break;
                 case "THUMBNAIL":
-                    Bitstream thumbnailBitstream = bundle.getBitstreams().get(0);
-                    if (thumbnailBitstream != null) {
-                        String thumbnailName = thumbnailBitstream.getName();
-                        int thumbnailSequence = thumbnailBitstream.getSequenceID();
-                        String thumbnailUrl = String.format(
-                                              bitstreamUrlTemplate,
-                                              dspaceUrl,
-                                              handle,
-                                              thumbnailName,
-                                              thumbnailSequence
-                                            );
-                        doc.addField("thumbnailBitstream_stored", thumbnailUrl);
+                    if (!bundle.getBitstreams().isEmpty()) {
+                        Bitstream thumbnailBitstream = bundle.getBitstreams().get(0);
+                        if (thumbnailBitstream != null) {
+                            String thumbnailName = thumbnailBitstream.getName();
+                            int thumbnailSequence = thumbnailBitstream.getSequenceID();
+                            String thumbnailUrl = String.format(
+                                                bitstreamUrlTemplate,
+                                                dspaceUrl,
+                                                handle,
+                                                thumbnailName,
+                                                thumbnailSequence
+                                                );
+                            doc.addField("thumbnailBitstream_stored", thumbnailUrl);
+                        }
                     }
                     break;
                 case "LICENSE":
-                    Bitstream licenseBitstream = bundle.getBitstreams().get(0);
-                    if (licenseBitstream != null) {
-                        String licenseName = licenseBitstream.getName();
-                        int licenseSequence = licenseBitstream.getSequenceID();
-                        String licenseUrl = String.format(
-                                            bitstreamUrlTemplate, dspaceUrl, handle, licenseName, licenseSequence);
-                        doc.addField("licenseBitstream_stored", licenseUrl);
+                    if (!bundle.getBitstreams().isEmpty()) {
+                        Bitstream licenseBitstream = bundle.getBitstreams().get(0);
+                        if (licenseBitstream != null) {
+                            String licenseName = licenseBitstream.getName();
+                            int licenseSequence = licenseBitstream.getSequenceID();
+                            String licenseUrl = String.format(
+                                                bitstreamUrlTemplate, dspaceUrl, handle, licenseName, licenseSequence);
+                            doc.addField("licenseBitstream_stored", licenseUrl);
+                        }
                     }
                     break;
                 default:
