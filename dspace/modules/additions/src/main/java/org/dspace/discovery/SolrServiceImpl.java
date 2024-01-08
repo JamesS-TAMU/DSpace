@@ -232,7 +232,7 @@ public class SolrServiceImpl implements SearchService, IndexingService {
         // TAMU Customization - Write friendly community/collection names to index
         if ( !locations.isEmpty() ) {
             for (String location : locations) {
-                String field = location.startsWith("m") ? " location.comm " : " location.coll ";
+                String field = location.startsWith("m") ? "location.comm" : "location.coll";
                 String dsoName = locationToName(context,field,location.substring(1));
                 log.debug("Adding location name:" + field + ".name_stored with value:" + dsoName);
                 doc.addField(field + ".name_stored", dsoName );
@@ -241,7 +241,7 @@ public class SolrServiceImpl implements SearchService, IndexingService {
 
         // TAMU Customization - Write bitstream URLs to index
         List<String> bitstreamLocations = new ArrayList<>();
-        String dspaceUrl = configurationService.getProperty("dspace.url");
+        String dspaceUrl = configurationService.getProperty("dspace.server.url");
         for (Bundle bundle : item.getBundles()) {
             String bitstreamUrlTemplate = "%s/bitstream/handle/%s/%s?sequence=%d";
             String primaryInternalId = null;
