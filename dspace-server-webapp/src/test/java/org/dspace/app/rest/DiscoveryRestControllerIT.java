@@ -41,6 +41,7 @@ import org.dspace.app.rest.matcher.PageMatcher;
 import org.dspace.app.rest.matcher.SearchFilterMatcher;
 import org.dspace.app.rest.matcher.SearchResultMatcher;
 import org.dspace.app.rest.matcher.SortOptionMatcher;
+import org.dspace.app.rest.matcher.TamuSearchFilters;
 import org.dspace.app.rest.matcher.WorkflowItemMatcher;
 import org.dspace.app.rest.matcher.WorkspaceItemMatcher;
 import org.dspace.app.rest.test.AbstractControllerIntegrationTest;
@@ -97,8 +98,7 @@ public class DiscoveryRestControllerIT extends AbstractControllerIntegrationTest
     /**
      * This field has been created to easily modify the tests when updating the defaultConfiguration's search filters
      */
-    List<Matcher<? super Object>> customSearchFilters = List.of(
-    );
+    List<Matcher<? super Object>> customSearchFilters = TamuSearchFilters.getSearchFilters();
 
     /**
      * This field has been created to easily modify the tests when updating the defaultConfiguration's sort fields

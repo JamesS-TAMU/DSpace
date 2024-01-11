@@ -2403,8 +2403,6 @@
         </property>
     </bean>
 
-    <!-- TAMU Customization - Overridden in TAMU search filters-->
-    <!--
     <bean id="searchFilterType" class="org.dspace.discovery.configuration.DiscoverySearchFilterFacet">
         <property name="indexFieldName" value="itemtype" />
         <property name="metadataFields">
@@ -2412,7 +2410,7 @@
                 <value>dc.type</value>
             </list>
         </property>
-    </bean>-->
+    </bean>
 
     <!-- TAMU Customization - Overridden in TAMU search filters-->
     <!--
@@ -2940,7 +2938,7 @@
     </bean>
 
     <bean id="searchFilterIdentifier" class="org.dspace.discovery.configuration.DiscoverySearchFilterFacet">
-        <property name="indexFieldName" value="Identifier"/>
+        <property name="indexFieldName" value="itemidentifier"/>
         <property name="metadataFields">
             <list>
                 <value>dc.identifier.*</value>
@@ -3081,18 +3079,6 @@
         <property name="metadataFields">
             <list>
                 <value>dc.relation.ispartof</value>
-            </list>
-        </property>
-        <property name="facetLimit" value="10"/>
-        <property name="sortOrderSidebar" value="COUNT"/>
-        <property name="sortOrderFilterPage" value="COUNT"/>
-    </bean>
-
-    <bean id="searchFilterType" class="org.dspace.discovery.configuration.DiscoverySearchFilterFacet">
-        <property name="indexFieldName" value="type"/>
-        <property name="metadataFields">
-            <list>
-                <value>dc.type.*</value>
             </list>
         </property>
         <property name="facetLimit" value="10"/>
