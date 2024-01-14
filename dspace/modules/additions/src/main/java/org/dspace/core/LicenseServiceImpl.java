@@ -12,6 +12,7 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.io.FilenameFilter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -99,6 +100,25 @@ public class LicenseServiceImpl implements LicenseService {
             }
         }
         return license;
+    }
+
+    @Override
+    public String[] getLicenseFilenames() {
+        String homeDir = DSpaceServicesFactory.getInstance()
+            .getConfigurationService()
+            .getProperty("dspace.dir");
+        String configDir = new StringBuilder(homeDir)
+            .append(File.separator)
+            .append("config")
+            .toString();
+
+        // to support localized license files see I18nUtil.getFilename
+
+        return new File(configDir).list(new FilenameFilter() {
+            public boolean accept(File dir, String name) {
+                return name.toLowerCase().endsWith(".license");
+            }
+        });
     }
 
     /**

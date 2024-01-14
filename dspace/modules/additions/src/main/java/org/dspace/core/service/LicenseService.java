@@ -38,4 +38,11 @@ public interface LicenseService {
      * @return the default license
      */
     public String getDefaultSubmissionLicense();
+
+    /**
+     * Get all license filenames with suffix `.license` from config directory
+     *
+     * @return license filenames
+     */
+    public String[] getLicenseFilenames();
 }
