@@ -8,33 +8,45 @@
 package org.dspace.app.rest.model;
 
 /**
- * The License text REST resource.
+ * TAMU Customization - Proxy License REST resource.
  *
  * @author Luigi Andrea Pascarelli (luigiandrea.pascarelli at 4science.it)
  */
 public class LicenseRest implements RestModel {
-    public static final String NAME = "license";
-    private boolean custom = false;
-    private String text;
 
-    public boolean isCustom() {
-        return custom;
+    public static final String NAME = "license";
+
+    private final String label;
+
+    private final String text;
+
+    private final boolean custom;
+
+    private LicenseRest(String label, String text, boolean custom) {
+        this.label = label;
+        this.text = text;
+        this.custom = custom;
     }
 
-    public void setCustom(boolean custom) {
-        this.custom = custom;
+    public String getLabel() {
+        return label;
     }
 
     public String getText() {
         return text;
     }
 
-    public void setText(String text) {
-        this.text = text;
+    public boolean isCustom() {
+        return custom;
     }
 
     @Override
     public String getType() {
         return NAME;
     }
+
+    public static LicenseRest of(String label, String text, boolean custom) {
+        return new LicenseRest(label, text, custom);
+    }
+
 }

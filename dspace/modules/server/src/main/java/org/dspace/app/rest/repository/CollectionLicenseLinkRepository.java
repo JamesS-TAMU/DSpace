@@ -7,7 +7,10 @@
  */
 package org.dspace.app.rest.repository;
 
+import java.io.File;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 import javax.annotation.Nullable;
 import javax.servlet.http.HttpServletRequest;
@@ -20,47 +23,76 @@ import org.dspace.content.Collection;
 import org.dspace.content.service.CollectionService;
 import org.dspace.core.Context;
 import org.dspace.core.service.LicenseService;
+import org.dspace.services.ConfigurationService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.rest.webmvc.ResourceNotFoundException;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Component;
 
 /**
- * Link repository for "license" subresource of an individual collection.
+ * TAMU Customization - Proxy License Link repository for "license" subresource of an individual collection.
  *
  * @author Luigi Andrea Pascarelli (luigiandrea.pascarelli at 4science.it)
  */
-@Component(CollectionRest.CATEGORY + "." + CollectionRest.NAME + "." + CollectionRest.LICENSE)
+@Component(CollectionRest.CATEGORY + "." + CollectionRest.NAME + "." + CollectionRest.LICENSES)
 public class CollectionLicenseLinkRepository extends AbstractDSpaceRestRepository
     implements LinkRestRepository {
 
     @Autowired
-    CollectionService collectionService;
+    private CollectionService collectionService;
 
     @Autowired
-    LicenseService licenseService;
+    private LicenseService licenseService;
+
+    @Autowired
+    private ConfigurationService configurationService;
 
     @PreAuthorize("hasPermission(#collectionId, 'COLLECTION', 'READ')")
-    public LicenseRest getLicense(@Nullable HttpServletRequest request,
-                                  UUID collectionId,
-                                  @Nullable Pageable pageable,
-                                  Projection projection) {
+    public Page<LicenseRest> getLicenses(@Nullable HttpServletRequest request,
+                                         UUID collectionId,
+                                         @Nullable Pageable optionalPageable,
+                                         Projection projection) {
         try {
             Context context = obtainContext();
             Collection collection = collectionService.find(context, collectionId);
             if (collection == null) {
                 throw new ResourceNotFoundException("No such collection: " + collectionId);
             }
-            LicenseRest licenseRest = new LicenseRest();
-            String text = collection.getLicenseCollection();
-            if (StringUtils.isNotBlank(text)) {
-                licenseRest.setCustom(true);
-                licenseRest.setText(text);
-            } else {
-                licenseRest.setText(licenseService.getDefaultSubmissionLicense());
+
+            List<LicenseRest> licenses = new ArrayList<>();
+
+            Pageable pageable = utils.getPageable(optionalPageable);
+
+            for (String filename : licenseService.getLicenseFilenames()) {
+                String[] parts = filename.split("\\.");
+                String license = parts[0];
+
+                boolean isDefault = license.equalsIgnoreCase("default");
+
+                boolean custom = false;
+
+                String licenseFilename = String.join(File.separator,
+                    configurationService.getProperty("dspace.dir"), "config", filename);
+
+                String label = configurationService.getProperty(String.join(".",
+                    "license", license, "label"));
+
+                String text = isDefault
+                    ? collection.getLicenseCollection()
+                    : licenseService.getLicenseText(licenseFilename);
+
+                if (StringUtils.isNotBlank(text)) {
+                    custom = isDefault;
+                } else {
+                    text = licenseService.getDefaultSubmissionLicense();
+                }
+
+                licenses.add(LicenseRest.of(label, text, custom));
             }
-            return licenseRest;
+
+            return converter.toRestPage(licenses, pageable, licenses.size(), projection);
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
