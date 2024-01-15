@@ -7,12 +7,14 @@
  */
 package org.dspace.app.rest.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 /**
  * TAMU Customization - Proxy License REST resource.
  *
  * @author Luigi Andrea Pascarelli (luigiandrea.pascarelli at 4science.it)
  */
-public class LicenseRest implements RestModel {
+public class LicenseRest extends RestAddressableModel {
 
     public static final String NAME = "license";
 
@@ -43,6 +45,18 @@ public class LicenseRest implements RestModel {
     @Override
     public String getType() {
         return NAME;
+    }
+
+    @Override
+    @JsonIgnore
+    public String getCategory() {
+        return null;
+    }
+
+    @Override
+    @JsonIgnore
+    public Class getController() {
+        return null;
     }
 
     public static LicenseRest of(String label, String text, boolean custom) {
