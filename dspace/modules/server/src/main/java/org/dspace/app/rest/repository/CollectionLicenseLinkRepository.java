@@ -90,7 +90,7 @@ public class CollectionLicenseLinkRepository extends AbstractDSpaceRestRepositor
                     text = licenseService.getDefaultSubmissionLicense();
                 }
 
-                licenses.add(LicenseRest.of(label, text, custom));
+                licenses.add(LicenseRest.of(license, label, text, custom));
             }
 
             return new PageImpl(licenses, pageable, licenses.size());

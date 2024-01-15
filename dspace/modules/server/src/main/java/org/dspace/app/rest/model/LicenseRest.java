@@ -18,16 +18,23 @@ public class LicenseRest extends RestAddressableModel {
 
     public static final String NAME = "license";
 
+    private final String name;
+
     private final String label;
 
     private final String text;
 
     private final boolean custom;
 
-    private LicenseRest(String label, String text, boolean custom) {
+    private LicenseRest(String name, String label, String text, boolean custom) {
+        this.name = name;
         this.label = label;
         this.text = text;
         this.custom = custom;
+    }
+
+    public String getName() {
+        return name;
     }
 
     public String getLabel() {
@@ -59,8 +66,8 @@ public class LicenseRest extends RestAddressableModel {
         return null;
     }
 
-    public static LicenseRest of(String label, String text, boolean custom) {
-        return new LicenseRest(label, text, custom);
+    public static LicenseRest of(String name, String label, String text, boolean custom) {
+        return new LicenseRest(name, label, text, custom);
     }
 
 }
