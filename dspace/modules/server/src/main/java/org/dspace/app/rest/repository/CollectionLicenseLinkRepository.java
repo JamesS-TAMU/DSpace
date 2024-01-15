@@ -26,6 +26,7 @@ import org.dspace.core.service.LicenseService;
 import org.dspace.services.ConfigurationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.rest.webmvc.ResourceNotFoundException;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -92,7 +93,7 @@ public class CollectionLicenseLinkRepository extends AbstractDSpaceRestRepositor
                 licenses.add(LicenseRest.of(label, text, custom));
             }
 
-            return converter.toRestPage(licenses, pageable, licenses.size(), projection);
+            return new PageImpl(licenses, pageable, licenses.size());
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
