@@ -109,7 +109,7 @@ public class LicenseSelectionAddPatchOperation extends AddPatchOperation<String>
         if (StringUtils.isNotBlank(licenseText)) {
             itemService.removeDSpaceLicense(context, item);
 
-            ProxyLicenseUtils.addLicense(context, item, licenseText);
+            ProxyLicenseUtils.addLicense(context, item, selection, licenseText);
         } else {
             throw new RuntimeException(String.format("Unable to find license file at %s", licenseFilename));
         }

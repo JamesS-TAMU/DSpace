@@ -42,12 +42,13 @@ public class ProxyLicenseUtils {
      *
      * @param context        the dspace context
      * @param item           the item object of the license
-     * @param licenseText    the license the user granted
+     * @param selection      the license the user selected
+     * @param licenseText    the license text
      * @throws SQLException       if database error
      * @throws IOException        if IO error
      * @throws AuthorizeException if authorization error
      */
-    public static void addLicense(Context context, Item item, String licenseText)
+    public static void addLicense(Context context, Item item, String selection, String licenseText)
         throws SQLException, IOException, AuthorizeException {
 
         // Store text as a bitstream
@@ -65,5 +66,8 @@ public class ProxyLicenseUtils {
         b.setFormat(bf);
 
         bitstreamService.update(context, b);
+
+        bitstreamService
+            .setMetadataSingleValue(context, b, "dcterms", "license", null, null, selection);
     }
 }
