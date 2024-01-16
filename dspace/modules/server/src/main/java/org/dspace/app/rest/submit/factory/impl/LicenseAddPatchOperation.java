@@ -12,10 +12,9 @@ import javax.servlet.http.HttpServletRequest;
 import org.apache.commons.lang3.BooleanUtils;
 import org.dspace.content.InProgressSubmission;
 import org.dspace.content.Item;
-import org.dspace.content.LicenseUtils;
+import org.dspace.content.ProxyLicenseUtils;
 import org.dspace.content.service.ItemService;
 import org.dspace.core.Context;
-import org.dspace.eperson.EPerson;
 import org.springframework.beans.factory.annotation.Autowired;
 
 /**
@@ -53,6 +52,11 @@ public class LicenseAddPatchOperation extends AddPatchOperation<String> {
     void add(Context context, HttpServletRequest currentRequest, InProgressSubmission source, String path, Object value)
         throws Exception {
 
+        System.out.println("\n\n\n\n");
+        System.out.println("add path: " + path);
+        System.out.println("add selection: " + value);
+        System.out.println("\n\n\n\n");
+
         Boolean grant = null;
         // we are friendly with the client and accept also a string representation for the boolean
         if (value instanceof String) {
@@ -67,17 +71,13 @@ public class LicenseAddPatchOperation extends AddPatchOperation<String> {
         }
 
         Item item = source.getItem();
-        EPerson submitter = context.getCurrentUser();
-
-        // remove any existing DSpace license (just in case the user
-        // accepted it previously)
-        itemService.removeDSpaceLicense(context, item);
 
         if (grant) {
-            String license = LicenseUtils.getLicenseText(context.getCurrentLocale(), source.getCollection(), item,
-                                                         submitter);
-
-            LicenseUtils.grantLicense(context, item, license, null);
+            System.out.println("\n\ngrant license\n\n");
+            ProxyLicenseUtils.grantLicense(context, item);
+        } else {
+            System.out.println("\n\nrevoke license\n\n");
+            ProxyLicenseUtils.revokeLicense(context, item);
         }
     }
 

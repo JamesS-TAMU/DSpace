@@ -42,11 +42,11 @@ public class ProxyLicenseStep extends LicenseStep {
 
             String acceptanceDate = bitstreamService.getMetadata(bitstream, DCTERMS_RIGHTSDATE);
 
-            if (StringUtils.isBlank(result.getAcceptanceDate())) {
-                result.setGranted(false);
-            } else {
+            if (StringUtils.isNotBlank(acceptanceDate)) {
                 result.setAcceptanceDate(acceptanceDate);
                 result.setGranted(true);
+            } else {
+                result.setGranted(false);
             }
 
             result.setUrl(

@@ -39,8 +39,8 @@ public class LicenseSelectionRemovePatchOperation extends RemovePatchOperation<S
         System.out.println("remove path: " + path);
         System.out.println("remove selection: " + value);
         System.out.println("\n\n\n\n");
-        // Item item = source.getItem();
-        // itemService.removeDSpaceLicense(context, item);
+        Item item = source.getItem();
+        itemService.removeDSpaceLicense(context, item);
     }
 
     @Override

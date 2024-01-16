@@ -10,19 +10,15 @@ package org.dspace.content;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.sql.SQLException;
-import java.util.Formatter;
-import java.util.Locale;
-import java.util.Map;
 
 import org.dspace.authorize.AuthorizeException;
 import org.dspace.content.factory.ContentServiceFactory;
-import org.dspace.content.license.FormattableArgument;
 import org.dspace.content.service.BitstreamFormatService;
 import org.dspace.content.service.BitstreamService;
 import org.dspace.content.service.CollectionService;
 import org.dspace.content.service.ItemService;
+import org.dspace.core.Constants;
 import org.dspace.core.Context;
-import org.dspace.eperson.EPerson;
 
 public class ProxyLicenseUtils {
     private static final BitstreamService bitstreamService = ContentServiceFactory.getInstance().getBitstreamService();
@@ -54,7 +50,8 @@ public class ProxyLicenseUtils {
         // Store text as a bitstream
         byte[] licenseBytes = licenseText.getBytes("UTF-8");
         ByteArrayInputStream bais = new ByteArrayInputStream(licenseBytes);
-        Bitstream b = itemService.createSingleBitstream(context, bais, item, "LICENSE");
+        Bitstream b = itemService.createSingleBitstream(context, bais, item,
+            Constants.LICENSE_BUNDLE_NAME);
 
         // Now set the format and name of the bitstream
         b.setName(context, "license.txt");
@@ -68,6 +65,51 @@ public class ProxyLicenseUtils {
         bitstreamService.update(context, b);
 
         bitstreamService
-            .setMetadataSingleValue(context, b, "dcterms", "license", null, null, selection);
+            .setMetadataSingleValue(context, b, "dcterms", "alternative", null, null, selection);
+    }
+
+    /**
+     * Grant license bitstream setting acceptance date, `dcterms.accessRights`.
+     *
+     * @param context        the dspace context
+     * @param item           the item object of the license
+     * @throws SQLException       if database error
+     * @throws IOException        if IO error
+     * @throws AuthorizeException if authorization error
+     */
+    public static void grantLicense(Context context, Item item)
+        throws SQLException, IOException, AuthorizeException {
+
+        Bitstream b = bitstreamService
+            .getBitstreamByName(item, Constants.LICENSE_BUNDLE_NAME, Constants.LICENSE_BITSTREAM_NAME);
+
+        System.out.println("\n\nadd accessRights metadata\n\n");
+        bitstreamService.setMetadataSingleValue(context, b, "dcterms", "accessRights", null, null,
+            DCDate.getCurrent().toString());
+
+        // System.out.println("\n\nupdate bitstream\n\n");
+        bitstreamService.update(context, b);
+    }
+
+    /**
+     * Revoke license bitstream unsetting the acceptance date, `dcterms.accessRights`.
+     *
+     * @param context        the dspace context
+     * @param item           the item object of the license
+     * @throws SQLException       if database error
+     * @throws IOException        if IO error
+     * @throws AuthorizeException if authorization error
+     */
+    public static void revokeLicense(Context context, Item item)
+        throws SQLException, IOException, AuthorizeException {
+
+        Bitstream b = bitstreamService
+            .getBitstreamByName(item, Constants.LICENSE_BUNDLE_NAME, Constants.LICENSE_BITSTREAM_NAME);
+
+        System.out.println("\n\nclear accessRights metadata\n\n");
+        bitstreamService.clearMetadata(context, b, "dcterms", "accessRights", null, null);
+
+        // System.out.println("\n\nupdate bitstream\n\n");
+        bitstreamService.update(context, b);
     }
 }
