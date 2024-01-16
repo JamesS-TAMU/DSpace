@@ -23,7 +23,7 @@ public class DataLicense implements SectionData {
     @JsonProperty(access = Access.READ_ONLY)
     private String acceptanceDate;
 
-    private String name;
+    private String selection;
 
     private boolean granted = false;
 
@@ -43,12 +43,12 @@ public class DataLicense implements SectionData {
         this.acceptanceDate = acceptanceDate;
     }
 
-    public String getName() {
-        return name;
+    public String getSelection() {
+        return selection;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setSelection(String selection) {
+        this.selection = selection;
     }
 
     public boolean isGranted() {

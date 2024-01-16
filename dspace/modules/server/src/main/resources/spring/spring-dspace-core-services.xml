@@ -52,6 +52,10 @@
                             <bean
                                     class="org.dspace.app.rest.submit.factory.impl.LicenseAddPatchOperation"/>
                         </entry>
+                        <entry key="selection">
+                            <bean
+                                    class="org.dspace.app.rest.submit.factory.impl.LicenseSelectionAddPatchOperation"/>
+                        </entry>
                         <entry key="upload.accessConditions">
                             <bean
                                     class="org.dspace.app.rest.submit.factory.impl.BitstreamResourcePolicyAddPatchOperation"/>
@@ -81,6 +85,10 @@
                         <entry key="granted">
                             <bean
                                     class="org.dspace.app.rest.submit.factory.impl.LicenseRemovePatchOperation"/>
+                        </entry>
+                        <entry key="selection">
+                            <bean
+                                    class="org.dspace.app.rest.submit.factory.impl.LicenseSelectionRemovePatchOperation"/>
                         </entry>
                         <entry key="bitstreamremove">
                             <bean
@@ -115,6 +123,10 @@
                         <entry key="granted">
                             <bean
                                     class="org.dspace.app.rest.submit.factory.impl.LicenseReplacePatchOperation"/>
+                        </entry>
+                        <entry key="selection">
+                            <bean
+                                    class="org.dspace.app.rest.submit.factory.impl.LicenseSelectionReplacePatchOperation"/>
                         </entry>
                         <entry key="upload.accessConditions">
                             <bean
