@@ -52,6 +52,12 @@
                             <bean
                                     class="org.dspace.app.rest.submit.factory.impl.LicenseAddPatchOperation"/>
                         </entry>
+                        <!-- TAMU Customization - proxy license step selection add patch operation -->
+                        <entry key="selection">
+                            <bean
+                                    class="org.dspace.app.rest.submit.factory.impl.LicenseSelectionAddPatchOperation"/>
+                        </entry>
+                        <!-- End TAMU Customization - proxy license step selection add patch operation -->
                         <entry key="upload.accessConditions">
                             <bean
                                     class="org.dspace.app.rest.submit.factory.impl.BitstreamResourcePolicyAddPatchOperation"/>
@@ -82,6 +88,12 @@
                             <bean
                                     class="org.dspace.app.rest.submit.factory.impl.LicenseRemovePatchOperation"/>
                         </entry>
+                        <!-- TAMU Customization - proxy license step selection remove patch operation -->
+                        <entry key="selection">
+                            <bean
+                                    class="org.dspace.app.rest.submit.factory.impl.LicenseSelectionRemovePatchOperation"/>
+                        </entry>
+                        <!-- End TAMU Customization - proxy license step selection remove patch operation -->
                         <entry key="bitstreamremove">
                             <bean
                                     class="org.dspace.app.rest.submit.factory.impl.BitstreamRemovePatchOperation" />
@@ -116,6 +128,12 @@
                             <bean
                                     class="org.dspace.app.rest.submit.factory.impl.LicenseReplacePatchOperation"/>
                         </entry>
+                        <!-- TAMU Customization - proxy license step selection replace patch operation -->
+                        <entry key="selection">
+                            <bean
+                                    class="org.dspace.app.rest.submit.factory.impl.LicenseSelectionReplacePatchOperation"/>
+                        </entry>
+                        <!-- End TAMU Customization - proxy license step selection replace patch operation -->
                         <entry key="upload.accessConditions">
                             <bean
                                     class="org.dspace.app.rest.submit.factory.impl.BitstreamResourcePolicyReplacePatchOperation"/>
