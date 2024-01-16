@@ -7,6 +7,7 @@
  */
 package org.dspace.app.rest.submit.factory.impl;
 
+import java.io.File;
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.lang3.BooleanUtils;
@@ -14,6 +15,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.dspace.content.InProgressSubmission;
 import org.dspace.content.Item;
 import org.dspace.content.LicenseUtils;
+import org.dspace.content.ProxyLicenseUtils;
 import org.dspace.content.service.ItemService;
 import org.dspace.core.Context;
 import org.dspace.core.service.LicenseService;
@@ -94,17 +96,20 @@ public class LicenseSelectionAddPatchOperation extends AddPatchOperation<String>
                     String.join(",", permittedValues)));
         }
 
+        String licensePath = String.join(File.separator,
+            configurationService.getProperty("dspace.dir"), "config", licenseFilename);
+
         Item item = source.getItem();
         EPerson submitter = context.getCurrentUser();
 
         String licenseText = selection.equalsIgnoreCase("default")
             ? LicenseUtils.getLicenseText(context.getCurrentLocale(), source.getCollection(), item, submitter)
-            : licenseService.getLicenseText(licenseFilename);
+            : licenseService.getLicenseText(licensePath);
 
         if (StringUtils.isNotBlank(licenseText)) {
             itemService.removeDSpaceLicense(context, item);
 
-            LicenseUtils.grantLicense(context, item, licenseText, null);
+            ProxyLicenseUtils.addLicense(context, item, licenseText);
         } else {
             throw new RuntimeException(String.format("Unable to find license file at %s", licenseFilename));
         }

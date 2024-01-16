@@ -2,6 +2,7 @@ package org.dspace.app.rest.submit.step;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.commons.lang3.StringUtils;
 import org.dspace.app.rest.model.patch.Operation;
 import org.dspace.app.rest.model.step.DataLicense;
 import org.dspace.app.rest.submit.SubmissionService;
@@ -24,7 +25,10 @@ public class ProxyLicenseStep extends LicenseStep {
         System.out.println("\n\n\n\n");
         DataLicense result = super.getData(submissionService, obj, config);
 
-        // TODO: update as not granted until granted and not license selection
+        if (StringUtils.isBlank(result.getAcceptanceDate())) {
+            result.setGranted(false);
+        }
+
         System.out.println("\n\n\n\n");
         System.out.println("result selection: " + result.getSelection());
         System.out.println("result granted: " + result.isGranted());

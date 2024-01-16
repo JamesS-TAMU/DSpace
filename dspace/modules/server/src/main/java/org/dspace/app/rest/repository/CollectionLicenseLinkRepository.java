@@ -74,7 +74,7 @@ public class CollectionLicenseLinkRepository extends AbstractDSpaceRestRepositor
 
                 boolean custom = false;
 
-                String licenseFilename = String.join(File.separator,
+                String licensePath = String.join(File.separator,
                     configurationService.getProperty("dspace.dir"), "config", filename);
 
                 String label = configurationService.getProperty(String.join(".",
@@ -82,7 +82,7 @@ public class CollectionLicenseLinkRepository extends AbstractDSpaceRestRepositor
 
                 String text = isDefault
                     ? collection.getLicenseCollection()
-                    : licenseService.getLicenseText(licenseFilename);
+                    : licenseService.getLicenseText(licensePath);
 
                 if (StringUtils.isNotBlank(text)) {
                     custom = isDefault;
