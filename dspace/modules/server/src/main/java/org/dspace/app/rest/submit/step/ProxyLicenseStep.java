@@ -21,7 +21,7 @@ public class ProxyLicenseStep extends LicenseStep {
     public static final String LICENSE_STEP_SELECTION_OPERATION_ENTRY = "selection";
 
     private static final String DCTERMS_RIGHTSDATE = "dcterms.accessRights";
-    private static final String DCTERMS_LICENSE = "dcterms.license";
+    private static final String DCTERMS_ALTERNATIVE = "dcterms.alternative";
 
     @Override
     public DataLicense getData(SubmissionService submissionService, InProgressSubmission obj,
@@ -37,7 +37,7 @@ public class ProxyLicenseStep extends LicenseStep {
             .getBitstreamByName(obj.getItem(), Constants.LICENSE_BUNDLE_NAME, Constants.LICENSE_BITSTREAM_NAME);
 
         if (bitstream != null) {
-            String selection = bitstreamService.getMetadata(bitstream, DCTERMS_LICENSE);
+            String selection = bitstreamService.getMetadata(bitstream, DCTERMS_ALTERNATIVE);
             result.setSelection(selection);
 
             String acceptanceDate = bitstreamService.getMetadata(bitstream, DCTERMS_RIGHTSDATE);
