@@ -10,7 +10,7 @@ package org.dspace.app.rest.model;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
- * The Collection REST Resource
+ * TAMU Customization - Customized Collection REST Resource
  *
  * @author Andrea Bollini (andrea.bollini at 4science.it)
  */

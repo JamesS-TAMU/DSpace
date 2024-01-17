@@ -16,18 +16,18 @@ import org.dspace.core.Context;
 import org.springframework.beans.factory.annotation.Autowired;
 
 /**
- * Submission License selection "remove" patch operation.
+ * TAMU Customization - Submission License selection "remove" patch operation.
  *
  * To remove a previous selected license:
  *
  * Example: <code>
  * curl -X PATCH http://${dspace.server.url}/api/submission/workspaceitems/31599 -H "Content-Type:
- * application/json" -d '[{ "op": "remove", "path": "/sections/license/selection"}]'
+ * application/json" -d '[{ "op": "remove", "path": "/sections/license/selected"}]'
  * </code>
  *
  * @author Luigi Andrea Pascarelli (luigiandrea.pascarelli at 4science.it)
  */
-public class LicenseSelectionRemovePatchOperation extends RemovePatchOperation<String> {
+public class LicenseSelectedRemovePatchOperation extends RemovePatchOperation<String> {
 
     @Autowired
     ItemService itemService;
@@ -35,12 +35,13 @@ public class LicenseSelectionRemovePatchOperation extends RemovePatchOperation<S
     @Override
     void remove(Context context, HttpServletRequest currentRequest, InProgressSubmission source, String path,
             Object value) throws Exception {
-        System.out.println("\n\n\n\n");
-        System.out.println("remove path: " + path);
-        System.out.println("remove selection: " + value);
-        System.out.println("\n\n\n\n");
+        System.out.println("\nLicenseSelectedRemovePatchOperation\n");
+        System.out.println("\tpath: " + path);
+        System.out.println("\tvalue: " + value);
         Item item = source.getItem();
+        System.out.println("\t\tremove dspace license");
         itemService.removeDSpaceLicense(context, item);
+        System.out.println("\n");
     }
 
     @Override

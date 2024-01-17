@@ -10,7 +10,7 @@ package org.dspace.app.rest.model;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 /**
- * TAMU Customization - Proxy License REST resource.
+ * TAMU Customization - Customized License REST resource.
  *
  * @author Luigi Andrea Pascarelli (luigiandrea.pascarelli at 4science.it)
  */

@@ -8,14 +8,19 @@
 package org.dspace.app.rest.submit.factory.impl;
 
 import java.io.File;
+import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.lang3.StringUtils;
+import org.dspace.content.Bitstream;
+import org.dspace.content.Bundle;
 import org.dspace.content.InProgressSubmission;
 import org.dspace.content.Item;
 import org.dspace.content.LicenseUtils;
 import org.dspace.content.ProxyLicenseUtils;
+import org.dspace.content.service.BundleService;
 import org.dspace.content.service.ItemService;
+import org.dspace.core.Constants;
 import org.dspace.core.Context;
 import org.dspace.core.service.LicenseService;
 import org.dspace.eperson.EPerson;
@@ -23,25 +28,28 @@ import org.dspace.services.ConfigurationService;
 import org.springframework.beans.factory.annotation.Autowired;
 
 /**
- * Submission license selection "add" PATCH operation
+ * TAMU Customization - Submission license selected "add" PATCH operation
  *
- * To select a license.
+ * To select a license:
  *
  * Example: <code>
  * curl -X PATCH http://${dspace.server.url}/api/submission/workspaceitems/31599 -H "Content-Type:
- * application/json" -d '[{ "op": "add", "path": "/sections/license/selection", "value":"proxy"}]'
+ * application/json" -d '[{ "op": "add", "path": "/sections/license/selected", "value":"proxy"}]'
  * </code>
  *
  * Please note that according to the JSON Patch specification RFC6902 a
- * subsequent add operation on the "selection" path will have the effect to
+ * subsequent add operation on the "selected" path will have the effect to
  * replace the previous selected license with a new one.
  *
  * @author Luigi Andrea Pascarelli (luigiandrea.pascarelli at 4science.it)
  */
-public class LicenseSelectionAddPatchOperation extends AddPatchOperation<String> {
+public class LicenseSelectedAddPatchOperation extends AddPatchOperation<String> {
 
     @Autowired
     ItemService itemService;
+
+    @Autowired
+    BundleService bundleService;
 
     @Autowired
     LicenseService licenseService;
@@ -63,16 +71,15 @@ public class LicenseSelectionAddPatchOperation extends AddPatchOperation<String>
     void add(Context context, HttpServletRequest currentRequest, InProgressSubmission source, String path, Object value)
         throws Exception {
 
-        System.out.println("\n\n\n\n");
-        System.out.println("add path: " + path);
-        System.out.println("add selection: " + value);
-        System.out.println("\n\n\n\n");
-
         if (!(value instanceof String)) {
             throw new IllegalArgumentException("Value is not a valid string");
         }
 
-        String selection = (String) value;
+        System.out.println("\nLicenseSelectedAddPatchOperation\n");
+        System.out.println("\tpath: " + path);
+        System.out.println("\tvalue: " + value);
+
+        String selected = (String) value;
 
         String[] licenseFilenames = licenseService.getLicenseFilenames();
         String[] permittedValues = new String[licenseFilenames.length];
@@ -84,31 +91,54 @@ public class LicenseSelectionAddPatchOperation extends AddPatchOperation<String>
 
             permittedValues[i] = license;
 
-            if (license.equalsIgnoreCase(selection)) {
+            if (license.equalsIgnoreCase(selected)) {
                 licenseFilename = filename;
             }
         }
 
+        System.out.println("\t\tlicense filename: " + licenseFilename);
+        System.out.println("\t\tpermitted values: " + String.join(",", permittedValues));
+
         if (StringUtils.isBlank(licenseFilename)) {
             throw new IllegalArgumentException(
-                String.format("Value is not a valid license selection (permitted values: %s)",
+                String.format("Value is not a valid license (permitted values: %s)",
                     String.join(",", permittedValues)));
         }
 
         String licensePath = String.join(File.separator,
             configurationService.getProperty("dspace.dir"), "config", licenseFilename);
 
+        System.out.println("\t\tlicense path: " + licensePath);
         Item item = source.getItem();
         EPerson submitter = context.getCurrentUser();
 
-        String licenseText = selection.equalsIgnoreCase("default")
+        String licenseText = selected.equalsIgnoreCase("default")
             ? LicenseUtils.getLicenseText(context.getCurrentLocale(), source.getCollection(), item, submitter)
             : licenseService.getLicenseText(licensePath);
 
+        System.out.println("\t\tlicense text: " + licenseText);
         if (StringUtils.isNotBlank(licenseText)) {
-            itemService.removeDSpaceLicense(context, item);
+            if (selected.equalsIgnoreCase("proxy")) {
+                List<Bundle> licenseBundles = itemService.getBundles(item, Constants.LICENSE_BUNDLE_NAME);
+                if (licenseBundles.size() > 0) {
+                    for (Bundle bundle: licenseBundles) {
+                        for (Bitstream bitstream: bundle.getBitstreams()) {
+                            if (Constants.LICENSE_BITSTREAM_NAME.equals(bitstream.getName())) {
+                                System.out.println("\n\nremove bitstream: " + bitstream.getName() + "\n\n");
+                                bundleService.removeBitstream(context, bundle, bitstream);
+                                break;
+                            }
+                        }
+                    }
+                }
+            } else {
+                System.out.println("\t\tremove dspace license");
+                itemService.removeDSpaceLicense(context, item);
+            }
 
-            ProxyLicenseUtils.addLicense(context, item, selection, licenseText);
+            System.out.println("\t\tadd license");
+            ProxyLicenseUtils.addLicense(context, item, selected, licenseText);
+            System.out.println("\n");
         } else {
             throw new RuntimeException(String.format("Unable to find license file at %s", licenseFilename));
         }

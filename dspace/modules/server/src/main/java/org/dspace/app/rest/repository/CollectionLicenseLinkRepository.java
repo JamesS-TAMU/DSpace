@@ -33,7 +33,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Component;
 
 /**
- * TAMU Customization - Proxy License Link repository for "license" subresource of an individual collection.
+ * TAMU Customization - Customized License Link repository for "license" subresource of an individual collection.
  *
  * @author Luigi Andrea Pascarelli (luigiandrea.pascarelli at 4science.it)
  */

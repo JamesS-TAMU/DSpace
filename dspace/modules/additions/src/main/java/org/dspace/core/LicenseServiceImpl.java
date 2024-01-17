@@ -102,6 +102,7 @@ public class LicenseServiceImpl implements LicenseService {
         return license;
     }
 
+    // TAMU Customization - proxy license step get available license filenames
     @Override
     public String[] getLicenseFilenames() {
         String homeDir = DSpaceServicesFactory.getInstance()

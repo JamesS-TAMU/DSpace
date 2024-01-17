@@ -8,12 +8,12 @@
 package org.dspace.app.rest.submit.factory.impl;
 
 /**
- * Submission license selection "replace" patch operation
+ * TAMU Customization - Submission license selected "replace" patch operation
  *
  * {@link LicenseSelectionAddPatchOperation}
  *
  * @author Luigi Andrea Pascarelli (luigiandrea.pascarelli at 4science.it)
  */
-public class LicenseSelectionReplacePatchOperation extends LicenseSelectionAddPatchOperation {
+public class LicenseSelectedReplacePatchOperation extends LicenseSelectedAddPatchOperation {
 
 }

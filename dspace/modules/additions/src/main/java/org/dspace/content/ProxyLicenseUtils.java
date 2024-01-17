@@ -10,22 +10,26 @@ package org.dspace.content;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.List;
 
 import org.dspace.authorize.AuthorizeException;
 import org.dspace.content.factory.ContentServiceFactory;
 import org.dspace.content.service.BitstreamFormatService;
 import org.dspace.content.service.BitstreamService;
+import org.dspace.content.service.BundleService;
 import org.dspace.content.service.CollectionService;
 import org.dspace.content.service.ItemService;
 import org.dspace.core.Constants;
 import org.dspace.core.Context;
 
+/**
+ * TAMU Customization - Proxy license utilility for decoupling license selection from accepting licence
+ */
 public class ProxyLicenseUtils {
     private static final BitstreamService bitstreamService = ContentServiceFactory.getInstance().getBitstreamService();
-    private static final BitstreamFormatService bitstreamFormat = ContentServiceFactory.getInstance()
+    private static final BitstreamFormatService bitstreamFormatService = ContentServiceFactory.getInstance()
                                                                                        .getBitstreamFormatService();
-    private static final CollectionService collectionService = ContentServiceFactory.getInstance()
-                                                                                    .getCollectionService();
+    private static final BundleService bundleService = ContentServiceFactory.getInstance().getBundleService();
     private static final ItemService itemService = ContentServiceFactory.getInstance().getItemService();
 
     /**
@@ -49,23 +53,35 @@ public class ProxyLicenseUtils {
 
         // Store text as a bitstream
         byte[] licenseBytes = licenseText.getBytes("UTF-8");
-        ByteArrayInputStream bais = new ByteArrayInputStream(licenseBytes);
-        Bitstream b = itemService.createSingleBitstream(context, bais, item,
-            Constants.LICENSE_BUNDLE_NAME);
+        ByteArrayInputStream is = new ByteArrayInputStream(licenseBytes);
+
+        System.out.println("\t\tget or create bundle");
+        List<Bundle> licenseBundles = itemService.getBundles(item, Constants.LICENSE_BUNDLE_NAME);
+        Bundle licenseBundle = licenseBundles.size() > 0
+            ? licenseBundles.get(0)
+            : bundleService.create(context, item, Constants.LICENSE_BUNDLE_NAME);
+
+        System.out.println("\t\tcreate bitstream");
+        Bitstream bitstream = bitstreamService.create(context, licenseBundle, is);
 
         // Now set the format and name of the bitstream
-        b.setName(context, "license.txt");
-        b.setSource(context, "Written by org.dspace.content.LicenseUtils");
+        System.out.println("\t\t\tset name");
+        bitstream.setName(context, Constants.LICENSE_BITSTREAM_NAME);
+        System.out.println("\t\t\tset source");
+        bitstream.setSource(context, "Written by org.dspace.content.ProxyLicenseUtils");
 
         // Find the License format
-        BitstreamFormat bf = bitstreamFormat.findByShortDescription(context,
+        System.out.println("\t\t\tset format");
+        BitstreamFormat bf = bitstreamFormatService.findByShortDescription(context,
                                                                     "License");
-        b.setFormat(bf);
+        bitstream.setFormat(bf);
 
-        bitstreamService.update(context, b);
-
+        System.out.println("\t\t\tadd dsterms.alternative");
         bitstreamService
-            .setMetadataSingleValue(context, b, "dcterms", "alternative", null, null, selection);
+            .setMetadataSingleValue(context, bitstream, "dcterms", "alternative", null, null, selection);
+
+        System.out.println("\t\tupdate bitstream");
+        bitstreamService.update(context, bitstream);
     }
 
     /**
@@ -83,11 +99,11 @@ public class ProxyLicenseUtils {
         Bitstream b = bitstreamService
             .getBitstreamByName(item, Constants.LICENSE_BUNDLE_NAME, Constants.LICENSE_BITSTREAM_NAME);
 
-        System.out.println("\n\nadd accessRights metadata\n\n");
+        System.out.println("\t\tadd dsterms.accessRights");
         bitstreamService.setMetadataSingleValue(context, b, "dcterms", "accessRights", null, null,
             DCDate.getCurrent().toString());
 
-        // System.out.println("\n\nupdate bitstream\n\n");
+        System.out.println("\t\tupdate bitstream");
         bitstreamService.update(context, b);
     }
 
@@ -106,10 +122,10 @@ public class ProxyLicenseUtils {
         Bitstream b = bitstreamService
             .getBitstreamByName(item, Constants.LICENSE_BUNDLE_NAME, Constants.LICENSE_BITSTREAM_NAME);
 
-        System.out.println("\n\nclear accessRights metadata\n\n");
+        System.out.println("\t\tclear dsterms.accessRights");
         bitstreamService.clearMetadata(context, b, "dcterms", "accessRights", null, null);
 
-        // System.out.println("\n\nupdate bitstream\n\n");
+        System.out.println("\t\tupdate bitstream");
         bitstreamService.update(context, b);
     }
 }

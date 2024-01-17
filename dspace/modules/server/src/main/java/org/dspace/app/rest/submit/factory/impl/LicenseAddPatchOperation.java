@@ -18,18 +18,14 @@ import org.dspace.core.Context;
 import org.springframework.beans.factory.annotation.Autowired;
 
 /**
- * Submission "add" PATCH operation
+ * TAMU Customization - Customized Submission "add" PATCH operation
  *
- * To accept/reject the license.
+ * To accept/reject the granted license:
  *
  * Example: <code>
  * curl -X PATCH http://${dspace.server.url}/api/submission/workspaceitems/31599 -H "Content-Type:
  * application/json" -d '[{ "op": "add", "path": "/sections/license/granted", "value":"true"}]'
  * </code>
- *
- * Please note that according to the JSON Patch specification RFC6902 a
- * subsequent add operation on the "granted" path will have the effect to
- * replace the previous granted license with a new one.
  *
  * @author Luigi Andrea Pascarelli (luigiandrea.pascarelli at 4science.it)
  */
@@ -52,10 +48,9 @@ public class LicenseAddPatchOperation extends AddPatchOperation<String> {
     void add(Context context, HttpServletRequest currentRequest, InProgressSubmission source, String path, Object value)
         throws Exception {
 
-        System.out.println("\n\n\n\n");
-        System.out.println("add path: " + path);
-        System.out.println("add selection: " + value);
-        System.out.println("\n\n\n\n");
+        System.out.println("\nLicenseAddPatchOperation\n");
+        System.out.println("\tpath: " + path);
+        System.out.println("\tvalue: " + value);
 
         Boolean grant = null;
         // we are friendly with the client and accept also a string representation for the boolean
@@ -73,12 +68,13 @@ public class LicenseAddPatchOperation extends AddPatchOperation<String> {
         Item item = source.getItem();
 
         if (grant) {
-            System.out.println("\n\ngrant license\n\n");
+            System.out.println("\t\tgrant license");
             ProxyLicenseUtils.grantLicense(context, item);
         } else {
-            System.out.println("\n\nrevoke license\n\n");
+            System.out.println("\t\trevoke license");
             ProxyLicenseUtils.revokeLicense(context, item);
         }
+        System.out.println("\n");
     }
 
 }

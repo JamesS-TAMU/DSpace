@@ -17,9 +17,9 @@ import org.dspace.core.Context;
 import org.springframework.beans.factory.annotation.Autowired;
 
 /**
- * Submission License "remove" patch operation.
+ * TAMU Customization - Customized Submission License "remove" patch operation.
  *
- * To remove a previous granted license:
+ * To revoke previous granted license:
  *
  * Example: <code>
  * curl -X PATCH http://${dspace.server.url}/api/submission/workspaceitems/31599 -H "Content-Type:
@@ -37,7 +37,12 @@ public class LicenseRemovePatchOperation extends RemovePatchOperation<String> {
     void remove(Context context, HttpServletRequest currentRequest, InProgressSubmission source, String path,
             Object value) throws Exception {
         Item item = source.getItem();
+        System.out.println("\nLicenseRemovePatchOperation\n");
+        System.out.println("\tpath: " + path);
+        System.out.println("\tvalue: " + value);
+        System.out.println("\t\trevoke license");
         ProxyLicenseUtils.revokeLicense(context, item);
+        System.out.println("\n");
     }
 
     @Override

@@ -8,7 +8,7 @@
 package org.dspace.app.rest.submit.factory.impl;
 
 /**
- * Submission "replace" patch operation
+ * TAMU Customization - Customized Submission "replace" patch operation
  *
  * {@link LicenseAddPatchOperation}
  *

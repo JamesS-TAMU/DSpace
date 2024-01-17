@@ -11,7 +11,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonProperty.Access;
 
 /**
- * TAMU Customized DTO to expose the section license during in progress submission.
+ * TAMU Customization - Customized DTO to expose the section license during in progress submission.
  *
  * @author Luigi Andrea Pascarelli (luigiandrea.pascarelli at 4science.it)
  */
@@ -23,7 +23,7 @@ public class DataLicense implements SectionData {
     @JsonProperty(access = Access.READ_ONLY)
     private String acceptanceDate;
 
-    private String selection;
+    private String selected;
 
     private boolean granted = false;
 
@@ -43,12 +43,12 @@ public class DataLicense implements SectionData {
         this.acceptanceDate = acceptanceDate;
     }
 
-    public String getSelection() {
-        return selection;
+    public String getSelected() {
+        return selected;
     }
 
-    public void setSelection(String selection) {
-        this.selection = selection;
+    public void setSelected(String selected) {
+        this.selected = selected;
     }
 
     public boolean isGranted() {
