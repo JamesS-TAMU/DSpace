@@ -121,13 +121,12 @@ public class LicenseSelectedAddPatchOperation extends AddPatchOperation<String> 
             if (selected.equalsIgnoreCase("proxy")) {
                 List<Bundle> licenseBundles = itemService.getBundles(item, Constants.LICENSE_BUNDLE_NAME);
                 if (licenseBundles.size() > 0) {
-                    for (Bundle bundle: licenseBundles) {
-                        for (Bitstream bitstream: bundle.getBitstreams()) {
-                            if (Constants.LICENSE_BITSTREAM_NAME.equals(bitstream.getName())) {
-                                System.out.println("\n\nremove bitstream: " + bitstream.getName() + "\n\n");
-                                bundleService.removeBitstream(context, bundle, bitstream);
-                                break;
-                            }
+                    Bundle licenseBundle = licenseBundles.get(0);
+                    for (Bitstream bitstream: licenseBundle.getBitstreams()) {
+                        if (Constants.LICENSE_BITSTREAM_NAME.equals(bitstream.getName())) {
+                            System.out.println("\n\nremove bitstream: " + bitstream.getName() + "\n\n");
+                            bundleService.removeBitstream(context, licenseBundle, bitstream);
+                            break;
                         }
                     }
                 }

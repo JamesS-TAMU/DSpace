@@ -99,7 +99,7 @@ public class ProxyLicenseStep extends LicenseStep implements UploadableStep {
         List<Bundle> contentBundles = null;
         List<Bundle> licenseBundles = null;
         Bundle licenseBundle = null;
-        Bitstream permissionBitstream = null;
+        Bitstream proxyBitstream = null;
 
         try (InputStream in = new BufferedInputStream(file.getInputStream())) {
 
@@ -116,27 +116,26 @@ public class ProxyLicenseStep extends LicenseStep implements UploadableStep {
             for (Bundle bundle: contentBundles) {
                 for (Bitstream bitstream: bundle.getBitstreams()) {
                     if (filename.equals(bitstream.getName()) && checksum.equals(bitstream.getChecksum())) {
-                        permissionBitstream = bitstream;
+                        proxyBitstream = bitstream;
                         break;
                     }
                 }
             }
 
-            if (Objects.isNull(permissionBitstream)) {
+            if (Objects.isNull(proxyBitstream)) {
                 throw new RuntimeException("No proxy permission license bitstream found in content bundles!");
             }
 
-            System.out.println("\tpermission bitstream added to content bundle: " + permissionBitstream.getName());
+            System.out.println("\tpermission bitstream added to content bundle: " + proxyBitstream.getName());
 
             System.out.println("\t\tremove existing proxy license");
             if (licenseBundles.size() > 0) {
-                for (Bundle bundle: licenseBundles) {
-                    for (Bitstream bitstream: bundle.getBitstreams()) {
-                        if (bitstream.getName().startsWith("PERMISSION")) {
-                            System.out.println("\n\nremove bitstream: " + bitstream.getName() + "\n\n");
-                            bundleService.removeBitstream(context, bundle, bitstream);
-                            break;
-                        }
+                licenseBundle = licenseBundles.get(0);
+                for (Bitstream bitstream: licenseBundle.getBitstreams()) {
+                    if (bitstream.getName().startsWith("PERMISSION")) {
+                        System.out.println("\n\nremove bitstream: " + bitstream.getName() + "\n\n");
+                        bundleService.removeBitstream(context, licenseBundle, bitstream);
+                        break;
                     }
                 }
             } else {
@@ -150,21 +149,21 @@ public class ProxyLicenseStep extends LicenseStep implements UploadableStep {
                 ? "PERMISSION.license"
                 : String.join(".", "PERMISSION", parts[parts.length - 1]);
 
-            System.out.println("\t\tset permission bitstream name: " + permissionLicenseName);
-            permissionBitstream.setName(context, permissionLicenseName);
+            System.out.println("\t\tset proxy bitstream name: " + permissionLicenseName);
+            proxyBitstream.setName(context, permissionLicenseName);
 
-            System.out.println("\t\tset permission bitstream source: " + file.getOriginalFilename());
-            permissionBitstream.setSource(context, file.getOriginalFilename());
-            System.out.println("\t\tset permission bitstream description: Proxy license");
-            permissionBitstream.setDescription(context, "Proxy license");
+            System.out.println("\t\tset proxy bitstream source: " + file.getOriginalFilename());
+            proxyBitstream.setSource(context, file.getOriginalFilename());
+            System.out.println("\t\tset proxy bitstream description: Proxy license");
+            proxyBitstream.setDescription(context, "Proxy license");
 
-            BitstreamFormat bf = bitstreamFormatService.guessFormat(context, permissionBitstream);
+            BitstreamFormat bf = bitstreamFormatService.guessFormat(context, proxyBitstream);
 
-            System.out.println("\t\tset permission bitstream format:" + bf.getShortDescription());
-            permissionBitstream.setFormat(context, bf);
+            System.out.println("\t\tset proxy bitstream format:" + bf.getShortDescription());
+            proxyBitstream.setFormat(context, bf);
 
-            System.out.println("\t\tmove bitstream from content bundle to permission bundle");
-            bundleService.moveBitstreamToBundle(context, licenseBundle, permissionBitstream);
+            System.out.println("\t\tmove bitstream from content bundle to license bundle");
+            bundleService.moveBitstreamToBundle(context, licenseBundle, proxyBitstream);
 
         } catch (Exception e) {
             log.error(e.getMessage(), e);
