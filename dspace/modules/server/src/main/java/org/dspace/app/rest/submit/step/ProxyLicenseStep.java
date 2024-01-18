@@ -139,10 +139,10 @@ public class ProxyLicenseStep extends LicenseStep implements UploadableStep {
                         }
                     }
                 }
+            } else {
+                System.out.println("\t\tcreate license bundle");
+                licenseBundle = bundleService.create(context, item, Constants.LICENSE_BUNDLE_NAME);
             }
-
-            System.out.println("\t\tcreate license bundle");
-            licenseBundle = bundleService.create(context, item, Constants.LICENSE_BUNDLE_NAME);
 
             System.out.println("\t\tfilename: " + filename);
             String[] parts = filename.split("\\.");
