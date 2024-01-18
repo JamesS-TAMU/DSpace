@@ -128,10 +128,18 @@ public class ProxyLicenseStep extends LicenseStep implements UploadableStep {
 
             System.out.println("\tpermission bitstream added to content bundle: " + permissionBitstream.getName());
 
-            System.out.println("\t\tremove dspace license");
-            // remove dspace license as if uploading proxy permission license the next step patch
-            // will be to add selected and followed by granted if check box selected
-            itemService.removeDSpaceLicense(context, item);
+            System.out.println("\t\tremove existing proxy license");
+            if (licenseBundles.size() > 0) {
+                for (Bundle bundle: licenseBundles) {
+                    for (Bitstream bitstream: bundle.getBitstreams()) {
+                        if (bitstream.getName().startsWith("PERMISSION")) {
+                            System.out.println("\n\nremove bitstream: " + bitstream.getName() + "\n\n");
+                            bundleService.removeBitstream(context, bundle, bitstream);
+                            break;
+                        }
+                    }
+                }
+            }
 
             System.out.println("\t\tcreate license bundle");
             licenseBundle = bundleService.create(context, item, Constants.LICENSE_BUNDLE_NAME);
