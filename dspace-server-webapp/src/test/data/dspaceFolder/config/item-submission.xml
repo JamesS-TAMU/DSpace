@@ -125,8 +125,8 @@
             <type>duplicate</type> </step-definition> -->
 
         <!--Step will be to Verify/Review everything -->
-        <!-- <step-definition id="verify"> <heading>submit.progressbar.verify</heading> <processing-class>org.dspace.submit.step.VerifyStep</processing-class>
-            <type>verify</type> </step-definition> -->
+        <step-definition id="verify"> <heading>submit.progressbar.verify</heading> <processing-class>org.dspace.submit.step.VerifyStep</processing-class>
+            <type>verify</type> </step-definition>
 
         <!-- Fake Steps to test parsing of all options -->
         <!-- <step-definition mandatory="false"> <heading>fake.submission.readonly</heading>

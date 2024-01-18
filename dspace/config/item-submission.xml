@@ -19,6 +19,10 @@
     <submission-map>
         <!-- Default submission process -->
         <name-map collection-handle="default" submission-name="traditional"/>
+        <name-map collection-handle="1969.1/93296" submission-name="facultyPub"/>
+        <name-map collection-handle="1969.1/187506" submission-name="facultyPub"/>
+        <name-map collection-handle="1969.1/152358" submission-name="BRTC"/>
+        <name-map collection-handle="1969.1/129213" submission-name="oscSubmission"/>
 
         <!-- Sample Entities Collection configuration based on the demo Entities dataset available at:
              https://github.com/DSpace-Labs/AIP-Files/releases/tag/demo-entities-data
@@ -97,6 +101,26 @@
             <type>collection</type>
         </step-definition>
 
+        <!-- Tamu Customization-complete step -->
+
+        <!-- The "complete" step is a "special step" which is *REQUIRED* to be-->
+        <!-- in this section!  In DSpace, when a submission is completed,       -->
+        <!-- a workflow is automatically kicked off (if one exists)             -->
+        <!-- This "complete" step performs all backend processing that occurs   -->
+        <!-- immediately upon completing the submission.                        -->
+        <!-- Since this is a "special step", it is *automatically* added at the -->
+        <!-- end of each 'submission-process' (therefore it should not be       -->
+        <!-- referenced by any of the below 'submission-process' tags).  Also as-->
+        <!-- a special step, it is currently NEVER editable in a workflow.      -->                               
+        <!-- <step-definition id="complete">
+            <heading>submit.progressbar.complete</heading>
+            <processing-class>org.dspace.submit.step.CompleteStep</processing-class>
+            <jspui-binding>org.dspace.app.webui.submit.step.JSPCompleteStep</jspui-binding>
+            <workflow-editable>false</workflow-editable>
+        </step-definition> -->
+
+        <!-- End of Tamu Customization -->
+
         <!-- The following set of DescribeStep <step-definition>s all point to forms (of the same name) which are
              defined in submission-forms.xml -->
         <step-definition id="traditionalpageone" mandatory="true">
@@ -152,7 +176,22 @@
         </step-definition>
         <step-definition id="license">
             <heading>submit.progressbar.license</heading>
+<<<<<<< Updated upstream
             <processing-class>org.dspace.app.rest.submit.step.LicenseStep</processing-class>
+=======
+            <!-- TAMU Customization - proxy license step -->
+            <processing-class>org.dspace.app.rest.submit.step.ProxyLicenseStep</processing-class>
+            <!-- <processing-class>org.dspace.app.rest.submit.step.LicenseStep</processing-class> -->
+            <!-- End TAMU Customization - proxy license step -->
+
+        <!--Step will be to Verify/Review everything -->
+        <step-definition id="verify"> 
+            <heading>submit.progressbar.verify</heading> 
+            <processing-class>org.dspace.submit.step.VerifyStep</processing-class>
+            <type>verify</type> 
+
+        </step-definition>
+>>>>>>> Stashed changes
             <type>license</type>
             <scope visibilityOutside="read-only">submission</scope>
         </step-definition>
@@ -163,6 +202,7 @@
             <processing-class>org.dspace.app.rest.submit.step.CCLicenseStep</processing-class>
 	        <type>cclicense</type>
         </step-definition>
+
 
 		<!-- This optional step may allow the user to select access conditions on the item -->
         <step-definition id="itemAccessConditions">
@@ -272,9 +312,10 @@
             <step id="upload"/>
 
             <!-- <step id="extractionstep"/> -->
+            <step id="verify"/>
 
             <!-- Uncomment this step to allow the user to select a Creative Commons License -->
-            <!-- <step id="cclicense"/> -->
+            <step id="cclicense"/>
 
             <!--Step will be to Sign off on the required DSpace License agreement -->
             <step id="license"/>
@@ -292,6 +333,7 @@
             <step id="publicationStep"/>
             <step id="traditionalpagetwo"/>
             <step id="upload"/>
+            <step id="verify"/>
             <step id="license"/>
         </submission-process>
 
@@ -303,6 +345,7 @@
             <step id="collection"/>
             <step id="personStep"/>
             <step id="upload"/>
+            <step id="verify"/>
             <step id="license"/>
         </submission-process>
 
@@ -314,6 +357,7 @@
             <step id="collection"/>
             <step id="projectStep"/>
             <step id="upload"/>
+            <step id="verify"/>
             <step id="license"/>
         </submission-process>
 
@@ -325,6 +369,7 @@
             <step id="collection"/>
             <step id="orgUnitStep"/>
             <step id="upload"/>
+            <step id="verify"/>
             <step id="license"/>
         </submission-process>
 
@@ -336,6 +381,7 @@
             <step id="collection"/>
             <step id="journalStep"/>
             <step id="upload"/>
+            <step id="verify"/>
             <step id="license"/>
         </submission-process>
 
@@ -347,6 +393,7 @@
             <step id="collection"/>
             <step id="journalVolumeStep"/>
             <step id="upload"/>
+            <step id="verify"/>
             <step id="license"/>
         </submission-process>
 
@@ -358,6 +405,7 @@
             <step id="collection"/>
             <step id="journalIssueStep"/>
             <step id="upload"/>
+            <step id="verify"/>
             <step id="license"/>
         </submission-process>
 
