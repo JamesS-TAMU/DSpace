@@ -176,9 +176,7 @@
         </step-definition>
         <step-definition id="license">
             <heading>submit.progressbar.license</heading>
-<<<<<<< Updated upstream
-            <processing-class>org.dspace.app.rest.submit.step.LicenseStep</processing-class>
-=======
+            <!-- <processing-class>org.dspace.app.rest.submit.step.LicenseStep</processing-class> -->
             <!-- TAMU Customization - proxy license step -->
             <processing-class>org.dspace.app.rest.submit.step.ProxyLicenseStep</processing-class>
             <!-- <processing-class>org.dspace.app.rest.submit.step.LicenseStep</processing-class> -->
@@ -191,7 +189,6 @@
             <type>verify</type> 
 
         </step-definition>
->>>>>>> Stashed changes
             <type>license</type>
             <scope visibilityOutside="read-only">submission</scope>
         </step-definition>
