@@ -164,7 +164,7 @@
                     <hint>Select your academic department. If your department does not appear in the
                             list, please select 'Other'. To select more than one value in the
                             list, you may have to hold down the "CTRL" or "Shift" key.</hint>
-                    <required><required/>
+                    <required></required>
                 </field>
             <!-- </page> -->
 
@@ -176,7 +176,7 @@
                     <!-- An input-type of twobox MUST be marked as repeatable -->
                     <repeatable>true</repeatable>
                     <label>Subject Keywords</label>
-                    <input-type>twobox</input-type>
+                    <input-type>textarea</input-type>
                     <hint>Enter appropriate subject keywords or phrases. </hint>
                     <required></required>
                 <!-- TAMU Customization - hide controlled vocabulary link -->
