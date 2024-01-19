@@ -744,6 +744,30 @@
             <row>
                 <field>
                     <dc-schema>dc</dc-schema>
+                    <dc-element>title</dc-element>
+                    <dc-qualifier/>
+                    <repeatable>false</repeatable>
+                    <label>Title</label>
+                    <input-type>onebox</input-type>
+                    <hint>Fill with scientific name and label number</hint>
+                    <required/>
+                </field>
+            </row>
+            <!-- <row>
+                <field>
+                    <dc-schema>dwc</dc-schema>
+                    <dc-element>collectionCode</dc-element>
+                    <dc-qualifier/>
+                    <repeatable>false</repeatable>
+                    <label>Collection Code</label>
+                    <input-type>onebox</input-type>
+                    <hint>Fill with official collection code</hint>
+                    <required>This field is required</required>
+                </field>
+            </row> -->
+            <!-- <row>
+                <field>
+                    <dc-schema>dc</dc-schema>
                     <dc-element>subject</dc-element>
                     <dc-qualifier></dc-qualifier>
                     <!-- An input-type of tag MUST be marked as repeatable -->
@@ -754,7 +778,7 @@
                     <required></required>
                     <vocabulary>srsc</vocabulary>
                 </field>
-            </row>
+            </row> -->
             <row>
                 <field>
                     <dc-schema>dc</dc-schema>
