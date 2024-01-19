@@ -119,10 +119,18 @@
             <workflow-editable>false</workflow-editable>
         </step-definition> -->
 
-        <!-- End of Tamu Customization -->
+        <!-- End of Tamu Customization-complete step -->
 
         <!-- The following set of DescribeStep <step-definition>s all point to forms (of the same name) which are
              defined in submission-forms.xml -->
+        <step-definition id="BRTC" mandatory="true">
+            <heading>submit.progressbar.describe.stepone</heading>
+            <processing-class>org.dspace.app.rest.submit.step.DescribeStep</processing-class>
+            <type>submission-form</type>
+        <step-definition id="BRTCtwo" mandatory="true">
+            <heading>submit.progressbar.describe.stepone</heading>
+            <processing-class>org.dspace.app.rest.submit.step.DescribeStep</processing-class>
+            <type>submission-form</type>
         <step-definition id="traditionalpageone" mandatory="true">
             <heading>submit.progressbar.describe.stepone</heading>
             <processing-class>org.dspace.app.rest.submit.step.DescribeStep</processing-class>
@@ -287,6 +295,38 @@
     <submission-definitions>
 
         <!--This "traditional" process defines the DEFAULT item submission process -->
+        <submission-process name="BRTC">
+            <!--Uncommment to display the SAMPLE step as your first step -->
+            <!--<step id="sample"/> -->
+
+            <step id="collection"/>
+            <!-- To include the 'Show Identifiers' step, uncomment the line below. Make sure
+                 that identifiers.cfg and identifier-service.xml are properly configured. -->
+            <!--<step id="identifiers"/>-->
+            <!--Step will be to Describe the item. -->
+            <step id="BRTCone"/>
+            <step id="BRTCtwo"/>
+
+            <!-- Uncomment this step to allow the user to embargo or access restrict the entire item -->
+            <!-- <step id="itemAccessConditions"/> -->
+
+            <!-- Uncomment this step to show when appropriate publisher policies retrieved from SHERPA/RoMEO -->
+            <!-- <step id="sherpaPolicies"/> -->
+
+            <step id="verify"/>
+
+            <!--Step will be to Upload the item -->
+            <step id="upload"/>
+
+            <!-- <step id="extractionstep"/> -->
+
+            <!-- Uncomment this step to allow the user to select a Creative Commons License -->
+            <step id="cclicense"/>
+
+            <!--Step will be to Sign off on the required DSpace License agreement -->
+            <step id="license"/>
+        </submission-process>
+        <!--This "traditional" process defines the DEFAULT item submission process -->
         <submission-process name="traditional">
             <!--Uncommment to display the SAMPLE step as your first step -->
             <!--<step id="sample"/> -->
@@ -304,12 +344,13 @@
 
             <!-- Uncomment this step to show when appropriate publisher policies retrieved from SHERPA/RoMEO -->
             <!-- <step id="sherpaPolicies"/> -->
+            
+            <step id="verify"/>
 
             <!--Step will be to Upload the item -->
             <step id="upload"/>
 
             <!-- <step id="extractionstep"/> -->
-            <step id="verify"/>
 
             <!-- Uncomment this step to allow the user to select a Creative Commons License -->
             <step id="cclicense"/>

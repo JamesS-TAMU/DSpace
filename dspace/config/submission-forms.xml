@@ -434,8 +434,9 @@
    <!-- END TAMU Customization facultyPub -->
 
    <!-- TAMU Customization BRTC -->
-        <form name="BRTC">
-            <!-- <page number="1"> -->
+        <form name="BRTCone">
+            
+            <row>
                 <field>
                     <dc-schema>dc</dc-schema>
                     <dc-element>title</dc-element>
@@ -446,6 +447,7 @@
                     <hint>Fill with scientific name and label number</hint>
                     <required/>
                 </field>
+            </row>
 
                 <field>
                     <dc-schema>dwc</dc-schema>
@@ -524,8 +526,10 @@
                     <required/>
                 </field>
 
-            <!-- </page> -->
-            <!-- <page number="2"> -->
+        </form>
+
+        <form name="BRTCtwo">
+            <row>
                 
                 <field>
                     <dc-schema>dwc</dc-schema>
@@ -537,6 +541,7 @@
                     <hint>Fill with official collection code</hint>
                     <required>This field is required</required>
                 </field>
+            </row>
                 
                 <field>
                     <dc-schema>dwc</dc-schema>
@@ -592,8 +597,7 @@
                     <input-type>twobox</input-type>
                     <hint> Enter appropriate subject keywords or phrases </hint>
                     <required/>
-                </field> 
-            <!-- </page> -->
+                </field>
 
         </form>
 
