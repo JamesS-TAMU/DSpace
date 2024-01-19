@@ -8,12 +8,18 @@
 package org.dspace.app.rest.submit;
 
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
+import java.util.Optional;
 import java.util.UUID;
-import javax.servlet.http.HttpServletRequest;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.Part;
+
+import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.logging.log4j.Logger;
 import org.atteo.evo.inflector.English;
@@ -79,6 +85,8 @@ import org.springframework.web.multipart.MultipartFile;
 public class SubmissionService {
 
     private static final Logger log = org.apache.logging.log4j.LogManager.getLogger(SubmissionService.class);
+
+    private static final String STEP_ID_PARAM = "stepId";
 
     @Autowired
     protected ConfigurationService configurationService;
@@ -328,7 +336,11 @@ public class SubmissionService {
      */
     public List<ErrorRest> uploadFileToInprogressSubmission(Context context, HttpServletRequest request,
             AInprogressSubmissionRest wsi, InProgressSubmission source, MultipartFile file) {
+
         List<ErrorRest> errors = new ArrayList<ErrorRest>();
+
+        Optional<String> sectionId = getSectionId(request);
+
         SubmissionConfig submissionConfig =
             submissionConfigService.getSubmissionConfigByName(wsi.getSubmissionDefinition().getName());
         List<Object[]> stepInstancesAndConfigs = new ArrayList<Object[]>();
@@ -346,7 +358,12 @@ public class SubmissionService {
             Class stepClass;
             try {
                 stepClass = loader.loadClass(stepConfig.getProcessingClassName());
-                if (UploadableStep.class.isAssignableFrom(stepClass)) {
+                boolean addStep = UploadableStep.class.isAssignableFrom(stepClass);
+                // if section id is present skip sections not matching
+                if (sectionId.isPresent() && !stepConfig.getId().equals(sectionId.get())) {
+                    addStep = false;
+                }
+                if (addStep) {
                     Object stepInstance = stepClass.newInstance();
                     stepInstancesAndConfigs.add(new Object[] {stepInstance, stepConfig});
                 }
@@ -462,6 +479,28 @@ public class SubmissionService {
                 step.doPostProcessing(context, source);
             }
         }
+    }
+
+    /**
+     * Get `sectionId` from multipart form data.
+     * 
+     * @param request  The request object
+     * @return optional section id
+     */
+    private Optional<String> getSectionId(HttpServletRequest request) {
+        String sectionId = null;
+        try {
+            Part part = request.getPart(STEP_ID_PARAM);
+            if (Objects.nonNull(part)) {
+                sectionId = IOUtils.toString(part.getInputStream(), StandardCharsets.UTF_8).trim();
+            }
+            if (StringUtils.isBlank(sectionId)) {
+                sectionId = null;
+            }
+        } catch (Exception e) {
+
+        }
+        return Optional.ofNullable(sectionId);
     }
 
 }
