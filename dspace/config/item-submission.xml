@@ -188,6 +188,9 @@
             <!-- TAMU Customization - proxy license step -->
             <processing-class>org.dspace.app.rest.submit.step.ProxyLicenseStep</processing-class>
             <!-- <processing-class>org.dspace.app.rest.submit.step.LicenseStep</processing-class> -->
+            <type>license</type>
+            <scope visibilityOutside="read-only">submission</scope>
+        </step-definition>
             <!-- End TAMU Customization - proxy license step -->
 
         <!--Step will be to Verify/Review everything -->
@@ -195,10 +198,6 @@
             <heading>submit.progressbar.verify</heading> 
             <processing-class>org.dspace.submit.step.VerifyStep</processing-class>
             <type>verify</type> 
-
-        </step-definition>
-            <type>license</type>
-            <scope visibilityOutside="read-only">submission</scope>
         </step-definition>
 
         <!-- This optional step may allow the user to select a Creative Commons license -->
@@ -344,7 +343,7 @@
 
             <!-- Uncomment this step to show when appropriate publisher policies retrieved from SHERPA/RoMEO -->
             <!-- <step id="sherpaPolicies"/> -->
-            
+
             <step id="verify"/>
 
             <!--Step will be to Upload the item -->
