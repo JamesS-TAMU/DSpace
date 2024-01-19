@@ -15,7 +15,6 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.UUID;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.Part;
 
@@ -87,7 +86,7 @@ public class SubmissionService {
     private static final Logger log = org.apache.logging.log4j.LogManager.getLogger(SubmissionService.class);
 
     // TAMU Customization - proxy license step
-    private static final String STEP_ID_PARAM = "stepId";
+    private static final String FORM_DATA_SECTION_ID = "sectionId";
 
     @Autowired
     protected ConfigurationService configurationService;
@@ -338,13 +337,12 @@ public class SubmissionService {
     public List<ErrorRest> uploadFileToInprogressSubmission(Context context, HttpServletRequest request,
             AInprogressSubmissionRest wsi, InProgressSubmission source, MultipartFile file) {
 
-        List<ErrorRest> errors = new ArrayList<ErrorRest>();
-
         // TAMU Customization - proxy license step
         Optional<String> sectionId = getSectionId(request);
         System.out.println("\n\nSubmissionService.uploadFileToInprogressSubmission");
         System.out.println("\tsection id: " + sectionId);
 
+        List<ErrorRest> errors = new ArrayList<ErrorRest>();
         SubmissionConfig submissionConfig =
             submissionConfigService.getSubmissionConfigByName(wsi.getSubmissionDefinition().getName());
         List<Object[]> stepInstancesAndConfigs = new ArrayList<Object[]>();
@@ -354,6 +352,7 @@ public class SubmissionService {
         // instance over all the phase and we will reduce initialization time as well
         for (int i = 0; i < submissionConfig.getNumberOfSteps(); i++) {
             SubmissionStepConfig stepConfig = submissionConfig.getStep(i);
+            System.out.println("\tstep config id: " + stepConfig.getId());
             /*
              * First, load the step processing class (using the current
              * class loader)
@@ -362,23 +361,30 @@ public class SubmissionService {
             Class stepClass;
             try {
                 stepClass = loader.loadClass(stepConfig.getProcessingClassName());
-                // TAMU Customization - proxy license step - match upload with step from request
-                boolean addStep = UploadableStep.class.isAssignableFrom(stepClass);
-                System.out.println("\tstep config id: " + stepConfig.getId());
-                // if section id is present skip sections not matching
-                if (sectionId.isPresent() && !stepConfig.getId().equals(sectionId.get())) {
-                    addStep = false;
-                }
-                if (addStep) {
-                    System.out.println("\tadding step: " + stepClass);
+                if (UploadableStep.class.isAssignableFrom(stepClass)) {
                     Object stepInstance = stepClass.newInstance();
-                    stepInstancesAndConfigs.add(new Object[] {stepInstance, stepConfig});
+
+                    // TAMU Customization - proxy license step - exclusive and only when matching step id
+                    boolean isExclusiveMatchingStepId = ((UploadableStep) stepInstance).isExclusiveMatchingStepId();
+                    System.out.println("\tstep class: " + stepClass);
+                    System.out.println("\tstep is exclusive: " + isExclusiveMatchingStepId);
+                    if (isExclusiveMatchingStepId) {
+                        if (sectionId.isPresent() && stepConfig.getId().equals(sectionId.get())) {
+                            System.out.println("\tclearing steps");
+                            stepInstancesAndConfigs.clear();
+                            System.out.println("\tadding exclusive step: " + stepClass);
+                            stepInstancesAndConfigs.add(new Object[] {stepInstance, stepConfig});
+                            break;
+                        }
+                    } else {
+                        stepInstancesAndConfigs.add(new Object[] {stepInstance, stepConfig});
+                    }
                 }
-                System.out.println("\n\n");
             } catch (Exception e) {
                 log.error(e.getMessage(), e);
             }
         }
+        System.out.println("\n\n");
         for (Object[] stepInstanceAndCfg : stepInstancesAndConfigs) {
             UploadableStep uploadableStep = (UploadableStep) stepInstanceAndCfg[0];
             if (uploadableStep instanceof ListenerProcessingStep) {
@@ -498,15 +504,18 @@ public class SubmissionService {
     private Optional<String> getSectionId(HttpServletRequest request) {
         String sectionId = null;
         try {
-            Part part = request.getPart(STEP_ID_PARAM);
+            System.out.println("\t\t\trequest parts count: " + request.getParts().size());
+            Part part = request.getPart(FORM_DATA_SECTION_ID);
+            System.out.println("\t\t\trequest part " + FORM_DATA_SECTION_ID + ": " + part);
             if (Objects.nonNull(part)) {
                 sectionId = IOUtils.toString(part.getInputStream(), StandardCharsets.UTF_8).trim();
+                System.out.println("\t\t\tsection id " + sectionId);
             }
             if (StringUtils.isBlank(sectionId)) {
                 sectionId = null;
             }
         } catch (Exception e) {
-
+            log.error(e.getMessage(), e);
         }
         return Optional.ofNullable(sectionId);
     }

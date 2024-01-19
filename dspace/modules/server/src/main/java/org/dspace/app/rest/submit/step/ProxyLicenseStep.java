@@ -3,7 +3,6 @@ package org.dspace.app.rest.submit.step;
 import java.io.BufferedInputStream;
 import java.io.InputStream;
 import java.util.List;
-import java.util.Objects;
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.lang3.StringUtils;
@@ -27,7 +26,6 @@ import org.dspace.content.InProgressSubmission;
 import org.dspace.content.Item;
 import org.dspace.core.Constants;
 import org.dspace.core.Context;
-import org.springframework.util.DigestUtils;
 import org.springframework.web.multipart.MultipartFile;
 
 public class ProxyLicenseStep extends LicenseStep implements UploadableStep {
@@ -38,6 +36,11 @@ public class ProxyLicenseStep extends LicenseStep implements UploadableStep {
 
     private static final String DCTERMS_RIGHTSDATE = "dcterms.accessRights";
     private static final String DCTERMS_ALTERNATIVE = "dcterms.alternative";
+
+    @Override
+    public boolean isExclusiveMatchingStepId() {
+        return true;
+    }
 
     @Override
     public DataLicense getData(SubmissionService submissionService, InProgressSubmission obj,
@@ -96,37 +99,13 @@ public class ProxyLicenseStep extends LicenseStep implements UploadableStep {
 
         System.out.println("\nProxyLicenseStep.upload\n");
 
-        List<Bundle> contentBundles = null;
         List<Bundle> licenseBundles = null;
         Bundle licenseBundle = null;
         Bitstream proxyBitstream = null;
 
         try (InputStream in = new BufferedInputStream(file.getInputStream())) {
 
-            contentBundles = itemService.getBundles(item, Constants.CONTENT_BUNDLE_NAME);
             licenseBundles = itemService.getBundles(item, Constants.LICENSE_BUNDLE_NAME);
-
-            if (contentBundles.size() < 1) {
-                throw new RuntimeException("No content bundles with the proxy license upload!");
-            }
-
-            String filename = Utils.getFileName(file);
-            String checksum = DigestUtils.md5DigestAsHex(in);
-
-            for (Bundle bundle: contentBundles) {
-                for (Bitstream bitstream: bundle.getBitstreams()) {
-                    if (filename.equals(bitstream.getName()) && checksum.equals(bitstream.getChecksum())) {
-                        proxyBitstream = bitstream;
-                        break;
-                    }
-                }
-            }
-
-            if (Objects.isNull(proxyBitstream)) {
-                throw new RuntimeException("No proxy permission license bitstream found in content bundles!");
-            }
-
-            System.out.println("\tpermission bitstream added to content bundle: " + proxyBitstream.getName());
 
             System.out.println("\t\tremove existing proxy license");
             if (licenseBundles.size() > 0) {
@@ -143,6 +122,9 @@ public class ProxyLicenseStep extends LicenseStep implements UploadableStep {
                 licenseBundle = bundleService.create(context, item, Constants.LICENSE_BUNDLE_NAME);
             }
 
+            proxyBitstream = bitstreamService.create(context, licenseBundle, in);
+
+            String filename = Utils.getFileName(file);
             System.out.println("\t\tfilename: " + filename);
             String[] parts = filename.split("\\.");
             String permissionLicenseName = parts.length == 1
@@ -162,17 +144,19 @@ public class ProxyLicenseStep extends LicenseStep implements UploadableStep {
             System.out.println("\t\tset proxy bitstream format:" + bf.getShortDescription());
             proxyBitstream.setFormat(context, bf);
 
-            System.out.println("\t\tmove bitstream from content bundle to license bundle");
-            bundleService.moveBitstreamToBundle(context, licenseBundle, proxyBitstream);
+            System.out.println("\t\tupdate bitstream service");
+            bitstreamService.update(context, proxyBitstream);
+            System.out.println("\t\tupdate item service");
+            itemService.update(context, item);
 
         } catch (Exception e) {
             log.error(e.getMessage(), e);
             ErrorRest result = new ErrorRest();
             result.setMessage(e.getMessage());
-            if (contentBundles != null && contentBundles.size() > 0) {
+            if (licenseBundles != null && licenseBundles.size() > 0) {
                 result.getPaths().add(
                     "/" + WorkspaceItemRestRepository.OPERATION_PATH_SECTIONS + "/" + stepConfig.getId() + "/files/" +
-                    contentBundles.get(0).getBitstreams().size());
+                    licenseBundles.get(0).getBitstreams().size());
             } else {
                 result.getPaths()
                     .add("/" + WorkspaceItemRestRepository.OPERATION_PATH_SECTIONS + "/" + stepConfig.getId());
