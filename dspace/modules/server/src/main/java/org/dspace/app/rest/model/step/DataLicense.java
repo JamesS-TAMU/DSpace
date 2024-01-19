@@ -7,8 +7,12 @@
  */
 package org.dspace.app.rest.model.step;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonProperty.Access;
+import com.fasterxml.jackson.annotation.JsonUnwrapped;
 
 /**
  * TAMU Customization - Customized DTO to expose the section license during in progress submission.
@@ -23,9 +27,14 @@ public class DataLicense implements SectionData {
     @JsonProperty(access = Access.READ_ONLY)
     private String acceptanceDate;
 
+    private boolean granted = false;
+
+    // TAMU Cusomtization - selected license
     private String selected;
 
-    private boolean granted = false;
+    // TAMU Cusomtization - proxy license
+    @JsonUnwrapped
+    private List<UploadBitstreamRest> files;
 
     public String getUrl() {
         return url;
@@ -43,6 +52,14 @@ public class DataLicense implements SectionData {
         this.acceptanceDate = acceptanceDate;
     }
 
+    public boolean isGranted() {
+        return granted;
+    }
+
+    public void setGranted(boolean granted) {
+        this.granted = granted;
+    }
+
     public String getSelected() {
         return selected;
     }
@@ -51,12 +68,12 @@ public class DataLicense implements SectionData {
         this.selected = selected;
     }
 
-    public boolean isGranted() {
-        return granted;
+    public List<UploadBitstreamRest> getFiles() {
+        return files;
     }
 
-    public void setGranted(boolean granted) {
-        this.granted = granted;
+    public void setFiles(List<UploadBitstreamRest> files) {
+        this.files = files;
     }
 
 }

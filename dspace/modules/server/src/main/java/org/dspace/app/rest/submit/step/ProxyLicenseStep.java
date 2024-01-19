@@ -2,6 +2,7 @@ package org.dspace.app.rest.submit.step;
 
 import java.io.BufferedInputStream;
 import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 
@@ -12,6 +13,7 @@ import org.dspace.app.rest.model.BitstreamRest;
 import org.dspace.app.rest.model.ErrorRest;
 import org.dspace.app.rest.model.patch.Operation;
 import org.dspace.app.rest.model.step.DataLicense;
+import org.dspace.app.rest.model.step.UploadBitstreamRest;
 import org.dspace.app.rest.repository.WorkspaceItemRestRepository;
 import org.dspace.app.rest.submit.SubmissionService;
 import org.dspace.app.rest.submit.UploadableStep;
@@ -34,6 +36,8 @@ public class ProxyLicenseStep extends LicenseStep implements UploadableStep {
 
     private static final String LICENSE_STEP_SELECTED_OPERATION_ENTRY = "selected";
 
+    private static final String PROXY_LICENSE_NAME = "PERMISSION";
+
     private static final String DCTERMS_RIGHTSDATE = "dcterms.accessRights";
     private static final String DCTERMS_ALTERNATIVE = "dcterms.alternative";
 
@@ -49,14 +53,28 @@ public class ProxyLicenseStep extends LicenseStep implements UploadableStep {
 
         DataLicense result = new DataLicense();
 
-        Bitstream bitstream = bitstreamService
-            .getBitstreamByName(obj.getItem(), Constants.LICENSE_BUNDLE_NAME, Constants.LICENSE_BITSTREAM_NAME);
+        List<Bundle> bundles = itemService.getBundles(obj.getItem(), Constants.LICENSE_BUNDLE_NAME);
 
-        if (bitstream != null) {
-            String selected = bitstreamService.getMetadata(bitstream, DCTERMS_ALTERNATIVE);
+        Bitstream licenseBitstream = null;
+        Bitstream proxyBitstream = null;
+
+        for (Bundle bundle : bundles) {
+            for (Bitstream bitstream : bundle.getBitstreams()) {
+                if (bitstream.getName().equals(Constants.LICENSE_BITSTREAM_NAME)) {
+                    licenseBitstream = bitstream;
+                } else if (bitstream.getName().startsWith(PROXY_LICENSE_NAME)) {
+                    proxyBitstream = bitstream;
+                }
+            }
+        }
+
+        List<UploadBitstreamRest> files = new ArrayList<>();
+
+        if (licenseBitstream != null) {
+            String selected = bitstreamService.getMetadata(licenseBitstream, DCTERMS_ALTERNATIVE);
             result.setSelected(selected);
 
-            String acceptanceDate = bitstreamService.getMetadata(bitstream, DCTERMS_RIGHTSDATE);
+            String acceptanceDate = bitstreamService.getMetadata(licenseBitstream, DCTERMS_RIGHTSDATE);
 
             if (StringUtils.isNotBlank(acceptanceDate)) {
                 result.setAcceptanceDate(acceptanceDate);
@@ -67,8 +85,16 @@ public class ProxyLicenseStep extends LicenseStep implements UploadableStep {
 
             result.setUrl(
                 configurationService.getProperty("dspace.server.url") + "/api/" + BitstreamRest.CATEGORY + "/" + English
-                    .plural(BitstreamRest.NAME) + "/" + bitstream.getID() + "/content");
+                    .plural(BitstreamRest.NAME) + "/" + licenseBitstream.getID() + "/content");
+
+            files.add(submissionService.buildUploadBitstream(configurationService, licenseBitstream));
         }
+
+        if (proxyBitstream != null) {
+            files.add(submissionService.buildUploadBitstream(configurationService, proxyBitstream));
+        }
+
+        result.setFiles(files);
 
         System.out.println("\nProxyLicenseStep.getData\n");
         System.out.println("\tselected: " + result.getSelected());
@@ -111,7 +137,7 @@ public class ProxyLicenseStep extends LicenseStep implements UploadableStep {
             if (licenseBundles.size() > 0) {
                 licenseBundle = licenseBundles.get(0);
                 for (Bitstream bitstream: licenseBundle.getBitstreams()) {
-                    if (bitstream.getName().startsWith("PERMISSION")) {
+                    if (bitstream.getName().startsWith(PROXY_LICENSE_NAME)) {
                         System.out.println("\n\nremove bitstream: " + bitstream.getName() + "\n\n");
                         bundleService.removeBitstream(context, licenseBundle, bitstream);
                         break;
@@ -128,8 +154,8 @@ public class ProxyLicenseStep extends LicenseStep implements UploadableStep {
             System.out.println("\t\tfilename: " + filename);
             String[] parts = filename.split("\\.");
             String permissionLicenseName = parts.length == 1
-                ? "PERMISSION.license"
-                : String.join(".", "PERMISSION", parts[parts.length - 1]);
+                ? String.join(".", PROXY_LICENSE_NAME, "license")
+                : String.join(".", PROXY_LICENSE_NAME, parts[parts.length - 1]);
 
             System.out.println("\t\tset proxy bitstream name: " + permissionLicenseName);
             proxyBitstream.setName(context, permissionLicenseName);
