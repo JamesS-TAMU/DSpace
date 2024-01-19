@@ -86,6 +86,7 @@ public class SubmissionService {
 
     private static final Logger log = org.apache.logging.log4j.LogManager.getLogger(SubmissionService.class);
 
+    // TAMU Customization - proxy license step
     private static final String STEP_ID_PARAM = "stepId";
 
     @Autowired
@@ -339,7 +340,10 @@ public class SubmissionService {
 
         List<ErrorRest> errors = new ArrayList<ErrorRest>();
 
+        // TAMU Customization - proxy license step
         Optional<String> sectionId = getSectionId(request);
+        System.out.println("\n\nSubmissionService.uploadFileToInprogressSubmission");
+        System.out.println("\tsection id: " + sectionId);
 
         SubmissionConfig submissionConfig =
             submissionConfigService.getSubmissionConfigByName(wsi.getSubmissionDefinition().getName());
@@ -358,15 +362,19 @@ public class SubmissionService {
             Class stepClass;
             try {
                 stepClass = loader.loadClass(stepConfig.getProcessingClassName());
+                // TAMU Customization - proxy license step - match upload with step from request
                 boolean addStep = UploadableStep.class.isAssignableFrom(stepClass);
+                System.out.println("\tstep config id: " + stepConfig.getId());
                 // if section id is present skip sections not matching
                 if (sectionId.isPresent() && !stepConfig.getId().equals(sectionId.get())) {
                     addStep = false;
                 }
                 if (addStep) {
+                    System.out.println("\tadding step: " + stepClass);
                     Object stepInstance = stepClass.newInstance();
                     stepInstancesAndConfigs.add(new Object[] {stepInstance, stepConfig});
                 }
+                System.out.println("\n\n");
             } catch (Exception e) {
                 log.error(e.getMessage(), e);
             }
@@ -482,7 +490,7 @@ public class SubmissionService {
     }
 
     /**
-     * Get `sectionId` from multipart form data.
+     * TAMU Customization - Get `sectionId` from multipart form data.
      * 
      * @param request  The request object
      * @return optional section id
