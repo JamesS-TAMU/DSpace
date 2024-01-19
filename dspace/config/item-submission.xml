@@ -67,6 +67,7 @@
         <name-map collection-entity-type="Journal" submission-name="Journal"/>
         <name-map collection-entity-type="JournalVolume" submission-name="JournalVolume"/>
         <name-map collection-entity-type="JournalIssue" submission-name="JournalIssue"/>
+        <name-map collection-entity-type="BRTC" submission-name="BRTC"/>
     </submission-map>
 
 
