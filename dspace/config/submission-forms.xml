@@ -741,7 +741,7 @@
         <!-- Form which defines the second page/section of the "traditional" DSpace submission process,
              often used when depositing normal Items. -->
         <form name="traditionalpagetwo">
-            <row>
+            <!-- <row>
                 <field>
                     <dc-schema>dc</dc-schema>
                     <dc-element>title</dc-element>
@@ -752,8 +752,8 @@
                     <hint>Fill with scientific name and label number</hint>
                     <required/>
                 </field>
-            </row>
-            <!-- <row>
+            </row> -->
+            <row>
                 <field>
                     <dc-schema>dwc</dc-schema>
                     <dc-element>collectionCode</dc-element>
@@ -764,7 +764,7 @@
                     <hint>Fill with official collection code</hint>
                     <required>This field is required</required>
                 </field>
-            </row> -->
+            </row>
             <row>
                 <field>
                     <dc-schema>dc</dc-schema>
