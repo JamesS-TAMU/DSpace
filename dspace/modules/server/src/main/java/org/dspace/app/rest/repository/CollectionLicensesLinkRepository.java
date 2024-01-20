@@ -37,8 +37,8 @@ import org.springframework.stereotype.Component;
  *
  * @author Luigi Andrea Pascarelli (luigiandrea.pascarelli at 4science.it)
  */
-@Component(CollectionRest.CATEGORY + "." + CollectionRest.NAME + "." + CollectionRest.LICENSE)
-public class CollectionLicenseLinkRepository extends AbstractDSpaceRestRepository
+@Component(CollectionRest.CATEGORY + "." + CollectionRest.NAME + "." + CollectionRest.LICENSES)
+public class CollectionLicensesLinkRepository extends AbstractDSpaceRestRepository
     implements LinkRestRepository {
 
     @Autowired
@@ -50,11 +50,12 @@ public class CollectionLicenseLinkRepository extends AbstractDSpaceRestRepositor
     @Autowired
     private ConfigurationService configurationService;
 
+    // TAMU Customization - get available licenses
     @PreAuthorize("hasPermission(#collectionId, 'COLLECTION', 'READ')")
-    public LicenseRest getLicense(@Nullable HttpServletRequest request,
-                                  UUID collectionId,
-                                  @Nullable Pageable pageable,
-                                  Projection projection) {
+    public Page<LicenseRest> getLicenses(@Nullable HttpServletRequest request,
+                                         UUID collectionId,
+                                         @Nullable Pageable optionalPageable,
+                                         Projection projection) {
         try {
             Context context = obtainContext();
             Collection collection = collectionService.find(context, collectionId);
@@ -62,32 +63,38 @@ public class CollectionLicenseLinkRepository extends AbstractDSpaceRestRepositor
                 throw new ResourceNotFoundException("No such collection: " + collectionId);
             }
 
-            // TAMU Customization - use customized LicenseRest DTO
-            String license = "default";
+            List<LicenseRest> licenses = new ArrayList<>();
 
-            boolean custom = false;
+            Pageable pageable = utils.getPageable(optionalPageable);
 
-            String label = configurationService.getProperty(String.join(".",
-                "license", license, "label"));
+            for (String filename : licenseService.getLicenseFilenames()) {
+                String[] parts = filename.split("\\.");
+                String license = parts[0];
 
-            String text = collection.getLicenseCollection();
+                boolean isDefault = license.equalsIgnoreCase("default");
 
-            if (StringUtils.isNotBlank(text)) {
-                custom = true;
-            } else {
-                text = licenseService.getDefaultSubmissionLicense();
+                boolean custom = false;
+
+                String licensePath = String.join(File.separator,
+                    configurationService.getProperty("dspace.dir"), "config", filename);
+
+                String label = configurationService.getProperty(String.join(".",
+                    "license", license, "label"));
+
+                String text = isDefault
+                    ? collection.getLicenseCollection()
+                    : licenseService.getLicenseText(licensePath);
+
+                if (StringUtils.isNotBlank(text)) {
+                    custom = isDefault;
+                } else {
+                    text = licenseService.getDefaultSubmissionLicense();
+                }
+
+                licenses.add(LicenseRest.of(license, label, text, custom));
             }
 
-            return LicenseRest.of(license, label, text, custom);
-            // LicenseRest licenseRest = new LicenseRest();
-            // String text = collection.getLicenseCollection();
-            // if (StringUtils.isNotBlank(text)) {
-            //     licenseRest.setCustom(true);
-            //     licenseRest.setText(text);
-            // } else {
-            //     licenseRest.setText(licenseService.getDefaultSubmissionLicense());
-            // }
-            // return licenseRest;
+            return new PageImpl(licenses, pageable, licenses.size());
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }

@@ -15,12 +15,14 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  * @author Andrea Bollini (andrea.bollini at 4science.it)
  */
 @LinksRest(links = {
+        // TAMU Customization - proxy license step
         @LinkRest(
-                // TAMU Customization - proxy license step
                 name = CollectionRest.LICENSES,
                 method = "getLicenses"
-                // name = CollectionRest.LICENSE,
-                // method = "getLicense"
+        ),
+        @LinkRest(
+                name = CollectionRest.LICENSE,
+                method = "getLicense"
         ),
         @LinkRest(
                 name = CollectionRest.LOGO,
@@ -57,8 +59,8 @@ public class CollectionRest extends DSpaceObjectRest {
     public static final String CATEGORY = RestAddressableModel.CORE;
 
     public static final String HARVEST = "harvester";
+    public static final String LICENSE = "license";
     // TAMU Customization - proxy license step
-    // public static final String LICENSE = "license";
     public static final String LICENSES = "licenses";
     public static final String LOGO = "logo";
     public static final String MAPPED_ITEMS = "mappedItems";
