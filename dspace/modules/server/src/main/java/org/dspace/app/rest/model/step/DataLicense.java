@@ -7,7 +7,6 @@
  */
 package org.dspace.app.rest.model.step;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
