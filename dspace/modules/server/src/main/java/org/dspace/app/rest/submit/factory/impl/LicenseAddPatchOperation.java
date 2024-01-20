@@ -48,10 +48,6 @@ public class LicenseAddPatchOperation extends AddPatchOperation<String> {
     void add(Context context, HttpServletRequest currentRequest, InProgressSubmission source, String path, Object value)
         throws Exception {
 
-        System.out.println("\nLicenseAddPatchOperation\n");
-        System.out.println("\tpath: " + path);
-        System.out.println("\tvalue: " + value);
-
         Boolean grant = null;
         // we are friendly with the client and accept also a string representation for the boolean
         if (value instanceof String) {
@@ -68,13 +64,10 @@ public class LicenseAddPatchOperation extends AddPatchOperation<String> {
         Item item = source.getItem();
 
         if (grant) {
-            System.out.println("\t\tgrant license");
             ProxyLicenseUtils.grantLicense(context, item);
         } else {
-            System.out.println("\t\trevoke license");
             ProxyLicenseUtils.revokeLicense(context, item);
         }
-        System.out.println("\n");
     }
 
 }

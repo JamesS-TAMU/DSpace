@@ -35,13 +35,8 @@ public class LicenseSelectedRemovePatchOperation extends RemovePatchOperation<St
     @Override
     void remove(Context context, HttpServletRequest currentRequest, InProgressSubmission source, String path,
             Object value) throws Exception {
-        System.out.println("\nLicenseSelectedRemovePatchOperation\n");
-        System.out.println("\tpath: " + path);
-        System.out.println("\tvalue: " + value);
         Item item = source.getItem();
-        System.out.println("\t\tremove dspace license");
         itemService.removeDSpaceLicense(context, item);
-        System.out.println("\n");
     }
 
     @Override

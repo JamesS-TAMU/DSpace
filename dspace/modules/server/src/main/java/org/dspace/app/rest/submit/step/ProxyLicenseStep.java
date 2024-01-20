@@ -96,13 +96,6 @@ public class ProxyLicenseStep extends LicenseStep implements UploadableStep {
 
         result.setFiles(files);
 
-        System.out.println("\nProxyLicenseStep.getData\n");
-        System.out.println("\tselected: " + result.getSelected());
-        System.out.println("\tacceptance date: " + result.getAcceptanceDate());
-        System.out.println("\tgranted: " + result.isGranted());
-        System.out.println("\turl: " + result.getUrl());
-        System.out.println("\n");
-
         return result;
     }
 
@@ -123,8 +116,6 @@ public class ProxyLicenseStep extends LicenseStep implements UploadableStep {
                             InProgressSubmission wsi, MultipartFile file) {
         Item item = wsi.getItem();
 
-        System.out.println("\nProxyLicenseStep.upload\n");
-
         List<Bundle> licenseBundles = null;
         Bundle licenseBundle = null;
         Bitstream proxyBitstream = null;
@@ -133,46 +124,36 @@ public class ProxyLicenseStep extends LicenseStep implements UploadableStep {
 
             licenseBundles = itemService.getBundles(item, Constants.LICENSE_BUNDLE_NAME);
 
-            System.out.println("\t\tremove existing proxy license");
             if (licenseBundles.size() > 0) {
                 licenseBundle = licenseBundles.get(0);
                 for (Bitstream bitstream: licenseBundle.getBitstreams()) {
                     if (bitstream.getName().startsWith(PROXY_LICENSE_NAME)) {
-                        System.out.println("\n\nremove bitstream: " + bitstream.getName() + "\n\n");
                         bundleService.removeBitstream(context, licenseBundle, bitstream);
                         break;
                     }
                 }
             } else {
-                System.out.println("\t\tcreate license bundle");
                 licenseBundle = bundleService.create(context, item, Constants.LICENSE_BUNDLE_NAME);
             }
 
             proxyBitstream = bitstreamService.create(context, licenseBundle, in);
 
             String filename = Utils.getFileName(file);
-            System.out.println("\t\tfilename: " + filename);
             String[] parts = filename.split("\\.");
             String permissionLicenseName = parts.length == 1
                 ? String.join(".", PROXY_LICENSE_NAME, "license")
                 : String.join(".", PROXY_LICENSE_NAME, parts[parts.length - 1]);
 
-            System.out.println("\t\tset proxy bitstream name: " + permissionLicenseName);
             proxyBitstream.setName(context, permissionLicenseName);
 
-            System.out.println("\t\tset proxy bitstream source: " + file.getOriginalFilename());
             proxyBitstream.setSource(context, file.getOriginalFilename());
-            System.out.println("\t\tset proxy bitstream description: Proxy license");
             proxyBitstream.setDescription(context, "Proxy license");
 
             BitstreamFormat bf = bitstreamFormatService.guessFormat(context, proxyBitstream);
 
-            System.out.println("\t\tset proxy bitstream format:" + bf.getShortDescription());
             proxyBitstream.setFormat(context, bf);
 
-            System.out.println("\t\tupdate bitstream service");
             bitstreamService.update(context, proxyBitstream);
-            System.out.println("\t\tupdate item service");
             itemService.update(context, item);
 
         } catch (Exception e) {
