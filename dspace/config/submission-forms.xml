@@ -50,7 +50,7 @@
 
         <!-- TAMU customization oscSubmission -->
         <form name="oscSubmission">
-            <!-- <page number="1"> -->
+            <row>
                 <field>
                     <dc-schema>dc</dc-schema>
                     <dc-element>creator</dc-element>
@@ -61,7 +61,9 @@
                     <hint>Enter the names of the authors of this item.</hint>
                     <required></required>
                 </field>
+            </row>
 
+            <row>
                 <field>
                     <dc-schema>dc</dc-schema>
                     <dc-element>title</dc-element>
@@ -72,7 +74,9 @@
                     <hint>Enter the main title of the item.</hint>
                     <required>You must enter a main title for this item.</required>
                 </field>
+            </row>
 
+            <row>
                 <field>
                     <dc-schema>dc</dc-schema>
                     <dc-element>title</dc-element>
@@ -83,7 +87,9 @@
                     <hint>If the item has any alternative titles, please enter them here.</hint>
                     <required></required>
                 </field>
+            </row>
 
+            <row>
                 <field>
                     <dc-schema>dc</dc-schema>
                     <dc-element>date</dc-element>
@@ -96,7 +102,9 @@
                                     applicable.</hint>
                     <required>You must enter at least the year.</required>
                 </field>
+            </row>
 
+            <row>
                 <field>
                     <dc-schema>dc</dc-schema>
                     <dc-element>publisher</dc-element>
@@ -107,7 +115,9 @@
                     <hint>Enter the name of the publisher of the previously issued instance of this item.</hint>
                     <required></required>
                 </field>
+            </row>
 
+            <row>
                 <field>
                     <dc-schema>dc</dc-schema>
                     <dc-element>identifier</dc-element>
@@ -118,7 +128,9 @@
                     <hint>Enter the standard citation for the previously issued instance of this item.</hint>
                     <required></required>
                 </field>
+            </row>
 
+            <row>
                 <field>
                     <dc-schema>dc</dc-schema>
                     <dc-element>identifier</dc-element>
@@ -131,7 +143,9 @@
                             it, please enter the types and the actual numbers or codes.</hint>
                     <required></required>
                 </field>
+            </row>
 
+            <row>
                 <field>
                     <dc-schema>dc</dc-schema>
                     <dc-element>type</dc-element>
@@ -142,7 +156,9 @@
                     <hint>Select the type(s) of content of the item. To select more than one value in the list, you may have to hold down the "CTRL" or "Shift" key.</hint>
                     <required></required>
                 </field>
+            </row>
 
+            <row>
                 <field>
                     <dc-schema>dc</dc-schema>
                     <dc-element>language</dc-element>
@@ -153,7 +169,9 @@
                     <hint>Select the language of the main content of the item.  If the language does not appear in the list, please select 'Other'.  If the content does not really have a language (for example, if it is a dataset or an image) please select 'N/A'.</hint>
                     <required></required>
                 </field>
+            </row>
                 <!-- TAMU Customization - Department select box -->
+            <row>
                 <field>
                     <dc-schema>local</dc-schema>
                     <dc-element>department</dc-element>
@@ -166,9 +184,9 @@
                             list, you may have to hold down the "CTRL" or "Shift" key.</hint>
                     <required></required>
                 </field>
-            <!-- </page> -->
+            </row>
 
-            <!-- <page number="2"> -->
+            <row>
                 <field>
                     <dc-schema>dc</dc-schema>
                     <dc-element>subject</dc-element>
@@ -182,7 +200,9 @@
                 <!-- TAMU Customization - hide controlled vocabulary link -->
                 <!--         <vocabulary>srsc</vocabulary>-->
                 </field>
+            </row>
 
+            <row>
                 <field>
                     <dc-schema>dc</dc-schema>
                     <dc-element>description</dc-element>
@@ -193,7 +213,9 @@
                     <hint>Enter the abstract of the item. </hint>
                     <required></required>
                 </field>
+            </row>
 
+            <row>
                 <field>
                     <dc-schema>dc</dc-schema>
                     <dc-element>description</dc-element>
@@ -204,7 +226,9 @@
                     <hint>Enter the names of any sponsors and/or funding codes in the box. </hint>
                     <required></required>
                 </field>
+            </row>
 
+            <row>
                 <field>
                     <dc-schema>dc</dc-schema>
                     <dc-element>description</dc-element>
@@ -215,13 +239,13 @@
                     <hint>Enter any other description or comments in this box. </hint>
                     <required></required>
                 </field>
-            <!-- </page> -->
+            </row>
         </form>
    <!-- END TAMU Customization oscSubmission -->
 
    <!-- TAMU Customization facultyPub -->
         <form name="facultyPub">
-            <!-- <page number="1"> -->
+            <row>
                 <field>
                     <dc-schema>dc</dc-schema>
                     <dc-element>creator</dc-element>
@@ -235,9 +259,11 @@
                     <hint>Enter the names of the authors of this item. For TAMU Faculty, Staff, and Students
                             please use TAMU email address (@tamu.edu)</hint>
                     End Tamu Customization -->
-                    <required/>
+                    <required></required>
                 </field>
+            </row>
 
+            <row>
                 <field>
                     <dc-schema>dc</dc-schema>
                     <dc-element>title</dc-element>
@@ -248,7 +274,9 @@
                     <hint>Enter the title of the item.</hint>
                     <required>You must enter a main title for this item.</required>
                 </field>
+            </row>
 
+            <row>
                 <field>
                     <dc-schema>dc</dc-schema>
                     <dc-element>title</dc-element>
@@ -257,9 +285,11 @@
                     <label>Other Titles</label>
                     <input-type>onebox</input-type>
                     <hint>If the item has any alternative titles, please enter them.</hint>
-                    <required/>
+                    <required></required>
                 </field>
+            </row>
 
+            <row>
                 <field>
                     <dc-schema>dc</dc-schema>
                     <dc-element>date</dc-element>
@@ -271,7 +301,9 @@
                         You can leave out the day and/or month if they aren't applicable.</hint>
                     <required>You must enter at least the year.</required>
                 </field>
+            </row>
 
+            <row>
                 <field>
                     <dc-schema>dc</dc-schema>
                     <dc-element>publisher</dc-element>
@@ -281,9 +313,11 @@
                     <input-type>onebox</input-type>
                     <hint>Enter the name of the publisher of the previously issued instance of this
                         item.</hint>
-                    <required/>
+                    <required></required>
                 </field>
+            </row>
 
+            <row>
                 <field>
                     <dc-schema>dc</dc-schema>
                     <dc-element>identifier</dc-element>
@@ -293,9 +327,11 @@
                     <input-type>onebox</input-type>
                     <hint>Enter the standard citation for the previously issued instance of this
                         item.</hint>
-                    <required/>
+                    <required></required>
                 </field>
+            </row>
 
+            <row>
                 <field>
                     <dc-schema>dc</dc-schema>
                     <dc-element>relation</dc-element>
@@ -304,9 +340,11 @@
                     <label>Series/Report No.</label>
                     <input-type>series</input-type>
                     <hint>Enter the series and number assigned to this item by your community.</hint>
-                    <required/>
+                    <required></required>
                 </field>
+            </row>
 
+            <row>
                 <field>
                     <dc-schema>dc</dc-schema>
                     <dc-element>identifier</dc-element>
@@ -317,9 +355,11 @@
                     <input-type value-pairs-name="common_identifiers">qualdrop_value</input-type>
                     <hint>If the item has any identification numbers or codes associated with it,
                         please enter the types and the actual numbers or codes.</hint>
-                    <required/>
+                    <required></required>
                 </field>
+            </row>
 
+            <row>
                 <field>
                     <dc-schema>dc</dc-schema>
                     <dc-element>type</dc-element>
@@ -331,7 +371,9 @@
                         in the list, you may have to hold down the "CTRL" or "Shift" key.</hint>
                     <required>Type is required.</required>
                 </field>
+            </row>
 
+            <row>
                 <field>
                     <dc-schema>dc</dc-schema>
                     <dc-element>language</dc-element>
@@ -343,9 +385,11 @@
                         not appear in the list, please select 'Other'. If the content does not
                         really have a language (for example, if it is a dataset or an image) please
                         select 'N/A'.</hint>
-                    <required/>
+                    <required></required>
                 </field>
+            </row>
 
+            <row>
                 <field>
                     <dc-schema>local</dc-schema>
                     <dc-element>department</dc-element>
@@ -356,9 +400,13 @@
                     <hint>Select your academic department. If your department does not appear in the
                         list, please select 'Other'. To select more than one value in the
                         list, you may have to hold down the "CTRL" or "Shift" key.</hint>
-                    <required/>
+                    <required></required>
                 </field>
+            </row>
+
+
                 <!--
+            <row>
                 <field>
                     <dc-schema>dc</dc-schema>
                     <dc-element>embargo</dc-element>
@@ -369,6 +417,9 @@
                     <hint>If required, enter date 'yyyy-mm-dd' when embargo expires or 'forever'.</hint>
                     <required/>
                 </field>
+            </row>
+            
+            <row>
                 <field>
                     <dc-schema>dc</dc-schema>
                     <dc-element>rights</dc-element>
@@ -378,12 +429,14 @@
                     <input-type value-pairs-name="requestable">dropdown</input-type>
                     <hint>If you intend to embargo the item or otherwise restrict access to some or
                         all of its contents, do you want to allow people to request access to it?</hint>
-                    <required/>
+                    <required></required>
                 </field>
+            </row>
                 -->
             <!-- </page> -->
 
             <!-- <page number="2"> -->
+            <row>
                 <field>
                     <dc-schema>dc</dc-schema>
                     <dc-element>subject</dc-element>
@@ -393,10 +446,12 @@
                     <label>Subject Keywords</label>
                     <input-type>twobox</input-type>
                     <hint> Enter appropriate subject keywords or phrases. </hint>
-                    <required/>
+                    <required></required>
                     <vocabulary>srsc</vocabulary>
                 </field>
+            </row>
 
+            <row>
                 <field>
                     <dc-schema>dc</dc-schema>
                     <dc-element>description</dc-element>
@@ -405,9 +460,11 @@
                     <label>Abstract</label>
                     <input-type>textarea</input-type>
                     <hint> Enter the abstract of the item. </hint>
-                    <required/>
+                    <required></required>
                 </field>
+            </row>
 
+            <row>
                 <field>
                     <dc-schema>dc</dc-schema>
                     <dc-element>description</dc-element>
@@ -416,9 +473,11 @@
                     <label>Sponsors</label>
                     <input-type>textarea</input-type>
                     <hint> Enter the names of any sponsors and/or funding codes in the box. </hint>
-                    <required/>
+                    <required></required>
                 </field>
+            </row>
 
+            <row>
                 <field>
                     <dc-schema>dc</dc-schema>
                     <dc-element>description</dc-element>
@@ -427,9 +486,9 @@
                     <label>Description</label>
                     <input-type>textarea</input-type>
                     <hint> Enter any other description or comments in this box. </hint>
-                    <required/>
+                    <required></required>
                 </field>
-            <!-- </page> -->
+            </row>
         </form>
    <!-- END TAMU Customization facultyPub -->
 
@@ -445,10 +504,11 @@
                     <label>Title</label>
                     <input-type>onebox</input-type>
                     <hint>Fill with scientific name and label number</hint>
-                    <required/>
+                    <required></required>
                 </field>
             </row>
 
+            <row>
                 <field>
                     <dc-schema>dwc</dc-schema>
                     <dc-element>scientificName</dc-element>
@@ -457,9 +517,11 @@
                     <label>Scientific Name</label>
                     <input-type>onebox</input-type>
                     <hint>Fill with scientific name and rank</hint>
-                    <required/>
+                    <required></required>
                 </field>
+            </row>
 
+            <row>
                 <field>
                     <dc-schema>dc</dc-schema>
                     <dc-element>title</dc-element>
@@ -468,9 +530,11 @@
                     <label>Common Name</label>
                     <input-type>onebox</input-type>
                     <hint>Fill with common name</hint>
-                    <required/>
+                    <required></required>
                 </field>
+            </row>
 
+            <row>
                 <field>
                     <dc-schema>dwc</dc-schema>
                     <dc-element>family</dc-element>
@@ -479,9 +543,11 @@
                     <label>Family</label>
                     <input-type>onebox</input-type>
                     <hint>Fill with family name</hint>
-                    <required/>
+                    <required></required>
                 </field>
+            </row>
 
+            <row>
                 <field>
                     <dc-schema>dc</dc-schema>
                     <dc-element>coverage</dc-element>
@@ -490,9 +556,11 @@
                     <label>Geographic Point of Discovery</label>
                     <input-type>onebox</input-type>
                     <hint>latitude, longitude</hint>
-                    <required/>
+                    <required></required>
                 </field>
+            </row>
 
+            <row>
                 <field>
                     <dc-schema>dc</dc-schema>
                     <dc-element>description</dc-element>
@@ -501,9 +569,11 @@
                     <label>Location (transcribed)</label>
                     <input-type>onebox</input-type>
                     <hint>Transcription of location of discovery recorded by collector</hint>
-                    <required/>
+                    <required></required>
                 </field>
+            </row>
 
+            <row>
                 <field>
                     <dc-schema>dc</dc-schema>
                     <dc-element>coverage</dc-element>
@@ -512,9 +582,11 @@
                     <label>Location (authority form)</label>
                     <input-type>onebox</input-type>
                     <hint>Locality with authority control applied. Use preferred term in GTGN</hint>
-                    <required/>
+                    <required></required>
                 </field>
+            </row>
 
+            <row>
                 <field>
                     <dc-schema>dc</dc-schema>
                     <dc-element>date</dc-element>
@@ -523,14 +595,14 @@
                     <label>Date Discovered</label>
                     <input-type>date</input-type>
                     <hint>Fill with YYYY-MM-DD format. If unknown, leave blank</hint>
-                    <required/>
+                    <required></required>
                 </field>
+            </row>
 
         </form>
 
         <form name="BRTCtwo">
             <row>
-                
                 <field>
                     <dc-schema>dwc</dc-schema>
                     <dc-element>collectionCode</dc-element>
@@ -543,6 +615,7 @@
                 </field>
             </row>
                 
+            <row>       
                 <field>
                     <dc-schema>dwc</dc-schema>
                     <dc-element>catalogNumber</dc-element>
@@ -553,7 +626,9 @@
                     <hint>Fill with official catalog number</hint>
                     <required>This field is required</required>
                 </field>
+            </row>
 
+            <row>
                 <field>
                     <dc-schema>dwc</dc-schema>
                     <dc-element>recordedBy</dc-element>
@@ -562,9 +637,11 @@
                     <label>Name of Collector</label>
                     <input-type>name</input-type>
                     <hint>Fill with collector name</hint>
-                    <required/>
+                    <required></required>
                 </field>
+            </row>
 
+            <row>
                 <field>
                     <dc-schema>dwc</dc-schema>
                     <dc-element>samplingProtocol</dc-element>
@@ -573,9 +650,11 @@
                     <label>Collection Method</label>
                     <input-type>onebox</input-type>
                     <hint>The name of, reference to, or description of the method or protocol used during an Event</hint>
-                    <required/>
+                    <required></required>
                 </field>
+            </row>
 
+            <row>
                 <field>
                     <dc-schema>dwc</dc-schema>
                     <dc-element>basisOfRecord</dc-element>
@@ -584,9 +663,11 @@
                     <input-type value-pairs-name="dwc_basisOfRecord">dropdown</input-type>
                     <hint>A descriptive term indicating whether the record represents an object or observation. To select more than one value in the
                         list, you may have to hold down the "CTRL" or "Shift" key.</hint>
-                    <required/>
+                    <required></required>
                 </field>
-        
+            </row>
+
+            <row>
                 <field>
                     <dc-schema>dc</dc-schema>
                     <dc-element>subject</dc-element>
@@ -596,8 +677,9 @@
                     <label>Subject Keywords</label>
                     <input-type>twobox</input-type>
                     <hint> Enter appropriate subject keywords or phrases </hint>
-                    <required/>
+                    <required></required>
                 </field>
+            </row>
 
         </form>
 
