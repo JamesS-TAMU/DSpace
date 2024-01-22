@@ -152,7 +152,10 @@
         </step-definition>
         <step-definition id="license">
             <heading>submit.progressbar.license</heading>
-            <processing-class>org.dspace.app.rest.submit.step.LicenseStep</processing-class>
+            <!-- TAMU Customization - proxy license step -->
+            <processing-class>org.dspace.app.rest.submit.step.ProxyLicenseStep</processing-class>
+            <!-- <processing-class>org.dspace.app.rest.submit.step.LicenseStep</processing-class> -->
+            <!-- End TAMU Customization - proxy license step -->
             <type>license</type>
             <scope visibilityOutside="read-only">submission</scope>
         </step-definition>
