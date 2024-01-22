@@ -67,7 +67,6 @@
         <name-map collection-entity-type="Journal" submission-name="Journal"/>
         <name-map collection-entity-type="JournalVolume" submission-name="JournalVolume"/>
         <name-map collection-entity-type="JournalIssue" submission-name="JournalIssue"/>
-        <name-map collection-entity-type="BRTC" submission-name="BRTC"/>
     </submission-map>
 
 
@@ -126,7 +125,7 @@
              defined in submission-forms.xml -->
 
         <!-- TAMU Cusomizations -BRTC -->
-        <step-definition id="BRTC" mandatory="true">
+        <step-definition id="BRTCone" mandatory="true">
             <heading>submit.progressbar.describe.stepone</heading>
             <processing-class>org.dspace.app.rest.submit.step.DescribeStep</processing-class>
             <type>submission-form</type>
@@ -364,7 +363,7 @@
             <!-- Publications use a custom first step, but share page 2 with "traditional" Item form -->
             <step id="publicationStep"/>
             <step id="traditionalpagetwo"/>
-            <step id="upload"/
+            <step id="upload"/>
             <step id="license"/>
         </submission-process>
 
@@ -375,7 +374,7 @@
         <submission-process name="Person">
             <step id="collection"/>
             <step id="personStep"/>
-            <step id="upload"/
+            <step id="upload"/>
             <step id="license"/>
         </submission-process>
 
@@ -386,7 +385,7 @@
         <submission-process name="Project">
             <step id="collection"/>
             <step id="projectStep"/>
-            <step id="upload"/
+            <step id="upload"/>
             <step id="license"/>
         </submission-process>
 
@@ -397,7 +396,7 @@
         <submission-process name="OrgUnit">
             <step id="collection"/>
             <step id="orgUnitStep"/>
-            <step id="upload"/
+            <step id="upload"/>
             <step id="license"/>
         </submission-process>
 
@@ -408,7 +407,7 @@
         <submission-process name="Journal">
             <step id="collection"/>
             <step id="journalStep"/>
-            <step id="upload"/
+            <step id="upload"/>
             <step id="license"/>
         </submission-process>
 
@@ -419,7 +418,7 @@
         <submission-process name="JournalVolume">
             <step id="collection"/>
             <step id="journalVolumeStep"/>
-            <step id="upload"/
+            <step id="upload"/>
             <step id="license"/>
         </submission-process>
 
@@ -430,7 +429,7 @@
         <submission-process name="JournalIssue">
             <step id="collection"/>
             <step id="journalIssueStep"/>
-            <step id="upload"/
+            <step id="upload"/>
             <step id="license"/>
         </submission-process>
 
