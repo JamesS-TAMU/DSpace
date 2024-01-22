@@ -199,13 +199,6 @@
         </step-definition>
             <!-- End TAMU Customization - proxy license step -->
 
-        <!--Step will be to Verify/Review everything -->
-        <step-definition id="verify"> 
-            <heading>submit.progressbar.verify</heading> 
-            <processing-class>org.dspace.submit.step.VerifyStep</processing-class>
-            <type>verify</type> 
-        </step-definition>
-
         <!-- This optional step may allow the user to select a Creative Commons license -->
         <step-definition id="cclicense" mandatory="false">
             <heading>submit.progressbar.CClicense</heading>
@@ -318,8 +311,6 @@
             <!-- Uncomment this step to show when appropriate publisher policies retrieved from SHERPA/RoMEO -->
             <!-- <step id="sherpaPolicies"/> -->
 
-            <step id="verify"/>
-
             <!--Step will be to Upload the item -->
             <step id="upload"/>
 
@@ -350,8 +341,6 @@
             <!-- Uncomment this step to show when appropriate publisher policies retrieved from SHERPA/RoMEO -->
             <!-- <step id="sherpaPolicies"/> -->
 
-            <step id="verify"/>
-
             <!--Step will be to Upload the item -->
             <step id="upload"/>
 
@@ -375,8 +364,7 @@
             <!-- Publications use a custom first step, but share page 2 with "traditional" Item form -->
             <step id="publicationStep"/>
             <step id="traditionalpagetwo"/>
-            <step id="upload"/>
-            <step id="verify"/>
+            <step id="upload"/
             <step id="license"/>
         </submission-process>
 
@@ -387,8 +375,7 @@
         <submission-process name="Person">
             <step id="collection"/>
             <step id="personStep"/>
-            <step id="upload"/>
-            <step id="verify"/>
+            <step id="upload"/
             <step id="license"/>
         </submission-process>
 
@@ -399,8 +386,7 @@
         <submission-process name="Project">
             <step id="collection"/>
             <step id="projectStep"/>
-            <step id="upload"/>
-            <step id="verify"/>
+            <step id="upload"/
             <step id="license"/>
         </submission-process>
 
@@ -411,8 +397,7 @@
         <submission-process name="OrgUnit">
             <step id="collection"/>
             <step id="orgUnitStep"/>
-            <step id="upload"/>
-            <step id="verify"/>
+            <step id="upload"/
             <step id="license"/>
         </submission-process>
 
@@ -423,8 +408,7 @@
         <submission-process name="Journal">
             <step id="collection"/>
             <step id="journalStep"/>
-            <step id="upload"/>
-            <step id="verify"/>
+            <step id="upload"/
             <step id="license"/>
         </submission-process>
 
@@ -435,8 +419,7 @@
         <submission-process name="JournalVolume">
             <step id="collection"/>
             <step id="journalVolumeStep"/>
-            <step id="upload"/>
-            <step id="verify"/>
+            <step id="upload"/
             <step id="license"/>
         </submission-process>
 
@@ -447,8 +430,7 @@
         <submission-process name="JournalIssue">
             <step id="collection"/>
             <step id="journalIssueStep"/>
-            <step id="upload"/>
-            <step id="verify"/>
+            <step id="upload"/
             <step id="license"/>
         </submission-process>
 
