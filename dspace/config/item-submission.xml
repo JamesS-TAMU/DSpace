@@ -124,6 +124,8 @@
 
         <!-- The following set of DescribeStep <step-definition>s all point to forms (of the same name) which are
              defined in submission-forms.xml -->
+
+        <!-- TAMU Cusomizations -BRTC -->
         <step-definition id="BRTC" mandatory="true">
             <heading>submit.progressbar.describe.stepone</heading>
             <processing-class>org.dspace.app.rest.submit.step.DescribeStep</processing-class>
@@ -134,6 +136,7 @@
             <processing-class>org.dspace.app.rest.submit.step.DescribeStep</processing-class>
             <type>submission-form</type>
         </step-definition>
+        <!-- END TAMU Cusomizations -BRTC -->
         <step-definition id="traditionalpageone" mandatory="true">
             <heading>submit.progressbar.describe.stepone</heading>
             <processing-class>org.dspace.app.rest.submit.step.DescribeStep</processing-class>
