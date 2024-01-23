@@ -30,27 +30,6 @@
     </properties>
 
     <build>
-        <testResources>
-            <testResource>
-                <directory>src/test/resources</directory>
-                <includes>
-                    <include>spring/spring-dspace-core-services.xml</include>
-                </includes>
-            </testResource>
-            <testResource>
-                <directory>src/main/resources</directory>
-                <includes>
-                    <include>i18n/messages.properties</include>
-                    <include>spring/spring-dspace-addon-validation-services.xml</include>
-                </includes>
-            </testResource>
-            <testResource>
-                <directory>src/main/resources</directory>
-                <excludes>
-                    <exclude>spring/spring-dspace-core-services.xml</exclude>
-                </excludes>
-            </testResource>
-        </testResources>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -199,6 +178,17 @@
                 </property>
             </activation>
             <build>
+                <!-- TAMU Customization - exclude modified spring-dspace-core-services.xml -->
+                <resources>
+                    <resource>
+                        <directory>src/main/resources</directory>
+                        <excludes>
+                            <exclude>spring/spring-dspace-core-services.xml</exclude>
+                        </excludes>
+                        <filtering>true</filtering>
+                    </resource>
+                </resources>
+                <!-- End TAMU Customization - exclude modified spring-dspace-core-services.xml -->
                 <plugins>
                     <!-- Integration Testing setup: This plugin unzips the
                          'testEnvironment.zip' file (created by dspace-parent POM), into
