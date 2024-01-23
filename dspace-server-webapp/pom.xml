@@ -37,6 +37,19 @@
                     <include>spring/spring-dspace-core-services.xml</include>
                 </includes>
             </testResource>
+            <testResource>
+                <directory>src/main/resources</directory>
+                <includes>
+                    <include>i18n/messages.properties</include>
+                    <include>spring/spring-dspace-addon-validation-services.xml</include>
+                </includes>
+            </testResource>
+            <testResource>
+                <directory>src/main/resources</directory>
+                <excludes>
+                    <exclude>spring/spring-dspace-core-services.xml</exclude>
+                </excludes>
+            </testResource>
         </testResources>
         <plugins>
             <plugin>
