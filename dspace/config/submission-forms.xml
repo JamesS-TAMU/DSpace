@@ -48,8 +48,8 @@
             </row>
         </form>
 
-        <!-- TAMU customization oscSubmission -->
-        <form name="oscSubmission">
+        <!-- TAMU customization - oscSubmission -->
+        <form name="oscSubmissionOne">
             <row>
                 <field>
                     <dc-schema>dc</dc-schema>
@@ -170,7 +170,7 @@
                     <required></required>
                 </field>
             </row>
-                <!-- TAMU Customization - Department select box -->
+            <!-- TAMU Customization - Department select box -->
             <row>
                 <field>
                     <dc-schema>local</dc-schema>
@@ -185,6 +185,9 @@
                     <required></required>
                 </field>
             </row>
+            <!-- End TAMU Customization - Department select box -->
+        </form>
+        <form name="oscSubmissionTwo">
 
             <row>
                 <field>
@@ -197,8 +200,9 @@
                     <input-type>textarea</input-type>
                     <hint>Enter appropriate subject keywords or phrases. </hint>
                     <required></required>
-                <!-- TAMU Customization - hide controlled vocabulary link -->
-                <!--         <vocabulary>srsc</vocabulary>-->
+                    <!-- TAMU Customization - hide controlled vocabulary link -->
+                    <!-- <vocabulary>srsc</vocabulary> -->
+                    <!-- End TAMU Customization - hide controlled vocabulary link -->
                 </field>
             </row>
 
@@ -241,10 +245,10 @@
                 </field>
             </row>
         </form>
-   <!-- END TAMU Customization oscSubmission -->
+        <!-- End TAMU Customization - oscSubmission -->
 
-   <!-- TAMU Customization facultyPub -->
-        <form name="facultyPub">
+        <!-- TAMU Customization - facultyPub -->
+        <form name="facultyPubOne">
             <row>
                 <field>
                     <dc-schema>dc</dc-schema>
@@ -254,11 +258,13 @@
                     <label>Authors</label>
                     <input-type>name</input-type>
                     <hint>Enter the names of the authors of this item.</hint>
-                    <!-- TAMU Customization 
+                    <!-- TAMU Customization -->
+                    <!--
                     <input-type>detailed_name</input-type>
                     <hint>Enter the names of the authors of this item. For TAMU Faculty, Staff, and Students
                             please use TAMU email address (@tamu.edu)</hint>
-                    End Tamu Customization -->
+                    -->
+                    <!-- End TAMU Customization -->
                     <required></required>
                 </field>
             </row>
@@ -404,8 +410,7 @@
                 </field>
             </row>
 
-
-                <!--
+            <!--
             <row>
                 <field>
                     <dc-schema>dc</dc-schema>
@@ -432,10 +437,10 @@
                     <required></required>
                 </field>
             </row>
-                -->
-            <!-- </page> -->
+            -->
+        </form>
 
-            <!-- <page number="2"> -->
+        <form name="facultyPubTwo">
             <row>
                 <field>
                     <dc-schema>dc</dc-schema>
@@ -444,7 +449,7 @@
                     <!-- An input-type of twobox MUST be marked as repeatable -->
                     <repeatable>true</repeatable>
                     <label>Subject Keywords</label>
-                    <input-type>twobox</input-type>
+                    <input-type>onebox</input-type>
                     <hint> Enter appropriate subject keywords or phrases. </hint>
                     <required></required>
                     <vocabulary>srsc</vocabulary>
@@ -490,11 +495,10 @@
                 </field>
             </row>
         </form>
-   <!-- END TAMU Customization facultyPub -->
+        <!-- End TAMU Customization - facultyPub -->
 
-   <!-- TAMU Customization BRTC -->
+        <!-- TAMU Customization - BRTC -->
         <form name="BRTCone">
-            
             <row>
                 <field>
                     <dc-schema>dc</dc-schema>
@@ -598,7 +602,6 @@
                     <required></required>
                 </field>
             </row>
-
         </form>
 
         <form name="BRTCtwo">
@@ -614,8 +617,8 @@
                     <required>This field is required</required>
                 </field>
             </row>
-                
-            <row>       
+
+            <row>
                 <field>
                     <dc-schema>dwc</dc-schema>
                     <dc-element>catalogNumber</dc-element>
@@ -675,15 +678,13 @@
                     <!-- An input-type of twobox MUST be marked as repeatable -->
                     <repeatable>true</repeatable>
                     <label>Subject Keywords</label>
-                    <input-type>twobox</input-type>
+                    <input-type>onebox</input-type>
                     <hint> Enter appropriate subject keywords or phrases </hint>
                     <required></required>
                 </field>
             </row>
-
         </form>
-
-   <!-- END TAMU Customization BRTC -->
+        <!-- End TAMU Customization - BRTC -->
 
         <!-- Form which defines the first page/section of the "traditional" DSpace submission process,
              often used when depositing normal Items (i.e. Items which are not Entities). -->
@@ -696,7 +697,7 @@
                     <repeatable>true</repeatable>
                     <label>Author</label>
                     <input-type>onebox</input-type>
-                    <hint>Enter the QSean's name (Family name, Given names).</hint>
+                    <hint>Enter the author's name (Family name, Given names).</hint>
                     <required></required>
                 </field>
             </row>
@@ -817,13 +818,29 @@
                     </hint>
                     <required></required>
                 </field>
+
+                <!-- TAMU Customization - Department select box -->
+                <field>
+                    <dc-schema>local</dc-schema>
+                    <dc-element>department</dc-element>
+                    <dc-qualifier/>
+                    <repeatable>true</repeatable>
+                    <label>Department</label>
+                    <input-type value-pairs-name="departments">dropdown</input-type>
+                    <hint>Select your academic department. If your department does not appear in the
+                        list, please select 'Other'. To select more than one value in the
+                        list, you may have to hold down the "CTRL" or "Shift" key.</hint>
+                    <required/>
+                </field>
+                <!-- End TAMU Customization - Department select box -->
             </row>
         </form>
 
         <!-- Form which defines the second page/section of the "traditional" DSpace submission process,
              often used when depositing normal Items. -->
         <form name="traditionalpagetwo">
-            <!-- <row>
+            <!--
+            <row>
                 <field>
                     <dc-schema>dc</dc-schema>
                     <dc-element>title</dc-element>
@@ -834,7 +851,10 @@
                     <hint>Fill with scientific name and label number</hint>
                     <required/>
                 </field>
-            </row> -->
+            </row>
+             -->
+            <!-- TAMU Customization - Remove collection code -->
+            <!--
             <row>
                 <field>
                     <dc-schema>dwc</dc-schema>
@@ -847,6 +867,8 @@
                     <required>This field is required</required>
                 </field>
             </row>
+            -->
+            <!-- End TAMU Customization - Remove collection code -->
             <row>
                 <field>
                     <dc-schema>dc</dc-schema>
@@ -858,7 +880,9 @@
                     <input-type>tag</input-type>
                     <hint>Enter appropriate subject keywords or phrases.</hint>
                     <required></required>
-                    <vocabulary>srsc</vocabulary>
+                    <!-- TAMU Customization - hide controlled vocabulary link -->
+                    <!-- <vocabulary>srsc</vocabulary> -->
+                    <!-- End TAMU Customization - hide controlled vocabulary link -->
                 </field>
             </row>
             <row>
@@ -2452,9 +2476,9 @@
                 <stored-value>Other</stored-value>
             </pair>
         </value-pairs>
-        <!-- END TAMU Cusomtizations - add department pairs -->
+        <!-- End TAMU Customization - department pairs -->
 
-        <!-- TAMU Customizations -add dwc_basisOfRecord -->
+        <!-- TAMU Customization - dwc_basisOfRecord -->
         <value-pairs value-pairs-name="dwc_basisOfRecord" dc-term="basisOfRecord">
             <pair>
                 <displayed-value>PreservedSpecimen</displayed-value>
@@ -2493,15 +2517,15 @@
                 <stored-value>OtherSpecimen</stored-value>
             </pair>
         </value-pairs>
+        <!-- End TAMU Customization - dwc_basisOfRecord -->
 
-        <!-- END TAMU Customizations - add add dwc_basisOfRecord -->
         <value-pairs value-pairs-name="common_identifiers" dc-term="identifier">
             <!-- TAMU Customization - add DOI option -->
             <pair>
                 <displayed-value>DOI</displayed-value>
                 <stored-value>doi</stored-value>
             </pair>
-            <!-- END TAMU Customization - add DOI option -->
+            <!-- End TAMU Customization - add DOI option -->
             <pair>
                 <displayed-value>ISSN</displayed-value>
                 <stored-value>issn</stored-value>
