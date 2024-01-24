@@ -1,7 +1,5 @@
 package org.dspace.app.rest.submit.step;
 
-import java.io.BufferedInputStream;
-import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 import javax.servlet.http.HttpServletRequest;
@@ -19,10 +17,9 @@ import org.dspace.app.rest.submit.SubmissionService;
 import org.dspace.app.rest.submit.UploadableStep;
 import org.dspace.app.rest.submit.factory.PatchOperationFactory;
 import org.dspace.app.rest.submit.factory.impl.PatchOperation;
-import org.dspace.app.rest.utils.Utils;
+import org.dspace.app.rest.utils.ProxyLicenseUtils;
 import org.dspace.app.util.SubmissionStepConfig;
 import org.dspace.content.Bitstream;
-import org.dspace.content.BitstreamFormat;
 import org.dspace.content.Bundle;
 import org.dspace.content.InProgressSubmission;
 import org.dspace.content.Item;
@@ -35,8 +32,6 @@ public class ProxyLicenseStep extends LicenseStep implements UploadableStep {
     private static final Logger log = org.apache.logging.log4j.LogManager.getLogger(ProxyLicenseStep.class);
 
     private static final String LICENSE_STEP_SELECTED_OPERATION_ENTRY = "selected";
-
-    private static final String PROXY_LICENSE_NAME = "PERMISSION";
 
     private static final String DCTERMS_RIGHTSDATE = "dcterms.accessRights";
     private static final String DCTERMS_ALTERNATIVE = "dcterms.alternative";
@@ -53,16 +48,16 @@ public class ProxyLicenseStep extends LicenseStep implements UploadableStep {
 
         DataLicense result = new DataLicense();
 
-        List<Bundle> bundles = itemService.getBundles(obj.getItem(), Constants.LICENSE_BUNDLE_NAME);
-
         Bitstream licenseBitstream = null;
         Bitstream proxyBitstream = null;
 
-        for (Bundle bundle : bundles) {
-            for (Bitstream bitstream : bundle.getBitstreams()) {
+        List<Bundle> licenseBundles = itemService.getBundles(obj.getItem(), Constants.LICENSE_BUNDLE_NAME);
+
+        if (licenseBundles.size() > 0) {
+            for (Bitstream bitstream : licenseBundles.get(0).getBitstreams()) {
                 if (bitstream.getName().equals(Constants.LICENSE_BITSTREAM_NAME)) {
                     licenseBitstream = bitstream;
-                } else if (bitstream.getName().startsWith(PROXY_LICENSE_NAME)) {
+                } else if (bitstream.getName().startsWith(ProxyLicenseUtils.PROXY_LICENSE_NAME)) {
                     proxyBitstream = bitstream;
                 }
             }
@@ -116,57 +111,14 @@ public class ProxyLicenseStep extends LicenseStep implements UploadableStep {
                             InProgressSubmission wsi, MultipartFile file) {
         Item item = wsi.getItem();
 
-        List<Bundle> licenseBundles = null;
-        Bundle licenseBundle = null;
-        Bitstream proxyBitstream = null;
-
-        try (InputStream in = new BufferedInputStream(file.getInputStream())) {
-
-            licenseBundles = itemService.getBundles(item, Constants.LICENSE_BUNDLE_NAME);
-
-            if (licenseBundles.size() > 0) {
-                licenseBundle = licenseBundles.get(0);
-                for (Bitstream bitstream: licenseBundle.getBitstreams()) {
-                    if (bitstream.getName().startsWith(PROXY_LICENSE_NAME)) {
-                        bundleService.removeBitstream(context, licenseBundle, bitstream);
-                        break;
-                    }
-                }
-            } else {
-                licenseBundle = bundleService.create(context, item, Constants.LICENSE_BUNDLE_NAME);
-            }
-
-            proxyBitstream = bitstreamService.create(context, licenseBundle, in);
-
-            String filename = Utils.getFileName(file);
-            String[] parts = filename.split("\\.");
-            String permissionLicenseName = parts.length == 1
-                ? String.join(".", PROXY_LICENSE_NAME, "license")
-                : String.join(".", PROXY_LICENSE_NAME, parts[parts.length - 1]);
-
-            proxyBitstream.setName(context, permissionLicenseName);
-
-            proxyBitstream.setSource(context, file.getOriginalFilename());
-            proxyBitstream.setDescription(context, "Proxy license");
-
-            BitstreamFormat bf = bitstreamFormatService.guessFormat(context, proxyBitstream);
-
-            proxyBitstream.setFormat(context, bf);
-
-            bitstreamService.update(context, proxyBitstream);
-
+        try {
+            ProxyLicenseUtils.addProxyLicense(context, item, file);
         } catch (Exception e) {
             log.error(e.getMessage(), e);
             ErrorRest result = new ErrorRest();
             result.setMessage(e.getMessage());
-            if (licenseBundles != null && licenseBundles.size() > 0) {
-                result.getPaths().add(
-                    "/" + WorkspaceItemRestRepository.OPERATION_PATH_SECTIONS + "/" + stepConfig.getId() + "/files/" +
-                    licenseBundles.get(0).getBitstreams().size());
-            } else {
-                result.getPaths()
-                    .add("/" + WorkspaceItemRestRepository.OPERATION_PATH_SECTIONS + "/" + stepConfig.getId());
-            }
+            result.getPaths()
+                .add("/" + WorkspaceItemRestRepository.OPERATION_PATH_SECTIONS + "/" + stepConfig.getId());
             return result;
         }
 

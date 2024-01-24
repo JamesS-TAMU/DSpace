@@ -8,19 +8,15 @@
 package org.dspace.app.rest.submit.factory.impl;
 
 import java.io.File;
-import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.lang3.StringUtils;
-import org.dspace.content.Bitstream;
-import org.dspace.content.Bundle;
+import org.dspace.app.rest.utils.ProxyLicenseUtils;
 import org.dspace.content.InProgressSubmission;
 import org.dspace.content.Item;
 import org.dspace.content.LicenseUtils;
-import org.dspace.content.ProxyLicenseUtils;
 import org.dspace.content.service.BundleService;
 import org.dspace.content.service.ItemService;
-import org.dspace.core.Constants;
 import org.dspace.core.Context;
 import org.dspace.core.service.LicenseService;
 import org.dspace.eperson.EPerson;
@@ -109,21 +105,6 @@ public class LicenseSelectedAddPatchOperation extends AddPatchOperation<String> 
             : licenseService.getLicenseText(licensePath);
 
         if (StringUtils.isNotBlank(licenseText)) {
-            if (selected.equalsIgnoreCase("proxy")) {
-                List<Bundle> licenseBundles = itemService.getBundles(item, Constants.LICENSE_BUNDLE_NAME);
-                if (licenseBundles.size() > 0) {
-                    Bundle licenseBundle = licenseBundles.get(0);
-                    for (Bitstream bitstream: licenseBundle.getBitstreams()) {
-                        if (Constants.LICENSE_BITSTREAM_NAME.equals(bitstream.getName())) {
-                            bundleService.removeBitstream(context, licenseBundle, bitstream);
-                            break;
-                        }
-                    }
-                }
-            } else {
-                itemService.removeDSpaceLicense(context, item);
-            }
-
             ProxyLicenseUtils.addLicense(context, item, selected, licenseText);
         } else {
             throw new RuntimeException(String.format("Unable to find license file at %s", licenseFilename));
