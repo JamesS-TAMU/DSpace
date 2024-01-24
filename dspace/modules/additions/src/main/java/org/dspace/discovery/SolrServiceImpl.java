@@ -232,7 +232,7 @@ public class SolrServiceImpl implements SearchService, IndexingService {
         // TAMU Customization - Write friendly community/collection names to index
         if ( !locations.isEmpty() ) {
             for (String location : locations) {
-                String field = location.startsWith("m") ? " location.comm " : " location.coll ";
+                String field = location.startsWith("m") ? "location.comm" : "location.coll";
                 String dsoName = locationToName(context,field,location.substring(1));
                 log.debug("Adding location name:" + field + ".name_stored with value:" + dsoName);
                 doc.addField(field + ".name_stored", dsoName );
@@ -241,7 +241,7 @@ public class SolrServiceImpl implements SearchService, IndexingService {
 
         // TAMU Customization - Write bitstream URLs to index
         List<String> bitstreamLocations = new ArrayList<>();
-        String dspaceUrl = configurationService.getProperty("dspace.url");
+        String dspaceUrl = configurationService.getProperty("dspace.server.url");
         for (Bundle bundle : item.getBundles()) {
             String bitstreamUrlTemplate = "%s/bitstream/handle/%s/%s?sequence=%d";
             String primaryInternalId = null;
@@ -266,28 +266,32 @@ public class SolrServiceImpl implements SearchService, IndexingService {
                     }
                     break;
                 case "THUMBNAIL":
-                    Bitstream thumbnailBitstream = bundle.getBitstreams().get(0);
-                    if (thumbnailBitstream != null) {
-                        String thumbnailName = thumbnailBitstream.getName();
-                        int thumbnailSequence = thumbnailBitstream.getSequenceID();
-                        String thumbnailUrl = String.format(
-                                              bitstreamUrlTemplate,
-                                              dspaceUrl,
-                                              handle,
-                                              thumbnailName,
-                                              thumbnailSequence
-                                            );
-                        doc.addField("thumbnailBitstream_stored", thumbnailUrl);
+                    if (!bundle.getBitstreams().isEmpty()) {
+                        Bitstream thumbnailBitstream = bundle.getBitstreams().get(0);
+                        if (thumbnailBitstream != null) {
+                            String thumbnailName = thumbnailBitstream.getName();
+                            int thumbnailSequence = thumbnailBitstream.getSequenceID();
+                            String thumbnailUrl = String.format(
+                                                bitstreamUrlTemplate,
+                                                dspaceUrl,
+                                                handle,
+                                                thumbnailName,
+                                                thumbnailSequence
+                                                );
+                            doc.addField("thumbnailBitstream_stored", thumbnailUrl);
+                        }
                     }
                     break;
                 case "LICENSE":
-                    Bitstream licenseBitstream = bundle.getBitstreams().get(0);
-                    if (licenseBitstream != null) {
-                        String licenseName = licenseBitstream.getName();
-                        int licenseSequence = licenseBitstream.getSequenceID();
-                        String licenseUrl = String.format(
-                                            bitstreamUrlTemplate, dspaceUrl, handle, licenseName, licenseSequence);
-                        doc.addField("licenseBitstream_stored", licenseUrl);
+                    if (!bundle.getBitstreams().isEmpty()) {
+                        Bitstream licenseBitstream = bundle.getBitstreams().get(0);
+                        if (licenseBitstream != null) {
+                            String licenseName = licenseBitstream.getName();
+                            int licenseSequence = licenseBitstream.getSequenceID();
+                            String licenseUrl = String.format(
+                                                bitstreamUrlTemplate, dspaceUrl, handle, licenseName, licenseSequence);
+                            doc.addField("licenseBitstream_stored", licenseUrl);
+                        }
                     }
                     break;
                 default:
