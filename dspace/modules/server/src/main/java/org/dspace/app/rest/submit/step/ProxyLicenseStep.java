@@ -154,7 +154,6 @@ public class ProxyLicenseStep extends LicenseStep implements UploadableStep {
             proxyBitstream.setFormat(context, bf);
 
             bitstreamService.update(context, proxyBitstream);
-            itemService.update(context, item);
 
         } catch (Exception e) {
             log.error(e.getMessage(), e);

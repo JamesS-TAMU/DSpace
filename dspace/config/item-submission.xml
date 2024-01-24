@@ -99,27 +99,10 @@
             <heading></heading>
             <processing-class>org.dspace.app.rest.submit.step.CollectionStep</processing-class>
             <type>collection</type>
+            <!-- TAMU Customization - complete step non editable -->
+            <scope visibility="hidden" visibilityOutside="hidden">submission</scope>
+            <!-- End TAMU Customization - complete step non editable -->
         </step-definition>
-
-        <!-- Tamu Customization-complete step -->
-
-        <!-- The "complete" step is a "special step" which is *REQUIRED* to be-->
-        <!-- in this section!  In DSpace, when a submission is completed,       -->
-        <!-- a workflow is automatically kicked off (if one exists)             -->
-        <!-- This "complete" step performs all backend processing that occurs   -->
-        <!-- immediately upon completing the submission.                        -->
-        <!-- Since this is a "special step", it is *automatically* added at the -->
-        <!-- end of each 'submission-process' (therefore it should not be       -->
-        <!-- referenced by any of the below 'submission-process' tags).  Also as-->
-        <!-- a special step, it is currently NEVER editable in a workflow.      -->                               
-        <!-- <step-definition id="complete">
-            <heading>submit.progressbar.complete</heading>
-            <processing-class>org.dspace.submit.step.CompleteStep</processing-class>
-            <jspui-binding>org.dspace.app.webui.submit.step.JSPCompleteStep</jspui-binding>
-            <workflow-editable>false</workflow-editable>
-        </step-definition> -->
-
-        <!-- End of Tamu Customization-complete step -->
 
         <!-- The following set of DescribeStep <step-definition>s all point to forms (of the same name) which are
              defined in submission-forms.xml -->
