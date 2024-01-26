@@ -70,7 +70,6 @@ public class ProxyLicenseUtils {
         for (Bitstream bitstream: licenseBundle.getBitstreams()) {
             if (bitstream.getName().startsWith(PROXY_LICENSE_NAME)) {
                 bundleService.removeBitstream(context, licenseBundle, bitstream);
-                break;
             }
         }
 
@@ -121,7 +120,6 @@ public class ProxyLicenseUtils {
         for (Bitstream bitstream: licenseBundle.getBitstreams()) {
             if (Constants.LICENSE_BITSTREAM_NAME.equals(bitstream.getName())) {
                 bundleService.removeBitstream(context, licenseBundle, bitstream);
-                break;
             }
         }
 
@@ -130,7 +128,6 @@ public class ProxyLicenseUtils {
             for (Bitstream bitstream: licenseBundle.getBitstreams()) {
                 if (bitstream.getName().startsWith(PROXY_LICENSE_NAME)) {
                     bundleService.removeBitstream(context, licenseBundle, bitstream);
-                    break;
                 }
             }
         }
