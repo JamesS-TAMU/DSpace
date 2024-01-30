@@ -25,6 +25,13 @@
   <dc-type>
     <schema>thesis</schema>
     <element>degree</element>
+    <qualifier>college</qualifier>
+    <scope_note></scope_note>
+  </dc-type>
+
+  <dc-type>
+    <schema>thesis</schema>
+    <element>degree</element>
     <qualifier>department</qualifier>
     <scope_note></scope_note>
   </dc-type>
@@ -53,8 +60,29 @@
   <dc-type>
     <schema>thesis</schema>
     <element>degree</element>
+    <qualifier>major</qualifier>
+    <scope_note></scope_note>
+  </dc-type>
+
+  <dc-type>
+    <schema>thesis</schema>
+    <element>degree</element>
     <qualifier>name</qualifier>
     <scope_note>Name of the degree associated with the work as it appears within the work. (example: Masters in Operations Research)</scope_note>
+  </dc-type>
+
+  <dc-type>
+    <schema>thesis</schema>
+    <element>degree</element>
+    <qualifier>program</qualifier>
+    <scope_note></scope_note>
+  </dc-type>
+
+  <dc-type>
+    <schema>thesis</schema>
+    <element>degree</element>
+    <qualifier>school</qualifier>
+    <scope_note></scope_note>
   </dc-type>
 
   <dc-type>
