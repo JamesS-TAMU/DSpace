@@ -322,7 +322,7 @@
             <!--Step will be to Upload the item -->
             <step id="upload"/>
 
-            <!-- <step id="extractionstep"/> -->
+            <step id="extractionstep"/>
 
             <!-- Uncomment this step to allow the user to select a Creative Commons License -->
             <step id="cclicense"/>
@@ -354,7 +354,7 @@
             <!--Step will be to Upload the item -->
             <step id="upload"/>
 
-            <!-- <step id="extractionstep"/> -->
+            <step id="extractionstep"/>
 
             <!-- Uncomment this step to allow the user to select a Creative Commons License -->
             <step id="cclicense"/>
@@ -386,7 +386,7 @@
             <!--Step will be to Upload the item -->
             <step id="upload"/>
 
-            <!-- <step id="extractionstep"/> -->
+            <step id="extractionstep"/>
 
             <!-- Uncomment this step to allow the user to select a Creative Commons License -->
             <step id="cclicense"/>
@@ -418,7 +418,7 @@
             <!--Step will be to Upload the item -->
             <step id="upload"/>
 
-            <!-- <step id="extractionstep"/> -->
+            <step id="extractionstep"/>
 
             <!-- Uncomment this step to allow the user to select a Creative Commons License -->
             <step id="cclicense"/>
