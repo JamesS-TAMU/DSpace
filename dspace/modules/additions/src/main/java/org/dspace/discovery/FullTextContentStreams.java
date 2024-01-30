@@ -94,7 +94,7 @@ public class FullTextContentStreams extends ContentStreamBase {
 
                     for (ResourcePolicy rp:bundlePolicies) {
                         if (rp.getdSpaceObject().getID() == fulltextBitstream.getID()) {
-                            if (rp.getGroup().getName().equalsIgnoreCase("anonymous")) {
+                            if (rp.getGroup().getName().equalsIgnoreCase("anonymous") && rp.getStartDate() == null) {
                                 isIndexable = true;
                             }
                             break;
