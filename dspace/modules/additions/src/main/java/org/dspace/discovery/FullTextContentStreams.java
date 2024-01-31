@@ -17,6 +17,8 @@ import java.io.SequenceInputStream;
 import java.nio.charset.StandardCharsets;
 import java.sql.SQLException;
 import java.util.ArrayList;
+// TAMU Customization - Only index text bitstreams that are not restricted
+import java.util.Date;
 import java.util.Enumeration;
 import java.util.Iterator;
 import java.util.List;
@@ -26,6 +28,8 @@ import com.google.common.base.Function;
 import com.google.common.collect.Iterables;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
+// TAMU Customization - Only index text bitstreams that are not restricted
+import org.apache.commons.lang3.time.DateUtils;
 import org.apache.logging.log4j.Logger;
 import org.apache.solr.common.util.ContentStreamBase;
 import org.dspace.authorize.AuthorizeException;
@@ -94,7 +98,13 @@ public class FullTextContentStreams extends ContentStreamBase {
 
                     for (ResourcePolicy rp:bundlePolicies) {
                         if (rp.getdSpaceObject().getID() == fulltextBitstream.getID()) {
-                            if (rp.getGroup().getName().equalsIgnoreCase("anonymous") && rp.getStartDate() == null) {
+                            Date start = rp.getStartDate();
+                            Date end = rp.getEndDate();
+                            Date now = new Date();
+                            if (rp.getGroup().getName().equalsIgnoreCase("anonymous")
+                                && (start == null || ((start.before(now) || DateUtils.isSameDay(start, now))
+                                && (end == null || (now.after(end) || DateUtils.isSameDay(now, end)))))
+                            ) {
                                 isIndexable = true;
                             }
                             break;
