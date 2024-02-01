@@ -103,7 +103,7 @@ public class FullTextContentStreams extends ContentStreamBase {
                             Date now = new Date();
                             if (rp.getGroup().getName().equalsIgnoreCase("anonymous")
                                 && (start == null || ((start.before(now) || DateUtils.isSameDay(start, now))
-                                && (end == null || (now.after(end) || DateUtils.isSameDay(now, end)))))
+                                && (end == null || (end.after(now) || DateUtils.isSameDay(now, end)))))
                             ) {
                                 isIndexable = true;
                             }
