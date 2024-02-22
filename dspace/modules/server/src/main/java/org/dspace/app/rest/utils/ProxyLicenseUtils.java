@@ -5,14 +5,21 @@
  *
  * http://www.dspace.org/license/
  */
-package org.dspace.content;
+package org.dspace.app.rest.utils;
 
+import java.io.BufferedInputStream;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.sql.SQLException;
 import java.util.List;
 
 import org.dspace.authorize.AuthorizeException;
+import org.dspace.content.Bitstream;
+import org.dspace.content.BitstreamFormat;
+import org.dspace.content.Bundle;
+import org.dspace.content.DCDate;
+import org.dspace.content.Item;
 import org.dspace.content.factory.ContentServiceFactory;
 import org.dspace.content.service.BitstreamFormatService;
 import org.dspace.content.service.BitstreamService;
@@ -20,6 +27,7 @@ import org.dspace.content.service.BundleService;
 import org.dspace.content.service.ItemService;
 import org.dspace.core.Constants;
 import org.dspace.core.Context;
+import org.springframework.web.multipart.MultipartFile;
 
 /**
  * TAMU Customization - Proxy license utilility for decoupling license selection from accepting licence
@@ -31,23 +39,72 @@ public class ProxyLicenseUtils {
     private static final BundleService bundleService = ContentServiceFactory.getInstance().getBundleService();
     private static final ItemService itemService = ContentServiceFactory.getInstance().getItemService();
 
+    public static final String PROXY_LICENSE_NAME = "PERMISSION";
+
     /**
      * Default constructor
      */
     private ProxyLicenseUtils() { }
 
     /**
+     * Store a copy of the proxy license as the user uploaded for the item.
+     *
+     * @param context        the dspace context
+     * @param item           the item object of the license
+     * @param file           the multipart file upload
+     * @throws SQLException       if database error
+     * @throws IOException        if IO error
+     * @throws AuthorizeException if authorization error
+     */
+    public static void addProxyLicense(Context context, Item item, MultipartFile file)
+        throws SQLException, IOException, AuthorizeException {
+
+        InputStream is = new BufferedInputStream(file.getInputStream());
+
+        List<Bundle> licenseBundles = itemService.getBundles(item, Constants.LICENSE_BUNDLE_NAME);
+        Bundle licenseBundle = licenseBundles.size() > 0
+            ? licenseBundles.get(0)
+            : bundleService.create(context, item, Constants.LICENSE_BUNDLE_NAME);
+
+        // remove existing proxy license bitstream
+        for (Bitstream bitstream: licenseBundle.getBitstreams()) {
+            if (bitstream.getName().startsWith(PROXY_LICENSE_NAME)) {
+                bundleService.removeBitstream(context, licenseBundle, bitstream);
+            }
+        }
+
+        Bitstream bitstream = bitstreamService.create(context, licenseBundle, is);
+
+        String filename = Utils.getFileName(file);
+        String[] parts = filename.split("\\.");
+        String proxyLicenseName = parts.length == 1
+            ? String.join(".", PROXY_LICENSE_NAME, "license")
+            : String.join(".", PROXY_LICENSE_NAME, parts[parts.length - 1]);
+
+        bitstream.setName(context, proxyLicenseName);
+
+        bitstream.setSource(context, file.getOriginalFilename());
+        bitstream.setDescription(context, "Proxy license");
+
+        BitstreamFormat bf = bitstreamFormatService.guessFormat(context, bitstream);
+
+        bitstream.setFormat(context, bf);
+
+        bitstreamService.update(context, bitstream);
+    }
+
+    /**
      * Store a copy of the license as the user selected for the item.
      *
      * @param context        the dspace context
      * @param item           the item object of the license
-     * @param selection      the license the user selected
+     * @param selected       the license the user selected
      * @param licenseText    the license text
      * @throws SQLException       if database error
      * @throws IOException        if IO error
      * @throws AuthorizeException if authorization error
      */
-    public static void addLicense(Context context, Item item, String selection, String licenseText)
+    public static void addLicense(Context context, Item item, String selected, String licenseText)
         throws SQLException, IOException, AuthorizeException {
 
         // Store text as a bitstream
@@ -59,6 +116,22 @@ public class ProxyLicenseUtils {
             ? licenseBundles.get(0)
             : bundleService.create(context, item, Constants.LICENSE_BUNDLE_NAME);
 
+        // remove existing license bitstream
+        for (Bitstream bitstream: licenseBundle.getBitstreams()) {
+            if (Constants.LICENSE_BITSTREAM_NAME.equals(bitstream.getName())) {
+                bundleService.removeBitstream(context, licenseBundle, bitstream);
+            }
+        }
+
+        // if proxy license not selected, remove proxy license
+        if (!selected.equalsIgnoreCase("proxy")) {
+            for (Bitstream bitstream: licenseBundle.getBitstreams()) {
+                if (bitstream.getName().startsWith(PROXY_LICENSE_NAME)) {
+                    bundleService.removeBitstream(context, licenseBundle, bitstream);
+                }
+            }
+        }
+
         Bitstream bitstream = bitstreamService.create(context, licenseBundle, is);
 
         // Now set the format and name of the bitstream
@@ -68,10 +141,10 @@ public class ProxyLicenseUtils {
         // Find the License format
         BitstreamFormat bf = bitstreamFormatService.findByShortDescription(context,
                                                                     "License");
-        bitstream.setFormat(bf);
+        bitstream.setFormat(context, bf);
 
         bitstreamService
-            .setMetadataSingleValue(context, bitstream, "dcterms", "alternative", null, null, selection);
+            .setMetadataSingleValue(context, bitstream, "dcterms", "alternative", null, null, selected);
 
         bitstreamService.update(context, bitstream);
     }

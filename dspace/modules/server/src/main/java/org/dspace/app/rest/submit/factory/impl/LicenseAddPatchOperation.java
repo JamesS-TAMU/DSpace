@@ -10,9 +10,9 @@ package org.dspace.app.rest.submit.factory.impl;
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.lang3.BooleanUtils;
+import org.dspace.app.rest.utils.ProxyLicenseUtils;
 import org.dspace.content.InProgressSubmission;
 import org.dspace.content.Item;
-import org.dspace.content.ProxyLicenseUtils;
 import org.dspace.content.service.ItemService;
 import org.dspace.core.Context;
 import org.springframework.beans.factory.annotation.Autowired;
