@@ -1173,9 +1173,10 @@ public class SolrServiceImpl implements SearchService, IndexingService {
                         // Add information about our search fields
                         for (String field : searchFields) {
                             List<String> valuesAsString = new ArrayList<>();
-                            for (Object o : doc.getFieldValues(field)) {
-                                if (o != null)
-                                {
+                            var fieldValues = doc.getFieldValues(field);
+                            if (fieldValues != null)
+                            {
+                                for (Object o : fieldValues) {
                                     valuesAsString.add(String.valueOf(o));
                                 }
                             }
