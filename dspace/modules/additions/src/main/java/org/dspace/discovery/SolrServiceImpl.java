@@ -1172,14 +1172,14 @@ public class SolrServiceImpl implements SearchService, IndexingService {
                         DiscoverResult.SearchDocument resultDoc = new DiscoverResult.SearchDocument();
                         // Add information about our search fields
                         for (String field : searchFields) {
-                            if (field != null)
-                            {
-                                List<String> valuesAsString = new ArrayList<>();
-                                for (Object o : doc.getFieldValues(field)) {
+                            List<String> valuesAsString = new ArrayList<>();
+                            for (Object o : doc.getFieldValues(field)) {
+                                if (o != null)
+                                {
                                     valuesAsString.add(String.valueOf(o));
                                 }
-                                resultDoc.addSearchField(field, valuesAsString.toArray(new String[valuesAsString.size()]));
                             }
+                            resultDoc.addSearchField(field, valuesAsString.toArray(new String[valuesAsString.size()]));
                         }
                         result.addSearchDocument(indexableObject, resultDoc);
 
